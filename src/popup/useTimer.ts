@@ -50,6 +50,8 @@ export interface UseTimerResult {
   pause: () => Promise<void>;
   resume: () => Promise<void>;
   cancel: () => Promise<void>;
+  updatePreferences: (preferences: AppStateV1["preferences"]) => Promise<void>;
+  replaceState: (state: AppStateV1) => Promise<void>;
 }
 
 export function useTimer(services: TimerServices = defaultServices): UseTimerResult {
@@ -131,10 +133,41 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     await services.clear(sessionId);
   }, [persist, services, state]);
 
+  const updatePreferences = useCallback(
+    async (preferences: AppStateV1["preferences"]) => {
+      if (!state) return;
+      await persist({ ...state, preferences });
+    },
+    [persist, state],
+  );
+
+  const replaceState = useCallback(
+    async (next: AppStateV1) => {
+      if (state?.timer.status === "running" || state?.timer.status === "paused") {
+        await services.clear(state.timer.sessionId);
+      }
+      await persist(next);
+      if (next.timer.status === "running" && next.timer.endsAt > services.now()) {
+        await services.schedule(next.timer.sessionId, next.timer.endsAt);
+      }
+    },
+    [persist, services, state],
+  );
+
   const timeLeftMs = useMemo(
     () => (state ? remainingMs(state.timer, clock) : 0),
     [clock, state],
   );
 
-  return { state, timeLeftMs, error, start, pause, resume, cancel };
+  return {
+    state,
+    timeLeftMs,
+    error,
+    start,
+    pause,
+    resume,
+    cancel,
+    updatePreferences,
+    replaceState,
+  };
 }

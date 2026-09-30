@@ -1,4 +1,8 @@
+import { useState } from "react";
+
+import { downloadBackup, parseBackup } from "../platform/backup";
 import { SanctuaryScene } from "../scene/SanctuaryScene";
+import { SettingsDialog } from "./components/SettingsDialog";
 import { StatsBar } from "./components/StatsBar";
 import { TimerControls } from "./components/TimerControls";
 import { useTimer, type TimerServices } from "./useTimer";
@@ -17,6 +21,7 @@ function prefersReducedMotion(preference: "system" | boolean): boolean {
 
 export function App({ services }: AppProps) {
   const timer = useTimer(services);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   if (!timer.state) {
     return (
@@ -41,7 +46,12 @@ export function App({ services }: AppProps) {
           <i aria-hidden="true">◒</i>
           <span>Lunagrove</span>
         </a>
-        <button className="icon-button" type="button" aria-label="Settings">
+        <button
+          className="icon-button"
+          type="button"
+          aria-label="Settings"
+          onClick={() => setSettingsOpen(true)}
+        >
           <span aria-hidden="true">⚙</span>
         </button>
       </header>
@@ -66,6 +76,24 @@ export function App({ services }: AppProps) {
         {timer.error && <p className="error-message" role="alert">{timer.error}</p>}
         <StatsBar state={state} now={services?.now() ?? Date.now()} />
       </div>
+
+      {settingsOpen && (
+        <SettingsDialog
+          preferences={state.preferences}
+          onClose={() => setSettingsOpen(false)}
+          onSave={(preferences) => {
+            void timer.updatePreferences(preferences);
+            setSettingsOpen(false);
+          }}
+          onExport={() => downloadBackup(state)}
+          onImport={async (text) => {
+            const result = parseBackup(text);
+            if (!result.ok) return result;
+            await timer.replaceState(result.state);
+            return { ok: true };
+          }}
+        />
+      )}
     </main>
   );
 }
