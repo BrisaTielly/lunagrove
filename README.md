@@ -18,7 +18,7 @@
 ---
 
 <div align="center">
-  <img src="docs/assets/lunagrove-popup.png" width="390" alt="Lunagrove popup showing Lumi watering a flower beside a 25-minute focus timer" />
+  <img src="docs/assets/lunagrove-home.gif" width="390" alt="Animated Lunagrove popup: Lumi breathes and waters her flower while stars twinkle, the lantern sways and fireflies drift beside a 25-minute timer" />
   <br />
   <sub>The home screen: Lumi waters her flower while the timer waits for you.</sub>
 </div>
@@ -65,12 +65,11 @@ Each completed focus session unlocks one permanent detail:
 | `11–15` | **Bridge** | A path, bridge, lantern, traveler marker, and moon gate. |
 | `16–20` | **Shrine** | Steps, runes, altar, shrine light, and the lunar shrine. |
 
-<table align="center">
-  <tr>
-    <td align="center"><img src="docs/assets/lunagrove-garden-empty.png" width="240" alt="The empty garden before the first focus: a quiet meadow, a dry pond hollow and a waiting seed bed" /><br /><sub>Before the first focus</sub></td>
-    <td align="center"><img src="docs/assets/lunagrove-garden-complete.png" width="240" alt="The complete garden at 20 of 20 with the pond, bridge, moon gate and a glowing shrine on the hill" /><br /><sub>Twenty focus sessions later</sub></td>
-  </tr>
-</table>
+<div align="center">
+  <img src="docs/assets/lunagrove-garden-timelapse.gif" width="320" alt="Time-lapse of Lumi's garden growing from an empty meadow at 0 of 20 to a glowing shrine at 20 of 20, one piece popping in per focus session" />
+  <br />
+  <sub>From an empty meadow to a lit shrine: twenty focus sessions in ten seconds.</sub>
+</div>
 
 The newest piece pops into place every time you open the garden.
 
