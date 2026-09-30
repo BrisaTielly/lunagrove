@@ -1,6 +1,8 @@
-import type { CSSProperties } from "react";
-
-import { pixelProgress, type PixelChapter } from "./progression";
+import { GARDEN_PARTS } from "./gardenParts";
+import { PixelDigits } from "./PixelDigits";
+import { pixelProgress } from "./progression";
+import { LANTERN, LUMI, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
+import "./pixel-ui.css";
 import "./garden.css";
 
 interface GardenViewProps {
@@ -10,30 +12,31 @@ interface GardenViewProps {
   onOpenSettings: () => void;
 }
 
-interface GardenPosition {
-  x: number;
-  y: number;
-}
+const LANTERN_UNLOCK = 12;
+const FIREFLIES_UNLOCK = 8;
+const SHRINE_LIGHT_UNLOCK = 18;
 
-const DETAIL_POSITIONS: GardenPosition[] = [
-  { x: 218, y: 355 }, { x: 192, y: 344 }, { x: 252, y: 337 }, { x: 147, y: 377 }, { x: 304, y: 370 },
-  { x: 338, y: 321 }, { x: 377, y: 298 }, { x: 410, y: 330 }, { x: 350, y: 266 }, { x: 397, y: 248 },
-  { x: 62, y: 373 }, { x: 91, y: 345 }, { x: 121, y: 317 }, { x: 151, y: 288 }, { x: 180, y: 263 },
-  { x: 230, y: 242 }, { x: 256, y: 215 }, { x: 281, y: 190 }, { x: 307, y: 163 }, { x: 334, y: 135 },
+const POND_FIREFLIES = [
+  { x: 205, y: 360, path: "a", delay: 0, duration: 8 },
+  { x: 262, y: 350, path: "b", delay: 2, duration: 10 },
+  { x: 300, y: 395, path: "c", delay: 1, duration: 7 },
+  { x: 230, y: 455, path: "b", delay: 3.4, duration: 9 },
+  { x: 350, y: 470, path: "a", delay: 5, duration: 11 },
 ];
 
 function labelFor(unlock: string): string {
-  return unlock
-    .split("-")
-    .map((word, index) => index === 0 ? word[0].toUpperCase() + word.slice(1) : word)
-    .join(" ");
+  const words = unlock.split("-").join(" ");
+  return words[0].toUpperCase() + words.slice(1);
 }
 
-function chapterForDetail(index: number): PixelChapter {
-  if (index < 5) return "sprout";
-  if (index < 10) return "pond";
-  if (index < 15) return "bridge";
-  return "shrine";
+function twinkleStyle(sprite: TwinkleSprite) {
+  return { ...spriteStyle(sprite), animationDelay: `${-sprite.delay}s`, animationDuration: `${sprite.duration}s` };
+}
+
+function nextLine(stage: number): string {
+  if (stage === 0) return "Complete a focus to plant the first seed.";
+  if (stage >= 20) return "Garden complete";
+  return `Next: ${labelFor(pixelProgress(stage + 1).unlocks[stage])}`;
 }
 
 export function GardenView({
@@ -43,85 +46,103 @@ export function GardenView({
   onOpenSettings,
 }: GardenViewProps) {
   const progress = pixelProgress(totalFocusSessions);
-  const nextUnlock = progress.stage < 20
-    ? labelFor(pixelProgress(progress.stage + 1).unlocks.at(-1) ?? "")
-    : "Garden complete";
 
   return (
     <section
-      className={`garden-shell garden-shell--${progress.chapter}${progress.stage === 0 ? " garden-shell--empty" : ""}${reducedMotion ? " garden-shell--still" : ""}`}
+      className={`garden-shell${reducedMotion ? " garden-shell--still" : ""}`}
       aria-label="Lumi's garden"
     >
       <span className="garden-brand">LUNAGROVE</span>
-      <button className="garden-hit garden-settings" type="button" aria-label="Settings" onClick={onOpenSettings} />
-      <button className="garden-hit garden-back" type="button" aria-label="Back to home" onClick={onBack} />
+      <button className="pixel-hit garden-settings" type="button" aria-label="Settings" onClick={onOpenSettings} />
+      <button className="pixel-hit garden-close" type="button" aria-label="Close Lunagrove" onClick={() => window.close()} />
 
-      <div className="garden-scene">
-        <header className="garden-title-card">
-          <h1>Lumi&apos;s Garden</h1>
-          <p>Growing focus by focus</p>
-        </header>
+      <div className="pixel-ambient" aria-hidden="true">
+        <i className="pixel-moon-glow" />
+        {STARS.map((star) => (
+          <i className="pixel-sprite pixel-star" style={twinkleStyle(star)} key={`${star.x}-${star.y}`} />
+        ))}
+        <i className="pixel-sprite pixel-lantern" style={spriteStyle(LANTERN)}>
+          <i className="pixel-lantern-glow" />
+        </i>
+      </div>
 
-        <div className="garden-ambient" data-testid="garden-ambient" aria-hidden="true">
-          <i className="garden-lantern-light" />
-          <i className="garden-leaf garden-leaf--one" />
-          <i className="garden-leaf garden-leaf--two" />
-          {Array.from({ length: 6 }, (_, index) => (
-            <i className={`garden-firefly garden-firefly--${index + 1}`} key={index} />
-          ))}
+      {progress.stage < 5 && <span className="garden-bed" role="img" aria-label="Waiting seed bed" />}
+
+      <ol className="garden-details" aria-label="Unlocked garden details">
+        {progress.unlocks.map((unlock, index) => (
+          <li
+            className={`garden-detail${index === progress.stage - 1 ? " garden-detail--new" : ""}`}
+            data-testid="garden-detail"
+            key={unlock}
+          >
+            {GARDEN_PARTS.filter((part) => part.unlock === index).map((part) => (
+              <i
+                className={`garden-part garden-part--${part.name}`}
+                style={{
+                  left: part.x,
+                  top: part.y,
+                  width: part.width,
+                  height: part.height,
+                  backgroundPosition: `${-part.atlasX}px ${-part.atlasY}px`,
+                }}
+                aria-hidden="true"
+                key={part.name}
+              />
+            ))}
+            {index === LANTERN_UNLOCK && <i className="garden-lamp-glow" aria-hidden="true" />}
+            {index === FIREFLIES_UNLOCK && POND_FIREFLIES.map((firefly) => (
+              <i
+                className={`pixel-firefly pixel-firefly--${firefly.path}`}
+                style={{ left: firefly.x, top: firefly.y, animationDelay: `${-firefly.delay}s`, animationDuration: `${firefly.duration}s, 2s` }}
+                aria-hidden="true"
+                key={`${firefly.x}-${firefly.y}`}
+              />
+            ))}
+            {index === SHRINE_LIGHT_UNLOCK && <i className="garden-shrine-light" aria-hidden="true" />}
+            <span className="garden-detail-name">{labelFor(unlock)}</span>
+          </li>
+        ))}
+      </ol>
+
+      <div className="garden-lumi" role="img" aria-label="Lumi tending the garden">
+        <div
+          className="pixel-sprite pixel-lumi"
+          data-state="water"
+          style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height, backgroundPosition: `${-LUMI.x}px ${-LUMI.y}px` }}
+        >
+          <i className="pixel-lumi-eyelid pixel-lumi-eyelid--left" aria-hidden="true" />
+          <i className="pixel-lumi-eyelid pixel-lumi-eyelid--right" aria-hidden="true" />
         </div>
+        <span className="pixel-water garden-water" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
+      </div>
 
-        <div className="garden-lumi" role="img" aria-label="Lumi tending the garden">
-          <i className="garden-lumi-eyelid garden-lumi-eyelid--left" aria-hidden="true" />
-          <i className="garden-lumi-eyelid garden-lumi-eyelid--right" aria-hidden="true" />
-          <span className="garden-drops" aria-hidden="true"><i /><i /><i /></span>
+      <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
+
+      <div className="garden-panel">
+        <h1 className="garden-title">Lumi&apos;s Garden</h1>
+        <div
+          className="garden-count"
+          role="progressbar"
+          aria-label="Garden restored"
+          aria-valuemin={0}
+          aria-valuemax={20}
+          aria-valuenow={progress.stage}
+        >
+          <PixelDigits text={`${progress.stage} / 20`} unit={1.1} />
+          <span className="pixel-digits-text">{progress.stage} / 20</span>
         </div>
-
-        <div className="garden-seed-bed" role="img" aria-label="Waiting seed bed">
-          <i className="garden-seed" aria-hidden="true" />
-        </div>
-
-        {progress.stage === 0 && (
-          <div className="garden-empty-sign">
-            <span aria-hidden="true">✦</span>
-            <p>Complete a focus to plant the first seed.</p>
-          </div>
-        )}
-
-        <ol className="garden-details" aria-label="Unlocked garden details">
-          {progress.unlocks.map((unlock, index) => {
-            const position = DETAIL_POSITIONS[index];
-            const style = {
-              "--detail-x": `${position.x}px`,
-              "--detail-y": `${position.y}px`,
-              "--detail-delay": `${-(index % 5) * 0.35}s`,
-            } as CSSProperties;
-
-            return (
-              <li
-                className={`garden-detail garden-detail--${chapterForDetail(index)}`}
-                data-testid="garden-detail"
-                style={style}
-                key={unlock}
-              >
-                <span className="garden-detail-name">{labelFor(unlock)}</span>
-              </li>
-            );
+        <ol className="garden-pips" aria-hidden="true">
+          {Array.from({ length: 10 }, (_, index) => {
+            const completed = progress.stage - index * 2;
+            return <li data-fill={completed >= 2 ? "full" : completed === 1 ? "half" : "empty"} key={index} />;
           })}
         </ol>
-
-        <div className="garden-progress" role="progressbar" aria-label="Garden restored" aria-valuemin={0} aria-valuemax={20} aria-valuenow={progress.stage}>
-          <div className="garden-progress-copy">
-            <span>Garden restored</span>
-            <strong>{progress.stage} / 20</strong>
-          </div>
-          <ol className="garden-pips" aria-label="Twenty garden milestones">
-            {Array.from({ length: 20 }, (_, index) => (
-              <li className={index < progress.stage ? "is-filled" : ""} key={index} />
-            ))}
-          </ol>
-          <p>{progress.stage < 20 ? `Next: ${nextUnlock}` : nextUnlock}</p>
-        </div>
+        <p className="garden-next">{nextLine(progress.stage)}</p>
       </div>
     </section>
   );
