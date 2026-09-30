@@ -7,16 +7,76 @@
   --coral: #ef806f;
   --lilac: #aaa0d2;
   --lamp: #f4b85d;
+  --pixel-cut: polygon(
+    8px 0,
+    calc(100% - 8px) 0,
+    calc(100% - 8px) 2px,
+    calc(100% - 4px) 2px,
+    calc(100% - 4px) 4px,
+    calc(100% - 2px) 4px,
+    calc(100% - 2px) 8px,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 2px) calc(100% - 8px),
+    calc(100% - 2px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 2px),
+    calc(100% - 8px) calc(100% - 2px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    8px calc(100% - 2px),
+    4px calc(100% - 2px),
+    4px calc(100% - 4px),
+    2px calc(100% - 4px),
+    2px calc(100% - 8px),
+    0 calc(100% - 8px),
+    0 8px,
+    2px 8px,
+    2px 4px,
+    4px 4px,
+    4px 2px,
+    8px 2px
+  );
+  --pixel-cut-large: polygon(
+    12px 0,
+    calc(100% - 12px) 0,
+    calc(100% - 12px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 12px,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 3px) calc(100% - 12px),
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 12px) calc(100% - 3px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    12px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 12px),
+    0 calc(100% - 12px),
+    0 12px,
+    3px 12px,
+    3px 6px,
+    6px 6px,
+    6px 3px,
+    12px 3px
+  );
   position: relative;
   width: 400px;
-  height: 540px;
+  height: 554px;
   padding: 8px;
   overflow: hidden;
   border: 4px solid var(--ink);
   color: var(--cream);
   background: #25213f;
   image-rendering: pixelated;
-  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+  clip-path: var(--pixel-cut);
   font-family: "Pixelify Sans Variable", ui-monospace, monospace;
 }
 
@@ -24,7 +84,7 @@
   position: absolute;
   inset: 4px;
   border: 3px solid #504777;
-  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+  clip-path: var(--pixel-cut);
   content: "";
   pointer-events: none;
 }
@@ -46,13 +106,34 @@
   align-items: center;
   gap: 8px;
   color: #fff0c5;
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: 1px;
   text-shadow: 2px 2px 0 var(--ink);
 }
 
-.pixel-crescent { color: var(--lamp); font-size: 28px; line-height: 1; }
+.pixel-crescent {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  clip-path: polygon(8px 0, 20px 0, 20px 3px, 25px 3px, 25px 8px, 28px 8px, 28px 20px, 25px 20px, 25px 25px, 20px 25px, 20px 28px, 8px 28px, 8px 25px, 3px 25px, 3px 20px, 0 20px, 0 8px, 3px 8px, 3px 3px, 8px 3px);
+  color: transparent;
+  background: var(--cream);
+  font-size: 0;
+}
+
+.pixel-crescent::after {
+  position: absolute;
+  top: 2px;
+  left: 12px;
+  width: 22px;
+  height: 22px;
+  clip-path: polygon(6px 0, 16px 0, 16px 2px, 20px 2px, 20px 6px, 22px 6px, 22px 16px, 20px 16px, 20px 20px, 16px 20px, 16px 22px, 6px 22px, 6px 20px, 2px 20px, 2px 16px, 0 16px, 0 6px, 2px 6px, 2px 2px, 6px 2px);
+  background: var(--violet);
+  content: "";
+}
 
 .pixel-header-actions { display: flex; align-items: center; gap: 4px; }
 
@@ -72,7 +153,7 @@
 
 .pixel-stage {
   position: relative;
-  height: 370px;
+  height: 384px;
   overflow: hidden;
   border: 4px solid var(--ink);
   border-top: 0;
@@ -92,8 +173,8 @@
   position: absolute;
   z-index: 2;
   bottom: 34px;
-  left: 7px;
-  width: 190px;
+  left: -13px;
+  width: 205px;
   height: auto;
   transform-origin: 50% 100%;
   filter: drop-shadow(5px 6px 0 rgba(23, 26, 47, .7));
@@ -110,20 +191,21 @@
 .pixel-timer-card {
   position: absolute;
   z-index: 3;
-  top: 119px;
-  right: 11px;
+  top: 133px;
+  right: 3px;
   display: grid;
   width: 190px;
   min-height: 88px;
   place-content: center;
   border: 4px solid var(--ink);
-  clip-path: polygon(11px 0, calc(100% - 11px) 0, 100% 11px, 100% calc(100% - 11px), calc(100% - 11px) 100%, 11px 100%, 0 calc(100% - 11px), 0 11px);
+  clip-path: var(--pixel-cut-large);
   box-shadow: inset 0 0 0 3px #555184, 5px 5px 0 rgba(23, 26, 47, .75);
   background: #24213e;
   text-align: center;
 }
 
 .pixel-mode {
+  display: none;
   margin-bottom: 3px;
   color: var(--lilac);
   font-family: "Silkscreen", ui-monospace, monospace;
@@ -134,24 +216,26 @@
 
 .pixel-digits {
   color: #fff5d9;
-  font-family: "Pixelify Sans Variable", ui-monospace, monospace;
-  font-size: 48px;
-  font-weight: 700;
+  font-family: "Jersey 10", "Pixelify Sans Variable", ui-monospace, monospace;
+  display: inline-block;
+  font-size: 68px;
+  font-weight: 400;
   line-height: 1;
-  letter-spacing: -4px;
+  letter-spacing: 1px;
+  transform: scaleX(1.3);
   text-shadow: 3px 3px 0 var(--ink);
 }
 
 .pixel-progress-card {
   position: absolute;
   z-index: 3;
-  right: 8px;
-  bottom: 41px;
-  width: 160px;
+  right: 0;
+  bottom: 82px;
+  width: 154px;
   min-height: 67px;
   padding: 8px 10px;
   border: 4px solid var(--ink);
-  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+  clip-path: var(--pixel-cut);
   box-shadow: inset 0 0 0 2px #504777;
   background: #292541;
 }
@@ -167,7 +251,7 @@
 .pixel-progress-label b {
   color: var(--lilac);
   font-family: "Silkscreen", ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400;
 }
 
@@ -177,8 +261,8 @@
   image-rendering: pixelated;
 }
 
-.pixel-sprout-icon--small { width: 43px; height: 28px; margin: -6px 0 -5px -10px; }
-.pixel-sprout-icon--large { width: 67px; height: 43px; margin: -8px -18px -7px; }
+.pixel-sprout-icon--small { width: 70px; height: 42px; margin: -13px 0 -10px -20px; }
+.pixel-sprout-icon--large { width: 90px; height: 54px; margin: -12px -29px -10px; }
 
 .pixel-pips {
   display: grid;
@@ -229,7 +313,7 @@
   place-content: center;
   gap: 2px;
   border: 4px solid var(--ink);
-  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+  clip-path: var(--pixel-cut);
   box-shadow: inset 0 0 0 3px #5b5586, 3px 3px 0 #171a2f;
   color: var(--moss);
   background: #45406d;
@@ -240,6 +324,7 @@
 .pixel-nav-button small {
   color: var(--cream);
   font-family: "Silkscreen", ui-monospace, monospace;
+  display: none;
   font-size: 7px;
   font-weight: 400;
 }
@@ -247,14 +332,14 @@
 .pixel-main-actions { display: grid; gap: 5px; }
 
 .pixel-main-button {
-  min-height: 64px;
+  min-height: 70px;
   padding: 0 12px;
   border: 4px solid var(--ink);
-  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
+  clip-path: var(--pixel-cut-large);
   box-shadow: inset 0 -5px 0 #c7605a, 4px 4px 0 var(--ink);
   color: var(--ink);
   background: var(--coral);
-  font: 700 23px/1 "Pixelify Sans Variable", ui-monospace, monospace;
+  font: 700 27px/1 "Pixelify Sans Variable", ui-monospace, monospace;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -288,19 +373,6 @@
 .pixel-chart-mark i:nth-child(1) { height: 12px; }
 .pixel-chart-mark i:nth-child(2) { height: 21px; }
 .pixel-chart-mark i:nth-child(3) { height: 29px; }
-
-.pixel-restored {
-  position: absolute;
-  right: 0;
-  bottom: 1px;
-  left: 0;
-  z-index: 4;
-  margin: 0;
-  color: #716b99;
-  font-size: 8px;
-  text-align: center;
-  text-transform: uppercase;
-}
 
 @keyframes raster-lumi-water {
   50% { transform: translateY(1px) rotate(-1deg); }

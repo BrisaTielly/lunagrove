@@ -1,5 +1,5 @@
 import type { TimerState } from "../domain/types";
-import gardenBackdrop from "../assets/pixel/lunagrove-night-garden.png";
+import gardenBackdrop from "../assets/pixel/lunagrove-night-garden-v3.png";
 import lumiWatering from "../assets/pixel/lumi-watering.png";
 import sproutIcon from "../assets/pixel/sprout-icon.png";
 import type { LumiState } from "./Lumi";
@@ -151,7 +151,6 @@ export function HomeScene({
         </button>
       </div>
 
-      <p className="pixel-restored">{progress.filledPips} / 20 restored</p>
     </section>
   );
 }

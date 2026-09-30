@@ -67,7 +67,7 @@ describe("App", () => {
 
     expect(await screen.findByRole("button", { name: "Begin break" })).toBeVisible();
     expect(context.schedule).not.toHaveBeenCalled();
-    expect(screen.getByText("1 / 20 restored")).toBeVisible();
+    expect(screen.getByText("1 / 20")).toBeVisible();
 
     fireEvent.click(screen.getByRole("button", { name: "Begin break" }));
     await waitFor(() => expect(context.schedule).toHaveBeenCalledOnce());
