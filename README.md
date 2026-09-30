@@ -122,6 +122,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 | `pnpm test -- --run` | Run the complete Vitest suite once. |
 | `pnpm test:watch` | Run tests in watch mode. |
 | `pnpm run typecheck` | Check TypeScript without creating a build. |
+| `pnpm package` | Build and zip the extension for the Chrome Web Store. |
 
 ## Built with
 
@@ -140,7 +141,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
   - `notifications` optionally tells you when focus or rest time is complete.
   - `offscreen` plays the optional end-of-session chime while the popup is closed.
 
-  Lunagrove has no account system and does not require a remote backend for the current MVP.
+  Lunagrove has no account system, collects no data, and has no remote backend. See the [privacy policy](PRIVACY.md).
 </details>
 
 ## Roadmap
@@ -154,7 +155,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 - [x] Focus stats (in place of the planned Journey Map)
 - [x] End-of-session chime
 - [ ] Completion and rest celebrations
-- [ ] Final extension icons (provisional ones ship today) and Chrome Web Store assets
+- [x] Extension icons and Chrome Web Store assets
 - [ ] Chrome Web Store release
 
 ## Contributing
