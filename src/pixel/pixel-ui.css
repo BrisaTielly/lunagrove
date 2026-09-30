@@ -1,285 +1,139 @@
+/*
+ * The home screen is the approved prototype image (493 × 657) with live
+ * layers placed on top of the parts that change. Coordinates below are in
+ * prototype pixels; `zoom` fits the whole shell into the 400px popup.
+ */
 .pixel-shell {
   --ink: #171a2f;
-  --violet: #302b52;
-  --cream: #ffe6a7;
-  --moss: #83aa62;
-  --water: #68aeb8;
-  --coral: #ef806f;
+  --panel: #211732;
+  --cream: #fff0d6;
   --lilac: #aaa0d2;
+  --pip: #4b4682;
   --lamp: #f4b85d;
-  --pixel-cut: polygon(
-    8px 0,
-    calc(100% - 8px) 0,
-    calc(100% - 8px) 2px,
-    calc(100% - 4px) 2px,
-    calc(100% - 4px) 4px,
-    calc(100% - 2px) 4px,
-    calc(100% - 2px) 8px,
-    100% 8px,
-    100% calc(100% - 8px),
-    calc(100% - 2px) calc(100% - 8px),
-    calc(100% - 2px) calc(100% - 4px),
-    calc(100% - 4px) calc(100% - 4px),
-    calc(100% - 4px) calc(100% - 2px),
-    calc(100% - 8px) calc(100% - 2px),
-    calc(100% - 8px) 100%,
-    8px 100%,
-    8px calc(100% - 2px),
-    4px calc(100% - 2px),
-    4px calc(100% - 4px),
-    2px calc(100% - 4px),
-    2px calc(100% - 8px),
-    0 calc(100% - 8px),
-    0 8px,
-    2px 8px,
-    2px 4px,
-    4px 4px,
-    4px 2px,
-    8px 2px
-  );
-  --pixel-cut-large: polygon(
-    12px 0,
-    calc(100% - 12px) 0,
-    calc(100% - 12px) 3px,
-    calc(100% - 6px) 3px,
-    calc(100% - 6px) 6px,
-    calc(100% - 3px) 6px,
-    calc(100% - 3px) 12px,
-    100% 12px,
-    100% calc(100% - 12px),
-    calc(100% - 3px) calc(100% - 12px),
-    calc(100% - 3px) calc(100% - 6px),
-    calc(100% - 6px) calc(100% - 6px),
-    calc(100% - 6px) calc(100% - 3px),
-    calc(100% - 12px) calc(100% - 3px),
-    calc(100% - 12px) 100%,
-    12px 100%,
-    12px calc(100% - 3px),
-    6px calc(100% - 3px),
-    6px calc(100% - 6px),
-    3px calc(100% - 6px),
-    3px calc(100% - 12px),
-    0 calc(100% - 12px),
-    0 12px,
-    3px 12px,
-    3px 6px,
-    6px 6px,
-    6px 3px,
-    12px 3px
-  );
+  --coral: #f4816c;
   position: relative;
-  width: 400px;
-  height: 554px;
-  padding: 8px;
+  width: 493px;
+  height: 657px;
   overflow: hidden;
-  border: 4px solid var(--ink);
+  zoom: 0.81136;
   color: var(--cream);
-  background: #25213f;
-  image-rendering: pixelated;
-  clip-path: var(--pixel-cut);
+  background: #221833 url("../assets/pixel/lunagrove-home.png") 0 0 / 493px 657px no-repeat;
   font-family: "Pixelify Sans Variable", ui-monospace, monospace;
+  user-select: none;
 }
 
-.pixel-shell::before {
+.pixel-shell button {
   position: absolute;
-  inset: 4px;
-  border: 3px solid #504777;
-  clip-path: var(--pixel-cut);
-  content: "";
-  pointer-events: none;
-}
-
-.pixel-header {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 52px;
-  padding: 0 14px;
-  border-bottom: 4px solid var(--ink);
-  background: var(--violet);
-}
-
-.pixel-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff0c5;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 0 var(--ink);
-}
-
-.pixel-crescent {
-  position: relative;
-  display: block;
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
-  clip-path: polygon(8px 0, 20px 0, 20px 3px, 25px 3px, 25px 8px, 28px 8px, 28px 20px, 25px 20px, 25px 25px, 20px 25px, 20px 28px, 8px 28px, 8px 25px, 3px 25px, 3px 20px, 0 20px, 0 8px, 3px 8px, 3px 3px, 8px 3px);
-  color: transparent;
-  background: var(--cream);
-  font-size: 0;
-}
-
-.pixel-crescent::after {
-  position: absolute;
-  top: 2px;
-  left: 12px;
-  width: 22px;
-  height: 22px;
-  clip-path: polygon(6px 0, 16px 0, 16px 2px, 20px 2px, 20px 6px, 22px 6px, 22px 16px, 20px 16px, 20px 20px, 16px 20px, 16px 22px, 6px 22px, 6px 20px, 2px 20px, 2px 16px, 0 16px, 0 6px, 2px 6px, 2px 2px, 6px 2px);
-  background: var(--violet);
-  content: "";
-}
-
-.pixel-header-actions { display: flex; align-items: center; gap: 4px; }
-
-.pixel-icon-button {
-  width: 34px;
-  height: 34px;
   padding: 0;
   border: 0;
-  color: var(--lilac);
+  color: inherit;
   background: transparent;
-  font-size: 23px;
   cursor: pointer;
 }
 
-.pixel-icon-button:hover { color: var(--cream); transform: translateY(-1px); }
-.pixel-close-button { font-size: 29px; font-weight: 900; }
+.pixel-hit {
+  border-radius: 10px;
+}
 
-.pixel-stage {
-  position: relative;
-  height: 384px;
+.pixel-hit:hover { backdrop-filter: brightness(1.15); }
+.pixel-hit:active { backdrop-filter: brightness(0.9); }
+
+.pixel-brand {
+  position: absolute;
+  top: 31px;
+  left: 30px;
+  width: 231px;
+  height: 41px;
   overflow: hidden;
-  border: 4px solid var(--ink);
-  border-top: 0;
-  background: var(--violet);
+  color: transparent;
+  font-size: 1px;
 }
 
-.pixel-world {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  image-rendering: pixelated;
-  user-select: none;
-}
+.pixel-settings-button { top: 30px; left: 379px; width: 43px; height: 43px; }
+.pixel-close-button { top: 30px; left: 430px; width: 43px; height: 43px; }
 
 .pixel-lumi {
   position: absolute;
-  z-index: 2;
-  bottom: 34px;
-  left: -13px;
-  width: 205px;
-  height: auto;
-  transform-origin: 50% 100%;
-  filter: drop-shadow(5px 6px 0 rgba(23, 26, 47, .7));
-  image-rendering: pixelated;
-  user-select: none;
+  top: 285px;
+  left: 20px;
+  width: 220px;
+  height: 255px;
 }
-
-.pixel-lumi--water { animation: raster-lumi-water 1.2s steps(2, end) infinite; }
-.pixel-lumi--idle { transform: translateY(2px); }
-.pixel-lumi--rest { transform: translateY(4px) scaleY(.97); }
-.pixel-lumi--celebrate { animation: raster-lumi-cheer .7s steps(2, end) infinite; }
-.pixel-lumi--reduced-motion { animation: none; }
 
 .pixel-timer-card {
   position: absolute;
-  z-index: 3;
-  top: 133px;
-  right: 3px;
+  top: 247px;
+  left: 257px;
   display: grid;
-  width: 190px;
-  min-height: 88px;
+  width: 208px;
+  height: 84px;
+  padding-left: 6px;
   place-content: center;
-  border: 4px solid var(--ink);
-  clip-path: var(--pixel-cut-large);
-  box-shadow: inset 0 0 0 3px #555184, 5px 5px 0 rgba(23, 26, 47, .75);
-  background: #24213e;
-  text-align: center;
+  background: var(--panel);
 }
 
-.pixel-mode {
-  display: none;
-  margin-bottom: 3px;
-  color: var(--lilac);
-  font-family: "Silkscreen", ui-monospace, monospace;
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 1px;
-}
+.pixel-mode { display: none; }
 
 .pixel-digits {
-  color: #fff5d9;
-  font-family: "Jersey 10", "Pixelify Sans Variable", ui-monospace, monospace;
-  display: inline-block;
-  font-size: 68px;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 1px;
-  transform: scaleX(1.3);
-  text-shadow: 3px 3px 0 var(--ink);
+  display: block;
+  color: var(--cream);
+  line-height: 0;
+}
+
+.pixel-digits-art { display: block; flex: none; }
+
+.pixel-digits-text {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  color: transparent;
+  font-size: 1px;
 }
 
 .pixel-progress-card {
   position: absolute;
-  z-index: 3;
-  right: 0;
-  bottom: 82px;
-  width: 154px;
-  min-height: 67px;
-  padding: 8px 10px;
-  border: 4px solid var(--ink);
-  clip-path: var(--pixel-cut);
-  box-shadow: inset 0 0 0 2px #504777;
-  background: #292541;
+  top: 361px;
+  left: 288px;
+  width: 185px;
+  height: 66px;
 }
 
-.pixel-progress-label {
+.pixel-progress-count {
+  position: absolute;
+  top: 9px;
+  left: 112px;
   display: flex;
+  width: 63px;
+  height: 22px;
   align-items: center;
-  justify-content: space-between;
-  color: var(--moss);
-  min-height: 20px;
-}
-
-.pixel-progress-label b {
+  justify-content: flex-end;
+  padding-right: 5px;
   color: var(--lilac);
-  font-family: "Silkscreen", ui-monospace, monospace;
-  font-size: 13px;
-  font-weight: 400;
+  background: var(--panel);
 }
-
-.pixel-sprout-icon {
-  display: block;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.pixel-sprout-icon--small { width: 70px; height: 42px; margin: -13px 0 -10px -20px; }
-.pixel-sprout-icon--large { width: 90px; height: 54px; margin: -12px -29px -10px; }
 
 .pixel-pips {
+  position: absolute;
+  top: 42px;
+  left: 10px;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 3px;
-  margin: 4px 0 0;
-  padding: 0;
+  grid-template-columns: repeat(10, 14px);
+  column-gap: 2.5px;
+  width: 168px;
+  height: 17px;
+  margin: 0;
+  padding: 2px 2px 0;
   list-style: none;
+  background: var(--panel);
 }
 
 .pixel-pips li {
   position: relative;
   height: 13px;
   overflow: hidden;
-  border: 2px solid var(--ink);
   border-radius: 5px;
-  background: #4d4773;
+  background: var(--pip);
 }
 
 .pixel-pips li::after {
@@ -293,100 +147,66 @@
 .pixel-pips li[data-fill="half"]::after { width: 50%; }
 .pixel-pips li[data-fill="full"]::after { width: 100%; }
 
-.pixel-controls {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: 70px 1fr 70px;
-  align-items: center;
-  gap: 11px;
-  height: 94px;
-  padding: 8px 10px;
-  background: var(--violet);
-}
-
-.pixel-nav-button {
-  display: grid;
-  width: 70px;
-  height: 70px;
-  padding: 5px;
-  place-content: center;
-  gap: 2px;
-  border: 4px solid var(--ink);
-  clip-path: var(--pixel-cut);
-  box-shadow: inset 0 0 0 3px #5b5586, 3px 3px 0 #171a2f;
-  color: var(--moss);
-  background: #45406d;
-  cursor: pointer;
-}
-
-.pixel-nav-button > span { font-size: 28px; line-height: 1; }
-.pixel-nav-button small {
-  color: var(--cream);
-  font-family: "Silkscreen", ui-monospace, monospace;
-  display: none;
-  font-size: 7px;
-  font-weight: 400;
-}
-
-.pixel-main-actions { display: grid; gap: 5px; }
+.pixel-garden-button { top: 551px; left: 23px; width: 90px; height: 78px; }
+.pixel-map-button { top: 551px; left: 379px; width: 90px; height: 78px; }
 
 .pixel-main-button {
-  min-height: 70px;
-  padding: 0 12px;
-  border: 4px solid var(--ink);
-  clip-path: var(--pixel-cut-large);
-  box-shadow: inset 0 -5px 0 #c7605a, 4px 4px 0 var(--ink);
+  top: 551px;
+  left: 127px;
+  width: 238px;
+  height: 75px;
+  border-radius: 14px;
+}
+
+.pixel-main-label {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  display: flex;
+  width: 212px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   color: var(--ink);
   background: var(--coral);
-  font: 700 27px/1 "Pixelify Sans Variable", ui-monospace, monospace;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  cursor: pointer;
+  pointer-events: none;
 }
 
-.pixel-main-button > span { margin-right: 5px; }
-.pixel-main-button:hover, .pixel-nav-button:hover { filter: brightness(1.12); transform: translateY(-1px); }
-.pixel-main-button:active, .pixel-nav-button:active { transform: translate(2px, 2px); box-shadow: none; }
-
-.pixel-end-button {
-  min-height: 23px;
-  border: 0;
-  color: var(--lilac);
+/* Idle shows the START label painted in the artwork. */
+.pixel-main-label--baked {
+  color: transparent;
   background: transparent;
-  font: 400 8px "Silkscreen", ui-monospace, monospace;
+}
+
+.pixel-shell .pixel-end-button {
+  top: 629px;
+  left: 127px;
+  width: 238px;
+  height: 14px;
+  color: var(--lilac);
+  font: 400 10px/14px "Silkscreen", ui-monospace, monospace;
   text-transform: uppercase;
-  cursor: pointer;
 }
 
-.pixel-error { margin: 0; color: var(--lamp); font-size: 8px; text-align: center; }
+.pixel-end-button:hover { color: var(--cream); }
 
-.pixel-chart-mark {
-  display: flex;
-  width: 29px;
-  height: 31px;
-  align-items: end;
-  justify-content: center;
-  gap: 3px;
-}
-
-.pixel-chart-mark i { display: block; width: 6px; border: 2px solid var(--ink); background: var(--lilac); }
-.pixel-chart-mark i:nth-child(1) { height: 12px; }
-.pixel-chart-mark i:nth-child(2) { height: 21px; }
-.pixel-chart-mark i:nth-child(3) { height: 29px; }
-
-@keyframes raster-lumi-water {
-  50% { transform: translateY(1px) rotate(-1deg); }
-}
-
-@keyframes raster-lumi-cheer {
-  50% { transform: translateY(-4px); }
+.pixel-error {
+  position: absolute;
+  top: 535px;
+  left: 20px;
+  width: 453px;
+  margin: 0;
+  color: var(--lamp);
+  font: 400 10px/14px "Silkscreen", ui-monospace, monospace;
+  text-align: center;
 }
 
 .pixel-shell button:focus-visible {
   outline: 3px solid var(--cream);
   outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pixel-shell *, .pixel-shell *::before, .pixel-shell *::after { animation: none !important; transition: none !important; }
 }

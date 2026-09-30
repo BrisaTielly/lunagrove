@@ -14,8 +14,8 @@ body,
 #root {
   width: 400px;
   min-width: 400px;
-  height: 554px;
-  min-height: 554px;
+  height: 533px;
+  min-height: 533px;
   margin: 0;
   overflow: hidden;
 }
@@ -38,7 +38,7 @@ a:focus-visible {
 .app {
   position: relative;
   width: 400px;
-  height: 554px;
+  height: 533px;
   overflow: hidden;
   background: #070d1d;
 }
@@ -258,7 +258,7 @@ a:focus-visible {
 }
 
 .settings {
-  max-height: 534px;
+  max-height: 513px;
   overflow: auto;
   padding: 20px 20px 18px;
   border-top: 1px solid rgba(159, 226, 220, 0.28);
