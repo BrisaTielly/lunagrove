@@ -16,13 +16,15 @@
   color: var(--cream);
   background: #25213f;
   image-rendering: pixelated;
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+  font-family: "Pixelify Sans Variable", ui-monospace, monospace;
 }
 
 .pixel-shell::before {
   position: absolute;
   inset: 4px;
   border: 3px solid #504777;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
   content: "";
   pointer-events: none;
 }
@@ -45,8 +47,8 @@
   gap: 8px;
   color: #fff0c5;
   font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-shadow: 2px 2px 0 var(--ink);
 }
 
@@ -115,6 +117,7 @@
   min-height: 88px;
   place-content: center;
   border: 4px solid var(--ink);
+  clip-path: polygon(11px 0, calc(100% - 11px) 0, 100% 11px, 100% calc(100% - 11px), calc(100% - 11px) 100%, 11px 100%, 0 calc(100% - 11px), 0 11px);
   box-shadow: inset 0 0 0 3px #555184, 5px 5px 0 rgba(23, 26, 47, .75);
   background: #24213e;
   text-align: center;
@@ -123,15 +126,17 @@
 .pixel-mode {
   margin-bottom: 3px;
   color: var(--lilac);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
+  font-family: "Silkscreen", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 
 .pixel-digits {
   color: #fff5d9;
-  font-size: 42px;
-  font-weight: 900;
+  font-family: "Pixelify Sans Variable", ui-monospace, monospace;
+  font-size: 48px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -4px;
   text-shadow: 3px 3px 0 var(--ink);
@@ -146,6 +151,7 @@
   min-height: 67px;
   padding: 8px 10px;
   border: 4px solid var(--ink);
+  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
   box-shadow: inset 0 0 0 2px #504777;
   background: #292541;
 }
@@ -158,31 +164,21 @@
   min-height: 20px;
 }
 
-.pixel-progress-label b { color: var(--lilac); font-size: 13px; }
-
-.pixel-sprout-mark {
-  position: relative;
-  display: inline-block;
-  width: 20px;
-  height: 17px;
+.pixel-progress-label b {
+  color: var(--lilac);
+  font-family: "Silkscreen", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
 }
 
-.pixel-sprout-mark::before,
-.pixel-sprout-mark::after {
-  position: absolute;
-  top: 1px;
-  width: 9px;
-  height: 7px;
-  border: 2px solid var(--ink);
-  background: var(--moss);
-  content: "";
+.pixel-sprout-icon {
+  display: block;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
-.pixel-sprout-mark::before { left: 1px; transform: skewY(25deg); }
-.pixel-sprout-mark::after { right: 1px; transform: skewY(-25deg); }
-
-.pixel-sprout-mark { border-bottom: 7px solid var(--moss); }
-.pixel-sprout-mark--large { width: 30px; height: 25px; transform: scale(1.15); }
+.pixel-sprout-icon--small { width: 43px; height: 28px; margin: -6px 0 -5px -10px; }
+.pixel-sprout-icon--large { width: 67px; height: 43px; margin: -8px -18px -7px; }
 
 .pixel-pips {
   display: grid;
@@ -233,6 +229,7 @@
   place-content: center;
   gap: 2px;
   border: 4px solid var(--ink);
+  clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
   box-shadow: inset 0 0 0 3px #5b5586, 3px 3px 0 #171a2f;
   color: var(--moss);
   background: #45406d;
@@ -240,7 +237,12 @@
 }
 
 .pixel-nav-button > span { font-size: 28px; line-height: 1; }
-.pixel-nav-button small { color: var(--cream); font-size: 8px; font-weight: 900; }
+.pixel-nav-button small {
+  color: var(--cream);
+  font-family: "Silkscreen", ui-monospace, monospace;
+  font-size: 7px;
+  font-weight: 400;
+}
 
 .pixel-main-actions { display: grid; gap: 5px; }
 
@@ -248,10 +250,11 @@
   min-height: 64px;
   padding: 0 12px;
   border: 4px solid var(--ink);
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
   box-shadow: inset 0 -5px 0 #c7605a, 4px 4px 0 var(--ink);
   color: var(--ink);
   background: var(--coral);
-  font: 900 19px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font: 700 23px/1 "Pixelify Sans Variable", ui-monospace, monospace;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -265,7 +268,7 @@
   border: 0;
   color: var(--lilac);
   background: transparent;
-  font: 800 9px ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font: 400 8px "Silkscreen", ui-monospace, monospace;
   text-transform: uppercase;
   cursor: pointer;
 }

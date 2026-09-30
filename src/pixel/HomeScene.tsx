@@ -1,6 +1,7 @@
 import type { TimerState } from "../domain/types";
 import gardenBackdrop from "../assets/pixel/lunagrove-night-garden.png";
 import lumiWatering from "../assets/pixel/lumi-watering.png";
+import sproutIcon from "../assets/pixel/sprout-icon.png";
 import type { LumiState } from "./Lumi";
 import { pixelProgress } from "./progression";
 import "./pixel-ui.css";
@@ -115,7 +116,7 @@ export function HomeScene({
           aria-valuenow={progress.filledPips}
         >
           <div className="pixel-progress-label">
-            <span className="pixel-sprout-mark" aria-hidden="true" />
+            <img className="pixel-sprout-icon pixel-sprout-icon--small" src={sproutIcon} alt="" />
             <b>{progress.filledPips} / 20</b>
           </div>
           <ol className="pixel-pips" aria-label="Ten two-step journey capsules">
@@ -130,7 +131,7 @@ export function HomeScene({
 
       <div className="pixel-controls">
         <button className="pixel-nav-button" type="button" onClick={onOpenGarden} aria-label="Open garden">
-          <span className="pixel-sprout-mark pixel-sprout-mark--large" aria-hidden="true" />
+          <img className="pixel-sprout-icon pixel-sprout-icon--large" src={sproutIcon} alt="" />
           <small>GARDEN</small>
         </button>
 
