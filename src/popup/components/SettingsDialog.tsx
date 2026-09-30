@@ -53,7 +53,7 @@ export function SettingsDialog({
       const result = await onImport(await file.text());
       setMessage(
         result.ok
-          ? { kind: "success", text: "Your sanctuary has been restored from backup." }
+          ? { kind: "success", text: "Your garden has been restored from backup." }
           : { kind: "error", text: result.error ?? "This backup could not be restored." },
       );
     } catch {
@@ -68,11 +68,11 @@ export function SettingsDialog({
       <section className="settings" role="dialog" aria-modal="true" aria-labelledby="settings-title">
         <header className="settings__header">
           <div>
-            <span>Sanctuary care</span>
+            <span>Lunagrove</span>
             <h2 id="settings-title">Settings</h2>
           </div>
           <button className="icon-button" type="button" aria-label="Close settings" onClick={onClose}>
-            <span aria-hidden="true">×</span>
+            <span aria-hidden="true">X</span>
           </button>
         </header>
 
