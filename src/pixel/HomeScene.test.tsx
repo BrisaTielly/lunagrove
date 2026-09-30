@@ -14,14 +14,14 @@ const actions = {
   onOpenSettings: vi.fn(),
 };
 
-function renderScene(timer: TimerState, stage = 7) {
+function renderScene(timer: TimerState, stage = 7, reducedMotion = false) {
   return render(
     <HomeScene
       timer={timer}
       timeLeftMs={25 * 60_000}
       focusMinutes={25}
       stage={stage}
-      reducedMotion={false}
+      reducedMotion={reducedMotion}
       {...actions}
     />,
   );
@@ -99,5 +99,20 @@ describe("HomeScene", () => {
       lumiState,
     );
     expect(screen.getByRole("button", { name: command })).toBeVisible();
+  });
+
+  it("waters the flower only while Lumi is watering", () => {
+    const { unmount } = renderScene({ status: "idle" });
+    expect(screen.getByTestId("watering")).toBeInTheDocument();
+    unmount();
+
+    renderScene({ status: "paused", sessionId: "focus", kind: "focus", startedAt: 0, remainingMs: 1, durationMs: 1 });
+    expect(screen.queryByTestId("watering")).not.toBeInTheDocument();
+  });
+
+  it("stills the scene when reduced motion is preferred", () => {
+    renderScene({ status: "idle" }, 7, true);
+
+    expect(screen.getByRole("region", { name: "Lunagrove home" })).toHaveClass("pixel-shell--still");
   });
 });

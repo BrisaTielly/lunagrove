@@ -1,6 +1,7 @@
 import type { TimerState } from "../domain/types";
 import type { LumiState } from "./Lumi";
 import { PixelDigits } from "./PixelDigits";
+import { FIREFLIES, LANTERN, LUMI, SPARKLES, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
 import { pixelProgress } from "./progression";
 import "./pixel-ui.css";
 
@@ -62,11 +63,16 @@ function MainButton({ icon, label, onClick }: { icon: string; label: string; onC
   );
 }
 
+function twinkleStyle(sprite: TwinkleSprite) {
+  return { ...spriteStyle(sprite), animationDelay: `${-sprite.delay}s`, animationDuration: `${sprite.duration}s` };
+}
+
 export function HomeScene({
   timer,
   timeLeftMs,
   focusMinutes,
   stage,
+  reducedMotion,
   error,
   onStartFocus,
   onStartBreak,
@@ -80,19 +86,58 @@ export function HomeScene({
   const progress = pixelProgress(stage);
   const presentation = timerPresentation(timer, timeLeftMs, focusMinutes);
   const active = timer.status === "running" || timer.status === "paused";
+  const lumiState = lumiStateFor(timer);
 
   return (
-    <section className={`pixel-shell pixel-shell--${progress.chapter}`} aria-label="Lunagrove home">
+    <section
+      className={`pixel-shell pixel-shell--${progress.chapter}${reducedMotion ? " pixel-shell--still" : ""}`}
+      aria-label="Lunagrove home"
+    >
       <span className="pixel-brand">LUNAGROVE</span>
       <button className="pixel-hit pixel-settings-button" type="button" aria-label="Settings" onClick={onOpenSettings} />
       <button className="pixel-hit pixel-close-button" type="button" aria-label="Close Lunagrove" onClick={() => window.close()} />
 
+      <div className="pixel-ambient" aria-hidden="true">
+        <i className="pixel-moon-glow" />
+        {STARS.map((star) => (
+          <i className="pixel-sprite pixel-star" style={twinkleStyle(star)} key={`${star.x}-${star.y}`} />
+        ))}
+        <i className="pixel-sprite pixel-lantern" style={spriteStyle(LANTERN)}>
+          <i className="pixel-lantern-glow" />
+        </i>
+      </div>
+
       <div
-        className="pixel-lumi"
-        data-state={lumiStateFor(timer)}
+        className="pixel-sprite pixel-lumi"
+        style={spriteStyle(LUMI)}
+        data-state={lumiState}
         role="img"
-        aria-label={`Lumi, the moon gardener, ${lumiStateFor(timer)}`}
-      />
+        aria-label={`Lumi, the moon gardener, ${lumiState}`}
+      >
+        <i className="pixel-lumi-eyelid pixel-lumi-eyelid--left" aria-hidden="true" />
+        <i className="pixel-lumi-eyelid pixel-lumi-eyelid--right" aria-hidden="true" />
+      </div>
+
+      <div className="pixel-ambient" aria-hidden="true">
+        {lumiState === "water" && (
+          <span className="pixel-water" data-testid="watering">
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
+        )}
+        {SPARKLES.map((sparkle) => (
+          <i className="pixel-sprite pixel-sparkle" style={twinkleStyle(sparkle)} key={`${sparkle.x}-${sparkle.y}`} />
+        ))}
+        {FIREFLIES.map((firefly) => (
+          <i
+            className={`pixel-firefly pixel-firefly--${firefly.path}`}
+            style={{ left: firefly.x, top: firefly.y, animationDelay: `${-firefly.delay}s`, animationDuration: `${firefly.duration}s, 2.2s` }}
+            key={`${firefly.x}-${firefly.y}`}
+          />
+        ))}
+      </div>
 
       <section className="pixel-timer-card" aria-label="Pomodoro timer">
         <span className="pixel-mode">{presentation.label}</span>

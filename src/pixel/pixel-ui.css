@@ -52,12 +52,202 @@
 .pixel-settings-button { top: 30px; left: 379px; width: 43px; height: 43px; }
 .pixel-close-button { top: 30px; left: 430px; width: 43px; height: 43px; }
 
-.pixel-lumi {
+/* Animated layers: pieces of lunagrove-sprites.png over the retouched base. */
+.pixel-ambient {
   position: absolute;
-  top: 285px;
-  left: 20px;
-  width: 220px;
-  height: 255px;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pixel-sprite {
+  position: absolute;
+  display: block;
+  background: url("../assets/pixel/lunagrove-sprites.png") no-repeat;
+  background-size: 493px 657px;
+}
+
+.pixel-moon-glow {
+  position: absolute;
+  top: 61px;
+  left: 272px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 236, 190, .2) 30%, rgba(255, 236, 190, 0) 70%);
+  animation: pixel-glow 6s ease-in-out infinite;
+}
+
+.pixel-star {
+  animation: pixel-twinkle 3s ease-in-out infinite;
+}
+
+.pixel-sparkle {
+  animation: pixel-sparkle 2s ease-in-out infinite;
+}
+
+.pixel-lantern {
+  transform-origin: 50% 0;
+  animation: pixel-swing 3.2s ease-in-out infinite alternate;
+}
+
+.pixel-lantern-glow {
+  position: absolute;
+  top: -12px;
+  left: -19px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 110, .45) 0, rgba(255, 170, 90, 0) 65%);
+  mix-blend-mode: screen;
+  animation: pixel-flicker 2.4s ease-in-out infinite;
+}
+
+.pixel-lumi {
+  transform-origin: 50% 100%;
+  animation: pixel-breathe 3.6s ease-in-out infinite;
+}
+
+/* Lumi only ever grows, so the copy baked into the base stays hidden. */
+.pixel-lumi[data-state="rest"] { animation-duration: 5s; }
+.pixel-lumi[data-state="celebrate"] { animation: pixel-hop .9s ease-in-out infinite; }
+
+.pixel-lumi-eyelid {
+  position: absolute;
+  opacity: 0;
+  background:
+    linear-gradient(#27192f, #27192f) 50% 58% / calc(100% - 4px) 5px no-repeat,
+    #fde6b9;
+  animation: pixel-blink 4.8s linear infinite;
+}
+
+.pixel-lumi-eyelid--left { top: 81px; left: 63px; width: 28px; height: 34px; }
+.pixel-lumi-eyelid--right { top: 73px; left: 138px; width: 24px; height: 33px; animation-delay: .03s; }
+.pixel-lumi[data-state="rest"] .pixel-lumi-eyelid { opacity: 1; animation: none; }
+
+.pixel-water {
+  position: absolute;
+  top: 452px;
+  left: 199px;
+  width: 30px;
+  height: 30px;
+}
+
+.pixel-water i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 7px;
+  border-top: 3px solid #eefcff;
+  border-radius: 2px 2px 3px 3px;
+  background: #8fd3ea;
+  box-shadow: 0 0 3px rgba(159, 220, 239, .6);
+  animation: pixel-drip .8s cubic-bezier(.45, 0, .9, .6) infinite;
+}
+
+.pixel-water i:nth-child(1) { transform: translate(2px, 4px); }
+.pixel-water i:nth-child(2) { transform: translate(8px, 12px); animation-delay: -.27s; }
+.pixel-water i:nth-child(3) { transform: translate(13px, 20px); animation-delay: -.54s; }
+.pixel-water i:nth-child(4) { transform: translate(5px, 8px); animation-delay: -.4s; left: 3px; }
+
+.pixel-firefly {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #eaf59c;
+  box-shadow: 0 0 5px 2px rgba(234, 245, 156, .55);
+  animation: pixel-drift-a 9s ease-in-out infinite, pixel-pulse 2.2s ease-in-out infinite;
+}
+
+.pixel-firefly--b { animation-name: pixel-drift-b, pixel-pulse; }
+.pixel-firefly--c { animation-name: pixel-drift-c, pixel-pulse; }
+
+@keyframes pixel-breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.012, 1.024); }
+}
+
+@keyframes pixel-hop {
+  0%, 100% { transform: scale(1.05, 1); }
+  50% { transform: scale(1.01, 1.07); }
+}
+
+@keyframes pixel-blink {
+  0%, 93%, 97%, 100% { opacity: 0; }
+  94%, 96% { opacity: 1; }
+}
+
+@keyframes pixel-drip {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(16px, 25px); }
+}
+
+@keyframes pixel-twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .3; transform: scale(.75); }
+}
+
+@keyframes pixel-sparkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0); }
+  50% { opacity: 0; transform: scale(.4) rotate(45deg); }
+}
+
+@keyframes pixel-swing {
+  from { transform: rotate(-4deg); }
+  to { transform: rotate(4deg); }
+}
+
+@keyframes pixel-flicker {
+  0%, 100% { opacity: .85; transform: scale(1); }
+  30% { opacity: .6; transform: scale(.94); }
+  55% { opacity: 1; transform: scale(1.05); }
+  80% { opacity: .7; }
+}
+
+@keyframes pixel-glow {
+  0%, 100% { opacity: .7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes pixel-pulse {
+  0%, 100% { opacity: .15; }
+  50% { opacity: 1; }
+}
+
+@keyframes pixel-drift-a {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 18px -14px; }
+  50% { translate: 34px 4px; }
+  75% { translate: 12px 16px; }
+}
+
+@keyframes pixel-drift-b {
+  0%, 100% { translate: 0 0; }
+  25% { translate: -16px -10px; }
+  50% { translate: -28px 8px; }
+  75% { translate: -8px 14px; }
+}
+
+@keyframes pixel-drift-c {
+  0%, 100% { translate: 0 0; }
+  33% { translate: 14px 10px; }
+  66% { translate: -12px -12px; }
+}
+
+.pixel-shell--still *,
+.pixel-shell--still *::before,
+.pixel-shell--still *::after {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-shell *,
+  .pixel-shell *::before,
+  .pixel-shell *::after {
+    animation: none !important;
+  }
 }
 
 .pixel-timer-card {
