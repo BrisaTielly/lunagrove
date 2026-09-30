@@ -1,0 +1,55 @@
+.lumi {
+  display: block;
+  overflow: visible;
+  image-rendering: pixelated;
+  transform-origin: 50% 100%;
+}
+
+.lumi--idle {
+  animation: lumi-idle 1.8s steps(2, end) infinite;
+}
+
+.lumi--water .lumi__watering-can {
+  transform-origin: 16px 36px;
+  animation: lumi-water 0.9s steps(2, end) infinite;
+}
+
+.lumi--walk .lumi__feet {
+  animation: lumi-feet 0.45s steps(2, end) infinite;
+}
+
+.lumi--celebrate {
+  animation: lumi-cheer 0.7s steps(2, end) infinite;
+}
+
+.lumi--rest {
+  transform: translateY(1px) scaleY(0.97);
+}
+
+.lumi--reduced-motion,
+.lumi--reduced-motion * {
+  animation: none !important;
+}
+
+@keyframes lumi-idle {
+  50% { transform: translateY(1px); }
+}
+
+@keyframes lumi-water {
+  50% { transform: rotate(-5deg) translate(-1px, -1px); }
+}
+
+@keyframes lumi-feet {
+  50% { transform: translateX(1px); }
+}
+
+@keyframes lumi-cheer {
+  50% { transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumi,
+  .lumi * {
+    animation: none !important;
+  }
+}
