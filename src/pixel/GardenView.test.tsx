@@ -3,6 +3,22 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { GardenView } from "./GardenView";
 
 describe("GardenView", () => {
+  it("tells the garden story even before the first focus", () => {
+    render(
+      <GardenView
+        totalFocusSessions={0}
+        reducedMotion={false}
+        onBack={vi.fn()}
+        onOpenSettings={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByRole("img", { name: "Lumi tending the garden" })).toBeVisible();
+    expect(screen.getByRole("img", { name: "Waiting seed bed" })).toBeVisible();
+    expect(screen.getByText("Complete a focus to plant the first seed.")).toBeVisible();
+    expect(screen.getByTestId("garden-ambient")).toBeInTheDocument();
+  });
+
   it("shows one permanent garden detail per completed focus", () => {
     render(
       <GardenView

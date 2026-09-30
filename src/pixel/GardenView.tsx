@@ -49,7 +49,7 @@ export function GardenView({
 
   return (
     <section
-      className={`garden-shell garden-shell--${progress.chapter}${reducedMotion ? " garden-shell--still" : ""}`}
+      className={`garden-shell garden-shell--${progress.chapter}${progress.stage === 0 ? " garden-shell--empty" : ""}${reducedMotion ? " garden-shell--still" : ""}`}
       aria-label="Lumi's garden"
     >
       <span className="garden-brand">LUNAGROVE</span>
@@ -58,10 +58,35 @@ export function GardenView({
 
       <div className="garden-scene">
         <header className="garden-title-card">
-          <span aria-hidden="true" className="garden-title-sprout">◆</span>
           <h1>Lumi&apos;s Garden</h1>
-          <p>Each focus leaves something behind</p>
+          <p>Growing focus by focus</p>
         </header>
+
+        <div className="garden-ambient" data-testid="garden-ambient" aria-hidden="true">
+          <i className="garden-lantern-light" />
+          <i className="garden-leaf garden-leaf--one" />
+          <i className="garden-leaf garden-leaf--two" />
+          {Array.from({ length: 6 }, (_, index) => (
+            <i className={`garden-firefly garden-firefly--${index + 1}`} key={index} />
+          ))}
+        </div>
+
+        <div className="garden-lumi" role="img" aria-label="Lumi tending the garden">
+          <i className="garden-lumi-eyelid garden-lumi-eyelid--left" aria-hidden="true" />
+          <i className="garden-lumi-eyelid garden-lumi-eyelid--right" aria-hidden="true" />
+          <span className="garden-drops" aria-hidden="true"><i /><i /><i /></span>
+        </div>
+
+        <div className="garden-seed-bed" role="img" aria-label="Waiting seed bed">
+          <i className="garden-seed" aria-hidden="true" />
+        </div>
+
+        {progress.stage === 0 && (
+          <div className="garden-empty-sign">
+            <span aria-hidden="true">✦</span>
+            <p>Complete a focus to plant the first seed.</p>
+          </div>
+        )}
 
         <ol className="garden-details" aria-label="Unlocked garden details">
           {progress.unlocks.map((unlock, index) => {
