@@ -38,7 +38,7 @@ describe("HomeScene", () => {
 
     const progress = screen.getByRole("progressbar", { name: "Journey progress" });
     expect(progress).toHaveAttribute("aria-valuenow", "7");
-    expect(within(progress).getAllByRole("listitem")).toHaveLength(20);
+    expect(within(progress).getAllByRole("listitem")).toHaveLength(10);
     expect(screen.getByText("7 / 20 restored")).toBeVisible();
   });
 
