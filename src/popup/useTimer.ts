@@ -7,6 +7,7 @@ import {
   resumeSession,
   startSession,
 } from "../domain/timer";
+import { DEFAULT_STATE } from "../domain/defaults";
 import type { AppStateV1, SessionKind } from "../domain/types";
 import { clearTimerAlarm, scheduleTimerAlarm } from "../platform/alarms";
 import { loadState, saveState, validateImportedState } from "../platform/storage";
@@ -21,12 +22,23 @@ export interface TimerServices {
   createSessionId: () => string;
 }
 
+let previewState = structuredClone(DEFAULT_STATE);
+
+const isExtensionRuntime = () => typeof chrome !== "undefined" && Boolean(chrome.storage?.local);
+
 const defaultServices: TimerServices = {
-  load: loadState,
-  save: saveState,
-  schedule: scheduleTimerAlarm,
-  clear: clearTimerAlarm,
+  load: () => (isExtensionRuntime() ? loadState() : Promise.resolve(previewState)),
+  save: (state) => {
+    if (isExtensionRuntime()) return saveState(state);
+    previewState = state;
+    return Promise.resolve();
+  },
+  schedule: (sessionId, endsAt) =>
+    isExtensionRuntime() ? scheduleTimerAlarm(sessionId, endsAt) : Promise.resolve(),
+  clear: (sessionId) =>
+    isExtensionRuntime() ? clearTimerAlarm(sessionId) : Promise.resolve(),
   subscribe: (listener) => {
+    if (!isExtensionRuntime()) return () => undefined;
     const onChanged = (
       changes: Record<string, chrome.storage.StorageChange>,
       areaName: string,
