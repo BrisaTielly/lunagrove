@@ -18,7 +18,7 @@ export interface Progression {
 
 export function getProgression(totalFocusSessions: number): Progression {
   const safeTotal = Math.max(0, Math.floor(totalFocusSessions));
-  const stage = Math.min(20, safeTotal);
+  const { stage } = pixelProgress(safeTotal);
 
   if (safeTotal <= 20) {
     return { stage, ambientEffect: null };
@@ -29,3 +29,4 @@ export function getProgression(totalFocusSessions: number): Progression {
     ambientEffect: AMBIENT_EFFECTS[(safeTotal - 21) % AMBIENT_EFFECTS.length],
   };
 }
+import { pixelProgress } from "../pixel/progression";
