@@ -1,10 +1,8 @@
 import { useState } from "react";
 
 import { downloadBackup, parseBackup } from "../platform/backup";
-import { SanctuaryScene } from "../scene/SanctuaryScene";
+import { HomeScene } from "../pixel/HomeScene";
 import { SettingsDialog } from "./components/SettingsDialog";
-import { StatsBar } from "./components/StatsBar";
-import { TimerControls } from "./components/TimerControls";
 import { useTimer, type TimerServices } from "./useTimer";
 import "./styles.css";
 
@@ -34,48 +32,25 @@ export function App({ services }: AppProps) {
 
   const { state } = timer;
   const stage = Math.min(20, state.stats.totalFocusSessions);
-  const celebrating =
-    state.timer.status === "completed" &&
-    state.timer.kind === "focus" &&
-    stage > state.ui.lastCelebratedStage;
 
   return (
     <main className="app">
-      <header className="topbar">
-        <a className="wordmark" href="#timer" aria-label="Lunagrove home">
-          <i aria-hidden="true">◒</i>
-          <span>Lunagrove</span>
-        </a>
-        <button
-          className="icon-button"
-          type="button"
-          aria-label="Settings"
-          onClick={() => setSettingsOpen(true)}
-        >
-          <span aria-hidden="true">⚙</span>
-        </button>
-      </header>
-
-      <SanctuaryScene
+      <HomeScene
+        timer={state.timer}
+        timeLeftMs={timer.timeLeftMs}
+        focusMinutes={state.preferences.focusMinutes}
         stage={stage}
-        celebrating={celebrating}
         reducedMotion={prefersReducedMotion(state.preferences.reducedMotion)}
+        error={timer.error}
+        onStartFocus={() => void timer.start("focus")}
+        onStartBreak={() => void timer.start("break")}
+        onPause={() => void timer.pause()}
+        onResume={() => void timer.resume()}
+        onCancel={() => void timer.cancel()}
+        onOpenGarden={() => undefined}
+        onOpenMap={() => undefined}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
-
-      <div className="control-deck" id="timer">
-        <TimerControls
-          timer={state.timer}
-          timeLeftMs={timer.timeLeftMs}
-          focusMinutes={state.preferences.focusMinutes}
-          onStartFocus={() => void timer.start("focus")}
-          onStartBreak={() => void timer.start("break")}
-          onPause={() => void timer.pause()}
-          onResume={() => void timer.resume()}
-          onCancel={() => void timer.cancel()}
-        />
-        {timer.error && <p className="error-message" role="alert">{timer.error}</p>}
-        <StatsBar state={state} now={services?.now() ?? Date.now()} />
-      </div>
 
       {settingsOpen && (
         <SettingsDialog
