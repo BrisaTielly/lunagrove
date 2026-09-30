@@ -10,7 +10,7 @@ const actions = {
   onResume: vi.fn(),
   onCancel: vi.fn(),
   onOpenGarden: vi.fn(),
-  onOpenMap: vi.fn(),
+  onOpenStats: vi.fn(),
   onOpenSettings: vi.fn(),
 };
 
@@ -34,7 +34,7 @@ describe("HomeScene", () => {
     expect(screen.getByText("LUNAGROVE")).toBeVisible();
     expect(screen.getByRole("button", { name: "Start focus" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Open garden" })).toBeVisible();
-    expect(screen.getByRole("button", { name: "Open journey map" })).toBeVisible();
+    expect(screen.getByRole("button", { name: "Open stats" })).toBeVisible();
 
     const progress = screen.getByRole("progressbar", { name: "Journey progress" });
     expect(progress).toHaveAttribute("aria-valuenow", "7");

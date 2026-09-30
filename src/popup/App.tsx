@@ -3,6 +3,7 @@ import { useState } from "react";
 import { downloadBackup, parseBackup } from "../platform/backup";
 import { GardenView } from "../pixel/GardenView";
 import { HomeScene } from "../pixel/HomeScene";
+import { StatsView } from "../pixel/StatsView";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { useTimer, type TimerServices } from "./useTimer";
 import "./styles.css";
@@ -21,7 +22,7 @@ function prefersReducedMotion(preference: "system" | boolean): boolean {
 export function App({ services }: AppProps) {
   const timer = useTimer(services);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [view, setView] = useState<"home" | "garden">("home");
+  const [view, setView] = useState<"home" | "garden" | "stats">("home");
 
   if (!timer.state) {
     return (
@@ -52,12 +53,20 @@ export function App({ services }: AppProps) {
           onResume={() => void timer.resume()}
           onCancel={() => void timer.cancel()}
           onOpenGarden={() => setView("garden")}
-          onOpenMap={() => undefined}
+          onOpenStats={() => setView("stats")}
+          onOpenSettings={() => setSettingsOpen(true)}
+        />
+      ) : view === "garden" ? (
+        <GardenView
+          totalFocusSessions={state.stats.totalFocusSessions}
+          reducedMotion={reducedMotion}
+          onBack={() => setView("home")}
           onOpenSettings={() => setSettingsOpen(true)}
         />
       ) : (
-        <GardenView
-          totalFocusSessions={state.stats.totalFocusSessions}
+        <StatsView
+          stats={state.stats}
+          now={Date.now()}
           reducedMotion={reducedMotion}
           onBack={() => setView("home")}
           onOpenSettings={() => setSettingsOpen(true)}

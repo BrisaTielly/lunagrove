@@ -39,6 +39,17 @@ describe("App", () => {
     expect(screen.getByRole("region", { name: "Lunagrove home" })).toBeVisible();
   });
 
+  it("opens the focus stats and returns to the timer", async () => {
+    const context = createServices();
+    render(<App services={context.services} />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Open stats" }));
+    expect(screen.getByRole("region", { name: "Focus stats" })).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: "Back to home" }));
+    expect(screen.getByRole("region", { name: "Lunagrove home" })).toBeVisible();
+  });
+
   it("starts, pauses, resumes and cancels a focus session", async () => {
     const context = createServices();
     render(<App services={context.services} />);

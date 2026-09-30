@@ -18,7 +18,7 @@ interface HomeSceneProps {
   onResume: () => void;
   onCancel: () => void;
   onOpenGarden: () => void;
-  onOpenMap: () => void;
+  onOpenStats: () => void;
   onOpenSettings: () => void;
 }
 
@@ -80,7 +80,7 @@ export function HomeScene({
   onResume,
   onCancel,
   onOpenGarden,
-  onOpenMap,
+  onOpenStats,
   onOpenSettings,
 }: HomeSceneProps) {
   const progress = pixelProgress(stage);
@@ -182,7 +182,7 @@ export function HomeScene({
       {active && <button className="pixel-end-button" onClick={onCancel}>End session</button>}
       {error && <p className="pixel-error" role="alert">{error}</p>}
 
-      <button className="pixel-hit pixel-map-button" type="button" onClick={onOpenMap} aria-label="Open journey map" />
+      <button className="pixel-hit pixel-stats-button" type="button" onClick={onOpenStats} aria-label="Open stats" />
     </section>
   );
 }

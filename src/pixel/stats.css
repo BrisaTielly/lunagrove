@@ -1,0 +1,178 @@
+/* Same 493 × 657 prototype grid as the home and garden screens. */
+.stats-shell {
+  --stats-cream: #fff0d6;
+  --stats-lilac: #aaa0d2;
+  --stats-amber: #f4b85d;
+  position: relative;
+  width: 493px;
+  height: 657px;
+  overflow: hidden;
+  zoom: 0.81136;
+  color: var(--stats-cream);
+  background: #221833 url("../assets/pixel/lunagrove-stats.png") 0 0 / 493px 657px no-repeat;
+  font-family: "Silkscreen", ui-monospace, monospace;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.stats-shell button {
+  position: absolute;
+  z-index: 5;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.stats-shell button:focus-visible {
+  outline: 3px solid var(--stats-cream);
+  outline-offset: 2px;
+}
+
+.stats-brand {
+  position: absolute;
+  top: 31px;
+  left: 30px;
+  width: 231px;
+  height: 41px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 1px;
+}
+
+.stats-settings { top: 30px; left: 379px; width: 43px; height: 43px; }
+.stats-close { top: 30px; left: 430px; width: 43px; height: 43px; }
+.stats-home { top: 551px; left: 23px; width: 90px; height: 78px; }
+
+.stats-tiles { margin: 0; }
+
+.stats-tile {
+  position: absolute;
+  top: 247px;
+  display: grid;
+  width: 139px;
+  height: 90px;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+}
+
+.stats-tile dt {
+  color: var(--stats-lilac);
+  font-size: 10px;
+  letter-spacing: .5px;
+}
+
+.stats-tile dd { margin: 0; }
+.stats-tile-count { line-height: 0; }
+.stats-tile-minutes { font-size: 10px; }
+
+.stats-chart-title {
+  position: absolute;
+  top: 358px;
+  left: 44px;
+  margin: 0;
+  color: var(--stats-lilac);
+  font-size: 10px;
+}
+
+.stats-chart {
+  position: absolute;
+  top: 374px;
+  left: 44px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 403px;
+  height: 128px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-chart li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.stats-bar {
+  display: block;
+  width: 28px;
+  border-top: 3px solid #ffe6a7;
+  background: var(--stats-amber);
+  box-shadow: inset 0 -4px 0 #c98a3f;
+  transform-origin: 50% 100%;
+  animation: stats-grow .6s cubic-bezier(.3, 1.4, .5, 1) both;
+}
+
+.stats-chart li.is-empty .stats-bar {
+  border-top: 0;
+  background: #4b4682;
+  box-shadow: none;
+}
+
+.stats-chart li:nth-child(2) .stats-bar { animation-delay: .05s; }
+.stats-chart li:nth-child(3) .stats-bar { animation-delay: .1s; }
+.stats-chart li:nth-child(4) .stats-bar { animation-delay: .15s; }
+.stats-chart li:nth-child(5) .stats-bar { animation-delay: .2s; }
+.stats-chart li:nth-child(6) .stats-bar { animation-delay: .25s; }
+.stats-chart li:nth-child(7) .stats-bar { animation-delay: .3s; }
+
+.stats-bar-count { font-size: 9px; }
+
+.stats-weekday {
+  margin-top: 4px;
+  color: var(--stats-lilac);
+  font-size: 10px;
+}
+
+.stats-chart li.is-today .stats-weekday { color: var(--stats-amber); }
+
+.stats-panel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stats-title {
+  position: absolute;
+  top: 562px;
+  left: 146px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 1px;
+}
+
+.stats-streak,
+.stats-best {
+  position: absolute;
+  left: 146px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.stats-streak { top: 588px; color: var(--stats-amber); }
+.stats-best { top: 606px; color: var(--stats-lilac); }
+
+@keyframes stats-grow {
+  from { transform: scaleY(0); }
+}
+
+.stats-shell--still *,
+.stats-shell--still *::before,
+.stats-shell--still *::after {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-shell *,
+  .stats-shell *::before,
+  .stats-shell *::after {
+    animation: none !important;
+  }
+}

@@ -338,7 +338,7 @@
 .pixel-pips li[data-fill="full"]::after { width: 100%; }
 
 .pixel-garden-button { top: 551px; left: 23px; width: 90px; height: 78px; }
-.pixel-map-button { top: 551px; left: 379px; width: 90px; height: 78px; }
+.pixel-stats-button { top: 551px; left: 379px; width: 90px; height: 78px; }
 
 .pixel-main-button {
   top: 551px;
