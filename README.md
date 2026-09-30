@@ -20,8 +20,19 @@
 <div align="center">
   <img src="docs/assets/lunagrove-popup.png" width="390" alt="Lunagrove popup showing Lumi watering a flower beside a 25-minute focus timer" />
   <br />
-  <sub>The current Lunagrove home screen — designed as a tiny playable pixel-art scene.</sub>
+  <sub>The home screen: Lumi waters her flower while the timer waits for you.</sub>
 </div>
+
+## A quick tour
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="docs/assets/lunagrove-focusing.png" width="200" alt="Home screen during a focus session, 18:42 left, with the Pause button" /><br /><sub>Focusing</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-garden-growing.png" width="200" alt="Lumi's garden at 9 of 20 with a pond, lily pads, reeds and a seed bed" /><br /><sub>The garden, growing</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-stats.png" width="200" alt="Focus stats with today, this week, all time, a seven-day bar chart and streaks" /><br /><sub>Focus stats</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-settings.png" width="200" alt="Pixel-art settings with durations, notifications, sounds, motion and backups" /><br /><sub>Settings</sub></td>
+  </tr>
+</table>
 
 ## Meet Lumi
 
@@ -31,16 +42,17 @@ Lunagrove is built around a simple idea: **productivity should feel inviting, no
 
 ## What works today
 
-| | Feature | What it does |
-|:--:|---|---|
-| ⏱️ | Reliable Pomodoro | Start, pause, resume, cancel, and complete focus or break sessions. |
-| 🌙 | Persistent timer | Chrome alarms keep sessions reliable even after the popup closes. |
-| 🌱 | Gentle progression | Twenty focus sessions form one permanent restoration journey. |
-| 💾 | Local-first data | Preferences, progress, and statistics stay in Chrome storage. |
-| 🔔 | Optional notifications | Receive a notification when a session finishes. |
-| 🎛️ | Personal settings | Adjust focus and break durations, sound, notifications, and motion. |
-| 📦 | Backup and restore | Export your grove and safely import it again later. |
-| ✨ | Living pixel scene | Lumi blinks, waters the flower, and shares the grove with stars, fireflies, and lantern light. |
+| Feature | What it does |
+|---|---|
+| Reliable Pomodoro | Start, pause, resume, cancel, and complete focus or break sessions. |
+| Persistent timer | Chrome alarms keep sessions running after the popup closes, and sessions interrupted by a browser restart are recovered. |
+| Growing garden | Every completed focus plants one permanent piece of Lumi's garden. |
+| Focus stats | Today, this week, all time, the last seven days, and your current and best streaks. |
+| Gentle alerts | An optional notification and a short 8-bit chime when a session ends. |
+| Local-first data | Preferences, progress, and statistics stay in Chrome storage. |
+| Personal settings | Adjust focus and break durations, sounds, notifications, and motion. |
+| Backup and restore | Export your grove and safely import it again later. |
+| Living pixel scenes | Lumi breathes and blinks, stars twinkle, the lantern sways, and fireflies drift. Reduced motion stills everything. |
 
 ## The twenty-step journey
 
@@ -51,9 +63,16 @@ Each completed focus session unlocks one permanent detail:
 | `1–5` | **Sprout** | Seed, first leaves, flower, grass, and a garden patch. |
 | `6–10` | **Pond** | Water, lily pads, reeds, fireflies, and moonlight. |
 | `11–15` | **Bridge** | A path, bridge, lantern, traveler marker, and moon gate. |
-| `16–20` | **Shrine** | Steps, runes, altar, shrine light, and the restored sanctuary. |
+| `16–20` | **Shrine** | Steps, runes, altar, shrine light, and the lunar shrine. |
 
-> Garden and Journey Map screens are the next major features. The progression model is already implemented; their dedicated views are still in development.
+<table align="center">
+  <tr>
+    <td align="center"><img src="docs/assets/lunagrove-garden-empty.png" width="240" alt="The empty garden before the first focus: a quiet meadow, a dry pond hollow and a waiting seed bed" /><br /><sub>Before the first focus</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-garden-complete.png" width="240" alt="The complete garden at 20 of 20 with the pond, bridge, moon gate and a glowing shrine on the hill" /><br /><sub>Twenty focus sessions later</sub></td>
+  </tr>
+</table>
+
+The newest piece pops into place every time you open the garden.
 
 ## Try it locally
 
@@ -108,7 +127,8 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 
 - **React 19** and **TypeScript** for the popup experience.
 - **Vite** and **CRXJS** for the Manifest V3 build.
-- **Chrome Alarms, Storage, and Notifications APIs** for extension behavior.
+- **Chrome Alarms, Storage, Notifications, and Offscreen APIs** for extension behavior.
+- **Web Audio** for the chime, synthesized in code with no audio files.
 - **Vitest** and **Testing Library** for domain and interface tests.
 - Original pixel-art assets, sprite layers, and custom grid-rendered timer digits.
 
@@ -118,6 +138,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
   - `storage` keeps your timer preferences, progress, and local statistics.
   - `alarms` allows an active session to finish reliably after the popup closes.
   - `notifications` optionally tells you when focus or rest time is complete.
+  - `offscreen` plays the optional end-of-session chime while the popup is closed.
 
   Lunagrove has no account system and does not require a remote backend for the current MVP.
 </details>
@@ -129,10 +150,11 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 - [x] Persistent local progress and statistics
 - [x] Settings, notifications, backup, and restore
 - [x] Animated Lumi home scene
-- [ ] Growing Garden view
-- [ ] Twenty-step Journey Map
+- [x] Growing Garden view
+- [x] Focus stats (in place of the planned Journey Map)
+- [x] End-of-session chime
 - [ ] Completion and rest celebrations
-- [ ] Final extension icons and Chrome Web Store assets
+- [ ] Final extension icons (provisional ones ship today) and Chrome Web Store assets
 - [ ] Chrome Web Store release
 
 ## Contributing
