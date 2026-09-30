@@ -1,4 +1,4 @@
-import { completeSession } from "../domain/timer";
+import { finishDueSession } from "../domain/completion";
 import type { AppStateV1, SessionKind } from "../domain/types";
 import { sessionIdFromAlarm } from "./alarms";
 
@@ -9,8 +9,28 @@ export interface BackgroundDependencies {
   now: () => number;
 }
 
-function dateKey(timestamp: number): string {
-  return new Date(timestamp).toISOString().slice(0, 10);
+export interface ReconcileDependencies extends BackgroundDependencies {
+  schedule: (sessionId: string, endsAt: number) => Promise<void>;
+}
+
+async function finishAndNotify(
+  state: AppStateV1,
+  dependencies: BackgroundDependencies,
+): Promise<boolean> {
+  const nextState = finishDueSession(state, dependencies.now());
+  if (!nextState || nextState.timer.status !== "completed") return false;
+
+  await dependencies.save(nextState);
+
+  if (state.preferences.notificationsEnabled) {
+    try {
+      await dependencies.notify(nextState.timer.kind);
+    } catch {
+      // Notification permission or platform support must not undo earned progress.
+    }
+  }
+
+  return true;
 }
 
 export async function handleTimerAlarm(
@@ -25,44 +45,21 @@ export async function handleTimerAlarm(
     return false;
   }
 
-  const now = dependencies.now();
-  const result = completeSession(state.timer, now, state.completedSessionIds);
-  if (!result.didComplete || result.timer.status !== "completed") return false;
+  return finishAndNotify(state, dependencies);
+}
 
-  let stats = state.stats;
-  if (result.timer.kind === "focus") {
-    const day = dateKey(now);
-    const minutes = Math.round(result.timer.durationMs / 60_000);
-    const currentDay = stats.byDay[day] ?? { sessions: 0, minutes: 0 };
-    stats = {
-      totalFocusSessions: stats.totalFocusSessions + 1,
-      totalFocusMinutes: stats.totalFocusMinutes + minutes,
-      byDay: {
-        ...stats.byDay,
-        [day]: {
-          sessions: currentDay.sessions + 1,
-          minutes: currentDay.minutes + minutes,
-        },
-      },
-    };
+// Chrome may drop alarms on restart: finish sessions that ended meanwhile and
+// re-arm the alarm of one still running.
+export async function reconcileTimer(
+  dependencies: ReconcileDependencies,
+): Promise<"completed" | "rescheduled" | "idle"> {
+  const state = await dependencies.load();
+  if (state.timer.status !== "running") return "idle";
+
+  if (state.timer.endsAt <= dependencies.now()) {
+    return (await finishAndNotify(state, dependencies)) ? "completed" : "idle";
   }
 
-  const nextState: AppStateV1 = {
-    ...state,
-    timer: result.timer,
-    completedSessionIds: result.completedSessionIds,
-    stats,
-  };
-
-  await dependencies.save(nextState);
-
-  if (state.preferences.notificationsEnabled) {
-    try {
-      await dependencies.notify(result.timer.kind);
-    } catch {
-      // Notification permission or platform support must not undo earned progress.
-    }
-  }
-
-  return true;
+  await dependencies.schedule(state.timer.sessionId, state.timer.endsAt);
+  return "rescheduled";
 }

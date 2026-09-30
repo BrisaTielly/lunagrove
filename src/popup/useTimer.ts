@@ -7,6 +7,7 @@ import {
   resumeSession,
   startSession,
 } from "../domain/timer";
+import { finishDueSession } from "../domain/completion";
 import { DEFAULT_STATE } from "../domain/defaults";
 import type { AppStateV1, SessionKind } from "../domain/types";
 import { clearTimerAlarm, scheduleTimerAlarm } from "../platform/alarms";
@@ -108,6 +109,16 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     },
     [services],
   );
+
+  // Finish on the spot when the popup is open at 00:00 or opens after a
+  // session ended without its alarm (e.g. dropped on a browser restart).
+  useEffect(() => {
+    if (!state || state.timer.status !== "running" || clock < state.timer.endsAt) return;
+    const next = finishDueSession(state, clock);
+    if (!next) return;
+    const sessionId = state.timer.sessionId;
+    void persist(next).then(() => services.clear(sessionId));
+  }, [clock, persist, services, state]);
 
   const start = useCallback(
     async (kind: SessionKind) => {

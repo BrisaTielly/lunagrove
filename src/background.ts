@@ -1,19 +1,29 @@
 import { DEFAULT_STATE } from "./domain/defaults";
-import { handleTimerAlarm } from "./platform/background-controller";
+import { handleTimerAlarm, reconcileTimer } from "./platform/background-controller";
+import { scheduleTimerAlarm } from "./platform/alarms";
 import { notifyCompletion } from "./platform/notifications";
 import { loadState, saveState } from "./platform/storage";
 
+const dependencies = {
+  load: loadState,
+  save: saveState,
+  notify: notifyCompletion,
+  now: Date.now,
+  schedule: scheduleTimerAlarm,
+};
+
 chrome.runtime.onInstalled.addListener(() => {
-  void loadState().then((state) => {
-    if (state.version !== 1) return saveState(structuredClone(DEFAULT_STATE));
-  });
+  void loadState()
+    .then((state) => {
+      if (state.version !== 1) return saveState(structuredClone(DEFAULT_STATE));
+    })
+    .then(() => reconcileTimer(dependencies));
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  void reconcileTimer(dependencies);
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  void handleTimerAlarm(alarm.name, {
-    load: loadState,
-    save: saveState,
-    notify: notifyCompletion,
-    now: Date.now,
-  });
+  void handleTimerAlarm(alarm.name, dependencies);
 });

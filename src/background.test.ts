@@ -1,7 +1,7 @@
 import { DEFAULT_STATE } from "./domain/defaults";
 import { startSession } from "./domain/timer";
 import type { AppStateV1 } from "./domain/types";
-import { handleTimerAlarm } from "./platform/background-controller";
+import { handleTimerAlarm, reconcileTimer } from "./platform/background-controller";
 
 describe("background timer completion", () => {
   const startedAt = Date.UTC(2026, 8, 30, 12);
@@ -62,5 +62,42 @@ describe("background timer completion", () => {
       false,
     );
     expect(context.save).not.toHaveBeenCalled();
+  });
+
+  describe("after a browser restart", () => {
+    function restartHarness(now: number) {
+      const context = harness();
+      const schedule = vi.fn(async () => undefined);
+      return { ...context, schedule, dependencies: { ...context.dependencies, now: () => now, schedule } };
+    }
+
+    it("completes a focus whose alarm was lost while Chrome was closed", async () => {
+      const context = restartHarness(endsAt + 10 * 60_000);
+
+      await expect(reconcileTimer(context.dependencies)).resolves.toBe("completed");
+
+      expect(context.getState().timer).toMatchObject({ status: "completed", kind: "focus" });
+      expect(context.getState().stats.totalFocusSessions).toBe(1);
+      expect(context.notify).toHaveBeenCalledOnce();
+      expect(context.schedule).not.toHaveBeenCalled();
+    });
+
+    it("re-arms the alarm of a focus that is still running", async () => {
+      const context = restartHarness(endsAt - 60_000);
+
+      await expect(reconcileTimer(context.dependencies)).resolves.toBe("rescheduled");
+
+      expect(context.schedule).toHaveBeenCalledWith("session-1", endsAt);
+      expect(context.save).not.toHaveBeenCalled();
+    });
+
+    it("does not credit the same focus twice if the alarm also fires", async () => {
+      const context = restartHarness(endsAt + 1);
+
+      await reconcileTimer(context.dependencies);
+      await handleTimerAlarm("timer:session-1", context.dependencies);
+
+      expect(context.getState().stats.totalFocusSessions).toBe(1);
+    });
   });
 });

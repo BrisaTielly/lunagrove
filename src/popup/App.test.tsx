@@ -5,7 +5,7 @@ import type { AppStateV1 } from "../domain/types";
 import { App } from "./App";
 import type { TimerServices } from "./useTimer";
 
-function createServices(initial: AppStateV1 = structuredClone(DEFAULT_STATE)) {
+function createServices(initial: AppStateV1 = structuredClone(DEFAULT_STATE), now = Date.UTC(2026, 8, 30, 12)) {
   let state = initial;
   const save = vi.fn(async (next: AppStateV1) => {
     state = next;
@@ -18,7 +18,7 @@ function createServices(initial: AppStateV1 = structuredClone(DEFAULT_STATE)) {
     schedule,
     clear,
     subscribe: () => () => undefined,
-    now: () => Date.UTC(2026, 8, 30, 12),
+    now: () => now,
     createSessionId: () => "new-session",
   };
 
@@ -83,5 +83,26 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: "Begin break" }));
     await waitFor(() => expect(context.schedule).toHaveBeenCalledOnce());
     expect(context.getState().timer).toMatchObject({ status: "running", kind: "break" });
+  });
+
+  it("finishes a focus that ended while the popup was closed and its alarm was lost", async () => {
+    const endsAt = Date.UTC(2026, 8, 30, 12);
+    const overdue: AppStateV1 = {
+      ...structuredClone(DEFAULT_STATE),
+      timer: {
+        status: "running",
+        sessionId: "lost-alarm",
+        kind: "focus",
+        startedAt: endsAt - 25 * 60_000,
+        endsAt,
+        durationMs: 25 * 60_000,
+      },
+    };
+    const context = createServices(overdue, endsAt + 5 * 60_000);
+    render(<App services={context.services} />);
+
+    expect(await screen.findByRole("button", { name: "Begin break" })).toBeVisible();
+    expect(context.getState().stats.totalFocusSessions).toBe(1);
+    await waitFor(() => expect(context.clear).toHaveBeenCalledWith("lost-alarm"));
   });
 });
