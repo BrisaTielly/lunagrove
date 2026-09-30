@@ -6,7 +6,7 @@ export default defineManifest({
   short_name: "Lunagrove",
   version: "0.1.0",
   description:
-    "A gentle focus timer that restores a magical pixel-art sanctuary, one Pomodoro at a time.",
+    "A gentle pixel-art Pomodoro that grows a moonlit garden, one focus at a time.",
   permissions: ["storage", "alarms", "notifications", "offscreen"],
   icons: {
     16: "icons/icon-16.png",

@@ -1,5 +1,4 @@
 import type { TimerState } from "../domain/types";
-import type { LumiState } from "./Lumi";
 import { PixelDigits } from "./PixelDigits";
 import { FIREFLIES, LANTERN, LUMI, SPARKLES, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
 import { pixelProgress } from "./progression";
@@ -28,6 +27,8 @@ function formatTime(timeMs: number, fallbackMinutes: number): string {
   const seconds = totalSeconds % 60;
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
+
+type LumiState = "idle" | "water" | "celebrate" | "rest";
 
 function lumiStateFor(timer: TimerState): LumiState {
   if (timer.status === "completed") return timer.kind === "focus" ? "celebrate" : "rest";

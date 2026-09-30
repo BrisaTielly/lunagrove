@@ -27,8 +27,8 @@ export function App({ services }: AppProps) {
   if (!timer.state) {
     return (
       <main className="app app--loading">
-        <span className="loading-rune" aria-hidden="true">◒</span>
-        <p>{timer.error ?? "Waking the sanctuary…"}</p>
+        <span className="loading-rune" aria-hidden="true">☾</span>
+        <p>{timer.error ?? "Waking the grove…"}</p>
       </main>
     );
   }

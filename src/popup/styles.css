@@ -1,7 +1,7 @@
 :root {
-  color: #eef0e4;
-  background: #070d1d;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff0d6;
+  background: #221833;
+  font-family: "Silkscreen", ui-monospace, monospace;
   font-synthesis: none;
 }
 
@@ -31,7 +31,7 @@ button {
 
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #9fe2dc;
+  outline: 2px solid #fff0d6;
   outline-offset: 3px;
 }
 
@@ -40,7 +40,7 @@ a:focus-visible {
   width: 400px;
   height: 533px;
   overflow: hidden;
-  background: #070d1d;
+  background: #221833;
 }
 
 .app--loading {
@@ -48,202 +48,24 @@ a:focus-visible {
   place-content: center;
   justify-items: center;
   gap: 14px;
-  color: #aab4c8;
+  color: #aaa0d2;
 }
 
 .app--loading p {
   margin: 0;
-  font-size: 13px;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .loading-rune {
-  color: #9fe2dc;
+  color: #f4b85d;
   font-size: 28px;
   animation: rune-breathe 1.8s ease-in-out infinite;
 }
 
-.topbar {
-  position: absolute;
-  z-index: 10;
-  top: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  padding: 0 16px 0 18px;
-  background: linear-gradient(180deg, rgba(4, 9, 24, 0.84), transparent);
-}
-
-.wordmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #f3f0df;
-  text-decoration: none;
-  text-shadow: 0 2px 8px #050a18;
-}
-
-.wordmark i {
-  color: #f0bd68;
-  font-style: normal;
-  font-size: 17px;
-}
-
-.wordmark span {
-  font: 600 16px/1 Georgia, "Times New Roman", serif;
-  letter-spacing: 0.025em;
-}
-
-.icon-button {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  place-items: center;
-  border: 1px solid rgba(216, 226, 207, 0.18);
-  border-radius: 50%;
-  color: #d8e2cf;
-  background: rgba(7, 13, 29, 0.58);
-  cursor: pointer;
-  transition: border-color 150ms ease, background-color 150ms ease;
-}
-
-.icon-button:hover {
-  border-color: rgba(159, 226, 220, 0.55);
-  background: rgba(18, 31, 56, 0.82);
-}
-
-.control-deck {
-  position: relative;
-  z-index: 5;
-  height: 246px;
-  padding: 16px 18px 12px;
-  border-top: 1px solid rgba(159, 226, 220, 0.14);
-  background:
-    linear-gradient(180deg, rgba(16, 25, 49, 0.98), rgba(7, 13, 29, 1)),
-    #070d1d;
-  box-shadow: 0 -18px 40px rgba(3, 7, 18, 0.4);
-}
-
-.timer {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  min-height: 116px;
-  padding-bottom: 14px;
-}
-
-.timer__readout {
-  display: grid;
-  align-content: center;
-}
-
-.timer__mode {
-  color: #8fa1bc;
-  font: 700 10px/1.2 ui-monospace, "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.timer__digits {
-  margin-top: 3px;
-  color: #f3f0df;
-  font: 400 49px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
-  letter-spacing: -0.075em;
-  text-shadow: 0 0 22px rgba(109, 99, 168, 0.22);
-}
-
-.timer__actions {
-  display: grid;
-  width: 136px;
-  gap: 8px;
-}
-
 .button {
-  min-height: 40px;
   padding: 0 14px;
-  border: 0;
-  border-radius: 8px;
-  color: #f7f1df;
-  font-size: 12px;
-  font-weight: 750;
   cursor: pointer;
-  transition: transform 120ms ease, filter 120ms ease, background-color 120ms ease;
-}
-
-.button:hover {
-  filter: brightness(1.08);
-}
-
-.button:active {
-  transform: translateY(1px);
-}
-
-.button--primary {
-  color: #091327;
-  background: #9fe2dc;
-  box-shadow: 0 5px 18px rgba(35, 150, 155, 0.18), inset 0 -2px rgba(9, 19, 39, 0.12);
-}
-
-.button--primary span {
-  margin-right: 5px;
-  font-size: 10px;
-}
-
-.button--quiet {
-  min-height: 31px;
-  color: #93a1b8;
-  background: transparent;
-}
-
-.button--quiet:hover {
-  color: #d8e2cf;
-  background: rgba(109, 99, 168, 0.1);
-}
-
-.error-message {
-  margin: -8px 0 8px;
-  color: #f0bd68;
-  font-size: 11px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: 0.9fr 0.9fr 1.35fr;
-  margin: 0;
-  padding: 13px 0 0;
-  border-top: 1px solid rgba(216, 226, 207, 0.1);
-}
-
-.stats div {
-  min-width: 0;
-  padding: 0 12px;
-  border-left: 1px solid rgba(216, 226, 207, 0.08);
-}
-
-.stats div:first-child {
-  padding-left: 0;
-  border-left: 0;
-}
-
-.stats dt {
-  margin-bottom: 5px;
-  color: #65738e;
-  font: 700 8px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.stats dd {
-  margin: 0;
-  overflow: hidden;
-  color: #cbd3d1;
-  font-size: 11px;
-  font-weight: 650;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .settings-backdrop {
