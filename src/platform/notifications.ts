@@ -1,5 +1,8 @@
 import type { SessionKind } from "../domain/types";
 
+// Served from public/; a missing file makes notifications.create fail silently.
+export const NOTIFICATION_ICON = "icons/icon-128.png";
+
 export async function notifyCompletion(kind: SessionKind): Promise<void> {
   const title = kind === "focus" ? "The sanctuary is stirring" : "Your break is complete";
   const message =
@@ -9,7 +12,7 @@ export async function notifyCompletion(kind: SessionKind): Promise<void> {
 
   await chrome.notifications.create({
     type: "basic",
-    iconUrl: chrome.runtime.getURL("icons/icon-128.png"),
+    iconUrl: chrome.runtime.getURL(NOTIFICATION_ICON),
     title,
     message,
   });
