@@ -73,6 +73,7 @@ export function App({ services }: AppProps) {
             setSettingsOpen(false);
           }}
           onExport={() => downloadBackup(state)}
+          onPreviewSound={timer.previewChime}
           onImport={async (text) => {
             const result = parseBackup(text);
             if (!result.ok) return result;

@@ -7,7 +7,7 @@ export default defineManifest({
   version: "0.1.0",
   description:
     "A gentle focus timer that restores a magical pixel-art sanctuary, one Pomodoro at a time.",
-  permissions: ["storage", "alarms", "notifications"],
+  permissions: ["storage", "alarms", "notifications", "offscreen"],
   icons: {
     16: "icons/icon-16.png",
     32: "icons/icon-32.png",

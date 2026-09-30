@@ -6,6 +6,12 @@ import manifest from "./manifest.config.ts";
 
 export default defineConfig({
   plugins: [react(), crx({ manifest })],
+  build: {
+    rollupOptions: {
+      // Not referenced by the manifest: created at runtime to play the chime.
+      input: { offscreen: "src/offscreen/index.html" },
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,

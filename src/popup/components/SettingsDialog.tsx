@@ -15,6 +15,7 @@ interface SettingsDialogProps {
   onSave: (preferences: Preferences) => void;
   onExport: () => void;
   onImport: (text: string) => Promise<ImportResult>;
+  onPreviewSound: () => void;
 }
 
 export function SettingsDialog({
@@ -23,6 +24,7 @@ export function SettingsDialog({
   onSave,
   onExport,
   onImport,
+  onPreviewSound,
 }: SettingsDialogProps) {
   const [draft, setDraft] = useState(preferences);
   const [message, setMessage] = useState<{ kind: "error" | "success"; text: string } | null>(
@@ -131,14 +133,17 @@ export function SettingsDialog({
             </label>
             <label className="switch-row">
               <span>
-                <strong>Play ambient sound</strong>
-                <small>Quiet lagoon ambience during focus</small>
+                <strong>Play sounds</strong>
+                <small>A soft chime when a focus or break ends</small>
               </span>
               <input
-                aria-label="Play ambient sound"
+                aria-label="Play sounds"
                 type="checkbox"
                 checked={draft.soundEnabled}
-                onChange={(event) => setDraft({ ...draft, soundEnabled: event.target.checked })}
+                onChange={(event) => {
+                  setDraft({ ...draft, soundEnabled: event.target.checked });
+                  if (event.target.checked) onPreviewSound();
+                }}
               />
             </label>
             <label className="select-row">

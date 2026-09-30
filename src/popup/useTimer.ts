@@ -7,10 +7,12 @@ import {
   resumeSession,
   startSession,
 } from "../domain/timer";
+import { playChime } from "../audio/chime";
 import { finishDueSession } from "../domain/completion";
 import { DEFAULT_STATE } from "../domain/defaults";
 import type { AppStateV1, SessionKind } from "../domain/types";
 import { clearTimerAlarm, scheduleTimerAlarm } from "../platform/alarms";
+import { RING_MESSAGE } from "../platform/sound";
 import { loadState, saveState, validateImportedState } from "../platform/storage";
 
 export interface TimerServices {
@@ -19,11 +21,14 @@ export interface TimerServices {
   schedule: (sessionId: string, endsAt: number) => Promise<void>;
   clear: (sessionId: string) => Promise<void>;
   subscribe: (listener: (state: AppStateV1) => void) => () => void;
+  chime: (kind: SessionKind) => Promise<void>;
   now: () => number;
   createSessionId: () => string;
 }
 
 let previewState = structuredClone(DEFAULT_STATE);
+
+let previewAudio: AudioContext | null = null;
 
 const isExtensionRuntime = () => typeof chrome !== "undefined" && Boolean(chrome.storage?.local);
 
@@ -51,6 +56,14 @@ const defaultServices: TimerServices = {
     chrome.storage.onChanged.addListener(onChanged);
     return () => chrome.storage.onChanged.removeListener(onChanged);
   },
+  chime: async (kind) => {
+    if (isExtensionRuntime()) {
+      await chrome.runtime.sendMessage({ type: RING_MESSAGE, kind });
+      return;
+    }
+    previewAudio ??= new AudioContext();
+    playChime(previewAudio, kind);
+  },
   now: Date.now,
   createSessionId: () => crypto.randomUUID(),
 };
@@ -65,6 +78,7 @@ export interface UseTimerResult {
   cancel: () => Promise<void>;
   updatePreferences: (preferences: AppStateV1["preferences"]) => Promise<void>;
   replaceState: (state: AppStateV1) => Promise<void>;
+  previewChime: () => void;
 }
 
 export function useTimer(services: TimerServices = defaultServices): UseTimerResult {
@@ -115,9 +129,11 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
   useEffect(() => {
     if (!state || state.timer.status !== "running" || clock < state.timer.endsAt) return;
     const next = finishDueSession(state, clock);
-    if (!next) return;
-    const sessionId = state.timer.sessionId;
+    if (!next || next.timer.status !== "completed") return;
+    const { sessionId } = state.timer;
+    const { kind } = next.timer;
     void persist(next).then(() => services.clear(sessionId));
+    if (next.preferences.soundEnabled) void services.chime(kind).catch(() => undefined);
   }, [clock, persist, services, state]);
 
   const start = useCallback(
@@ -177,6 +193,10 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     [persist, services, state],
   );
 
+  const previewChime = useCallback(() => {
+    void services.chime("focus").catch(() => undefined);
+  }, [services]);
+
   const timeLeftMs = useMemo(
     () => (state ? remainingMs(state.timer, clock) : 0),
     [clock, state],
@@ -192,5 +212,6 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     cancel,
     updatePreferences,
     replaceState,
+    previewChime,
   };
 }

@@ -6,6 +6,7 @@ export interface BackgroundDependencies {
   load: () => Promise<AppStateV1>;
   save: (state: AppStateV1) => Promise<void>;
   notify: (kind: SessionKind) => Promise<void>;
+  chime: (kind: SessionKind) => Promise<void>;
   now: () => number;
 }
 
@@ -22,12 +23,12 @@ async function finishAndNotify(
 
   await dependencies.save(nextState);
 
+  // Neither a denied notification nor a blocked chime may undo earned progress.
   if (state.preferences.notificationsEnabled) {
-    try {
-      await dependencies.notify(nextState.timer.kind);
-    } catch {
-      // Notification permission or platform support must not undo earned progress.
-    }
+    await dependencies.notify(nextState.timer.kind).catch(() => undefined);
+  }
+  if (state.preferences.soundEnabled) {
+    await dependencies.chime(nextState.timer.kind).catch(() => undefined);
   }
 
   return true;

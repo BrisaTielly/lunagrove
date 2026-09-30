@@ -7,16 +7,20 @@ describe("background timer completion", () => {
   const startedAt = Date.UTC(2026, 8, 30, 12);
   const endsAt = startedAt + 25 * 60_000;
 
-  function harness(notificationFails = false) {
+  function harness(notificationFails = false, soundEnabled = false) {
     let state: AppStateV1 = {
       ...structuredClone(DEFAULT_STATE),
       timer: startSession("focus", 25, startedAt, "session-1"),
     };
+    state.preferences.soundEnabled = soundEnabled;
     const save = vi.fn(async (next: AppStateV1) => {
       state = next;
     });
     const notify = vi.fn(async () => {
       if (notificationFails) throw new Error("Notifications denied");
+    });
+    const chime = vi.fn(async () => {
+      if (notificationFails) throw new Error("Audio blocked");
     });
 
     return {
@@ -25,10 +29,12 @@ describe("background timer completion", () => {
         load: async () => state,
         save,
         notify,
+        chime,
         now: () => endsAt,
       },
       save,
       notify,
+      chime,
     };
   }
 
@@ -52,6 +58,23 @@ describe("background timer completion", () => {
     ).resolves.toBe(true);
 
     expect(context.save).toHaveBeenCalledOnce();
+    expect(context.getState().stats.totalFocusSessions).toBe(1);
+  });
+
+  it("rings the chime only when sounds are on", async () => {
+    const quiet = harness();
+    await handleTimerAlarm("timer:session-1", quiet.dependencies);
+    expect(quiet.chime).not.toHaveBeenCalled();
+
+    const loud = harness(false, true);
+    await handleTimerAlarm("timer:session-1", loud.dependencies);
+    expect(loud.chime).toHaveBeenCalledWith("focus");
+  });
+
+  it("keeps progress when both the notification and the chime fail", async () => {
+    const context = harness(true, true);
+
+    await expect(handleTimerAlarm("timer:session-1", context.dependencies)).resolves.toBe(true);
     expect(context.getState().stats.totalFocusSessions).toBe(1);
   });
 

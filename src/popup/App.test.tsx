@@ -12,17 +12,19 @@ function createServices(initial: AppStateV1 = structuredClone(DEFAULT_STATE), no
   });
   const schedule = vi.fn(async () => undefined);
   const clear = vi.fn(async () => undefined);
+  const chime = vi.fn(async () => undefined);
   const services: TimerServices = {
     load: async () => state,
     save,
     schedule,
     clear,
     subscribe: () => () => undefined,
+    chime,
     now: () => now,
     createSessionId: () => "new-session",
   };
 
-  return { services, schedule, clear, getState: () => state };
+  return { services, schedule, clear, chime, getState: () => state };
 }
 
 describe("App", () => {
@@ -104,5 +106,19 @@ describe("App", () => {
     expect(await screen.findByRole("button", { name: "Begin break" })).toBeVisible();
     expect(context.getState().stats.totalFocusSessions).toBe(1);
     await waitFor(() => expect(context.clear).toHaveBeenCalledWith("lost-alarm"));
+    expect(context.chime).not.toHaveBeenCalled();
+  });
+
+  it("rings the chime when the open popup finishes a session with sounds on", async () => {
+    const endsAt = Date.UTC(2026, 8, 30, 12);
+    const overdue: AppStateV1 = {
+      ...structuredClone(DEFAULT_STATE),
+      preferences: { ...DEFAULT_STATE.preferences, soundEnabled: true },
+      timer: { status: "running", sessionId: "rest", kind: "break", startedAt: endsAt - 5 * 60_000, endsAt, durationMs: 5 * 60_000 },
+    };
+    const context = createServices(overdue, endsAt);
+    render(<App services={context.services} />);
+
+    await waitFor(() => expect(context.chime).toHaveBeenCalledWith("break"));
   });
 });
