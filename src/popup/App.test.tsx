@@ -26,6 +26,17 @@ function createServices(initial: AppStateV1 = structuredClone(DEFAULT_STATE)) {
 }
 
 describe("App", () => {
+  it("opens the garden and returns to the timer", async () => {
+    const context = createServices();
+    render(<App services={context.services} />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Open garden" }));
+    expect(screen.getByRole("region", { name: "Lumi's garden" })).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: "Back to home" }));
+    expect(screen.getByRole("region", { name: "Lunagrove home" })).toBeVisible();
+  });
+
   it("starts, pauses, resumes and cancels a focus session", async () => {
     const context = createServices();
     render(<App services={context.services} />);

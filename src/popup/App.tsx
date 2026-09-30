@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { downloadBackup, parseBackup } from "../platform/backup";
+import { GardenView } from "../pixel/GardenView";
 import { HomeScene } from "../pixel/HomeScene";
 import { SettingsDialog } from "./components/SettingsDialog";
 import { useTimer, type TimerServices } from "./useTimer";
@@ -20,6 +21,7 @@ function prefersReducedMotion(preference: "system" | boolean): boolean {
 export function App({ services }: AppProps) {
   const timer = useTimer(services);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [view, setView] = useState<"home" | "garden">("home");
 
   if (!timer.state) {
     return (
@@ -32,25 +34,35 @@ export function App({ services }: AppProps) {
 
   const { state } = timer;
   const stage = Math.min(20, state.stats.totalFocusSessions);
+  const reducedMotion = prefersReducedMotion(state.preferences.reducedMotion);
 
   return (
     <main className="app">
-      <HomeScene
-        timer={state.timer}
-        timeLeftMs={timer.timeLeftMs}
-        focusMinutes={state.preferences.focusMinutes}
-        stage={stage}
-        reducedMotion={prefersReducedMotion(state.preferences.reducedMotion)}
-        error={timer.error}
-        onStartFocus={() => void timer.start("focus")}
-        onStartBreak={() => void timer.start("break")}
-        onPause={() => void timer.pause()}
-        onResume={() => void timer.resume()}
-        onCancel={() => void timer.cancel()}
-        onOpenGarden={() => undefined}
-        onOpenMap={() => undefined}
-        onOpenSettings={() => setSettingsOpen(true)}
-      />
+      {view === "home" ? (
+        <HomeScene
+          timer={state.timer}
+          timeLeftMs={timer.timeLeftMs}
+          focusMinutes={state.preferences.focusMinutes}
+          stage={stage}
+          reducedMotion={reducedMotion}
+          error={timer.error}
+          onStartFocus={() => void timer.start("focus")}
+          onStartBreak={() => void timer.start("break")}
+          onPause={() => void timer.pause()}
+          onResume={() => void timer.resume()}
+          onCancel={() => void timer.cancel()}
+          onOpenGarden={() => setView("garden")}
+          onOpenMap={() => undefined}
+          onOpenSettings={() => setSettingsOpen(true)}
+        />
+      ) : (
+        <GardenView
+          totalFocusSessions={state.stats.totalFocusSessions}
+          reducedMotion={reducedMotion}
+          onBack={() => setView("home")}
+          onOpenSettings={() => setSettingsOpen(true)}
+        />
+      )}
 
       {settingsOpen && (
         <SettingsDialog
