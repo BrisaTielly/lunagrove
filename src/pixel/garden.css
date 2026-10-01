@@ -142,17 +142,30 @@
   white-space: nowrap;
 }
 
+/* Lumi stands in the scene: smaller, on the ground, lit like the night around her. */
 .garden-lumi {
   position: absolute;
-  top: 376px;
-  left: 34px;
+  top: 400px;
+  left: 30px;
   width: 193px;
   height: 211px;
-  transform: scale(.72);
+  transform: scale(.6);
   transform-origin: 0 0;
 }
 
-.garden-shell .garden-water { top: 168px; left: 181px; }
+.garden-lumi .lumi-body {
+  filter: brightness(.95) saturate(.95) drop-shadow(0 0 10px rgba(255, 230, 167, .22));
+}
+
+.garden-lumi-shadow {
+  position: absolute;
+  top: 188px;
+  left: 18px;
+  width: 160px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(8, 10, 28, .6), rgba(8, 10, 28, 0));
+}
 
 .garden-panel {
   position: absolute;
@@ -352,4 +365,4 @@
   box-shadow: none;
 }
 
-.garden-title--long { font-size: 12px; }
+.garden-shell .garden-title--long { font-size: 11px; letter-spacing: 0; }

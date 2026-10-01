@@ -122,13 +122,8 @@ export function GardenView({
       <SeasonLayer season={season} />
 
       <div className="garden-lumi">
-        <Lumi state="water" season={season} label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
-        <span className="pixel-water garden-water" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <i />
-        </span>
+        <i className="garden-lumi-shadow" aria-hidden="true" />
+        <Lumi state="idle" season={season} label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
       </div>
 
       <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
