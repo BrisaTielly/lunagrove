@@ -18,7 +18,7 @@
 ---
 
 <div align="center">
-  <img src="docs/assets/lunagrove-home.gif" width="390" alt="Animated Lunagrove popup: Lumi breathes and waters her flower while stars twinkle, the lantern sways and fireflies drift beside a 25-minute timer" />
+  <img src="docs/assets/lunagrove-home.gif" width="390" alt="Animated Lunagrove popup in spring: Lumi, wearing a flower crown, looks around beside her flower while petals fall, the lantern sways and fireflies drift next to a 25-minute timer" />
   <br />
   <sub>The home screen: Lumi waters her flower while the timer waits for you.</sub>
 </div>
@@ -28,7 +28,8 @@
 <table align="center">
   <tr>
     <td align="center"><img src="docs/assets/lunagrove-focusing.png" width="200" alt="Home screen during a focus session, 18:42 left, with the Pause button" /><br /><sub>Focusing</sub></td>
-    <td align="center"><img src="docs/assets/lunagrove-garden-growing.png" width="200" alt="Lumi's garden at 9 of 20 with a pond, lily pads, reeds and a seed bed" /><br /><sub>The garden, growing</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-garden-growing.png" width="200" alt="The Moon Garden at 12 of 20 in spring: a pond with a frog, a little bridge and Lumi admiring the newest piece" /><br /><sub>The garden, growing</sub></td>
+    <td align="center"><img src="docs/assets/lunagrove-hollow.png" width="200" alt="Mushroom Hollow complete: a giant glowing mushroom, a spirit deer, an acorn house and a moon pool" /><br /><sub>The second garden</sub></td>
     <td align="center"><img src="docs/assets/lunagrove-stats.png" width="200" alt="Focus stats with today, this week, all time, a seven-day bar chart and streaks" /><br /><sub>Focus stats</sub></td>
     <td align="center"><img src="docs/assets/lunagrove-settings.png" width="200" alt="Pixel-art settings with durations, notifications, sounds, motion and backups" /><br /><sub>Settings</sub></td>
   </tr>
@@ -71,9 +72,9 @@ Each completed focus session unlocks one permanent detail:
 | `16–20` | **Shrine** | Steps, runes, altar, shrine light, and the lunar shrine. |
 
 <div align="center">
-  <img src="docs/assets/lunagrove-garden-timelapse.gif" width="320" alt="Time-lapse of Lumi's garden growing from an empty meadow at 0 of 20 to a glowing shrine at 20 of 20, one piece popping in per focus session" />
+  <img src="docs/assets/lunagrove-garden-timelapse.gif" width="320" alt="Time-lapse of forty focus sessions: the Moon Garden grows from an empty meadow to a glowing shrine, then Mushroom Hollow opens and grows to its giant glowing mushroom" />
   <br />
-  <sub>From an empty meadow to a lit shrine: twenty focus sessions in ten seconds.</sub>
+  <sub>Two gardens, forty focus sessions: from an empty meadow to Mushroom Hollow.</sub>
 </div>
 
 The newest piece pops into place every time you open the garden.
