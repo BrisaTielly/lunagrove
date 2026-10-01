@@ -166,7 +166,6 @@
   inset: 0;
   background-repeat: no-repeat;
   transform-origin: 50% 100%;
-  filter: brightness(.94) saturate(.95);
 }
 
 .garden-shell .garden-lumi { transition: left 2.4s linear, top 2.4s linear; }
@@ -183,12 +182,12 @@
 
 .garden-lumi-shadow {
   position: absolute;
-  bottom: -5px;
-  left: 6%;
-  width: 88%;
-  height: 10px;
+  bottom: -6px;
+  left: -4%;
+  width: 108%;
+  height: 14px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(8, 10, 28, .55), rgba(8, 10, 28, 0));
+  background: radial-gradient(closest-side, rgba(8, 10, 28, .7), rgba(8, 10, 28, 0));
 }
 
 .garden-lumi-heart { top: -26px; left: calc(50% - 13px); }
