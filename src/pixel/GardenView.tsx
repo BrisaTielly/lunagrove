@@ -103,6 +103,8 @@ export function GardenView({
         ))}
       </ol>
 
+      <SeasonLayer season={season} />
+
       <div className="garden-lumi" role="img" aria-label="Lumi tending the garden">
         <div
           className="pixel-sprite pixel-lumi"
@@ -119,8 +121,6 @@ export function GardenView({
           <i />
         </span>
       </div>
-
-      <SeasonLayer season={season} />
 
       <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
 

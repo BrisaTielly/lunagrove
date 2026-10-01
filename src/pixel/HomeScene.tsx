@@ -64,7 +64,7 @@ function timerPresentation(timer: TimerState, timeLeftMs: number, focusMinutes: 
 function MainButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
   return (
     <button className="pixel-hit pixel-main-button" onClick={onClick}>
-      <span className="pixel-main-label">
+      <span className={`pixel-main-label${label.length > 6 ? " pixel-main-label--long" : ""}`}>
         <span aria-hidden="true">{icon}</span>
         {label}
       </span>
@@ -121,6 +121,38 @@ export function HomeScene({
         </i>
       </div>
 
+      <section className="pixel-timer-card" aria-label="Pomodoro timer">
+        <span className="pixel-mode">{presentation.label}</span>
+        <time className="pixel-digits" aria-live="polite">
+          <PixelDigits text={presentation.time} unit={3.4} />
+          <span className="pixel-digits-text">{presentation.time}</span>
+        </time>
+      </section>
+
+      <div
+        className="pixel-progress-card"
+        role="progressbar"
+        aria-label="Journey progress"
+        aria-valuemin={0}
+        aria-valuemax={20}
+        aria-valuenow={progress.filledPips}
+      >
+        <b className="pixel-progress-count">
+          <PixelDigits text={`${progress.filledPips} / 20`} unit={0.875} />
+          <span className="pixel-digits-text">{progress.filledPips} / 20</span>
+        </b>
+        <ol className="pixel-pips" aria-label="Ten two-step journey capsules">
+          {Array.from({ length: 10 }, (_, index) => {
+            const completedSteps = progress.filledPips - index * 2;
+            const fill = completedSteps >= 2 ? "full" : completedSteps === 1 ? "half" : "empty";
+            return <li data-fill={fill} key={index} />;
+          })}
+        </ol>
+      </div>
+
+      {/* Weather tints the painted cards and their live digits alike; Lumi stays in her own colours. */}
+      <SeasonLayer season={season} />
+
       <div
         className="pixel-sprite pixel-lumi"
         style={spriteStyle(LUMI)}
@@ -153,8 +185,6 @@ export function HomeScene({
         ))}
       </div>
 
-      <SeasonLayer season={season} />
-
       {celebration && (
         <section className="pixel-celebration" role="status" aria-label="New in the garden">
           <i className="pixel-celebration-spark pixel-celebration-spark--1" aria-hidden="true" />
@@ -171,35 +201,6 @@ export function HomeScene({
           </div>
         </section>
       )}
-
-      <section className="pixel-timer-card" aria-label="Pomodoro timer">
-        <span className="pixel-mode">{presentation.label}</span>
-        <time className="pixel-digits" aria-live="polite">
-          <PixelDigits text={presentation.time} unit={3.4} />
-          <span className="pixel-digits-text">{presentation.time}</span>
-        </time>
-      </section>
-
-      <div
-        className="pixel-progress-card"
-        role="progressbar"
-        aria-label="Journey progress"
-        aria-valuemin={0}
-        aria-valuemax={20}
-        aria-valuenow={progress.filledPips}
-      >
-        <b className="pixel-progress-count">
-          <PixelDigits text={`${progress.filledPips} / 20`} unit={0.875} />
-          <span className="pixel-digits-text">{progress.filledPips} / 20</span>
-        </b>
-        <ol className="pixel-pips" aria-label="Ten two-step journey capsules">
-          {Array.from({ length: 10 }, (_, index) => {
-            const completedSteps = progress.filledPips - index * 2;
-            const fill = completedSteps >= 2 ? "full" : completedSteps === 1 ? "half" : "empty";
-            return <li data-fill={fill} key={index} />;
-          })}
-        </ol>
-      </div>
 
       <button className="pixel-hit pixel-garden-button" type="button" onClick={onOpenGarden} aria-label="Open garden" />
 

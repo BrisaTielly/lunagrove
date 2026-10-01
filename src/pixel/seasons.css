@@ -82,7 +82,9 @@
 }
 
 /* The home cards are painted into the artwork, so keep weather off them. */
-.pixel-shell .season-layer {
+.season-particles { position: absolute; inset: 0; }
+
+.pixel-shell .season-particles {
   mask:
     linear-gradient(#000 0 0) 0 0 / 100% 100% no-repeat,
     linear-gradient(#000 0 0) 234px 146px / 238px 200px no-repeat;

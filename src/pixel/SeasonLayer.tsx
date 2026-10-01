@@ -21,18 +21,20 @@ export function SeasonLayer({ season }: { season: Season | null }) {
   return (
     <div className={`season-layer season-layer--${season}`} data-season={season} aria-hidden="true">
       <i className="season-tint" />
-      {PARTICLES.map((particle, index) => (
-        <i
-          className={`season-particle season-particle--${particle.size}`}
-          style={{
-            "--x": `${particle.x}%`,
-            "--drift": `${particle.drift}px`,
-            animationDelay: `${particle.delay}s`,
-            animationDuration: `${season === "summer" ? particle.duration + 4 : particle.duration}s`,
-          } as CSSProperties}
-          key={index}
-        />
-      ))}
+      <div className="season-particles">
+        {PARTICLES.map((particle, index) => (
+          <i
+            className={`season-particle season-particle--${particle.size}`}
+            style={{
+              "--x": `${particle.x}%`,
+              "--drift": `${particle.drift}px`,
+              animationDelay: `${particle.delay}s`,
+              animationDuration: `${season === "summer" ? particle.duration + 4 : particle.duration}s`,
+            } as CSSProperties}
+            key={index}
+          />
+        ))}
+      </div>
     </div>
   );
 }

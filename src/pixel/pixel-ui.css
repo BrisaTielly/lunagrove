@@ -421,15 +421,18 @@
   height: 50px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   color: var(--ink);
   background: var(--coral);
   font-size: 34px;
   font-weight: 700;
   letter-spacing: 1px;
+  white-space: nowrap;
   text-transform: uppercase;
   pointer-events: none;
 }
+
+.pixel-main-label--long { font-size: 24px; letter-spacing: 0; }
 
 /* Idle shows the START label painted in the artwork. */
 .pixel-main-label--baked {
