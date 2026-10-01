@@ -142,29 +142,45 @@
   white-space: nowrap;
 }
 
-/* Lumi stands in the scene: smaller, on the ground, lit like the night around her. */
-.garden-lumi {
-  position: absolute;
-  top: 400px;
-  left: 30px;
-  width: 193px;
-  height: 211px;
-  transform: scale(.6);
-  transform-origin: 0 0;
+/* Lumi stands in the scene next to the newest piece, at the gardens' own pixel scale. */
+.garden-shell .garden-lumi {
+  z-index: 3;
+  overflow: visible;
 }
 
-.garden-lumi .lumi-body {
-  filter: brightness(.95) saturate(.95) drop-shadow(0 0 10px rgba(255, 230, 167, .22));
+.garden-lumi-body {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  transform-origin: 50% 100%;
+  filter: brightness(.94) saturate(.95);
 }
+
+.garden-lumi .garden-lumi-body { animation: garden-lumi-breathe 3.8s ease-in-out infinite; }
+.garden-lumi[data-pose="wave"] .garden-lumi-body { animation: garden-lumi-bounce 1.6s ease-in-out infinite; }
+.garden-lumi[data-petting] .garden-lumi-body { animation: lumi-pet .9s ease-out both; }
 
 .garden-lumi-shadow {
   position: absolute;
-  top: 188px;
-  left: 18px;
-  width: 160px;
-  height: 26px;
+  bottom: -5px;
+  left: 6%;
+  width: 88%;
+  height: 10px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(8, 10, 28, .6), rgba(8, 10, 28, 0));
+  background: radial-gradient(closest-side, rgba(8, 10, 28, .55), rgba(8, 10, 28, 0));
+}
+
+.garden-lumi-heart { top: -26px; left: calc(50% - 13px); }
+
+@keyframes garden-lumi-breathe {
+  0%, 100% { scale: 1 1; }
+  50% { scale: 1.02 1.04; }
+}
+
+@keyframes garden-lumi-bounce {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 0 -5px; }
+  60% { translate: 0 0; }
 }
 
 .garden-panel {

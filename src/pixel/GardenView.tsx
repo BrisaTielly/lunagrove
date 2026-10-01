@@ -3,10 +3,9 @@ import { useState, type CSSProperties } from "react";
 import type { Season } from "../domain/seasons";
 import { GARDENS, STEPS_PER_GARDEN, journey, type GardenDef } from "./gardens";
 import type { GardenPart } from "./gardenParts";
-import { Lumi } from "./Lumi";
+import { GardenLumi, placeGardenLumi } from "./GardenLumi";
 import { PixelDigits } from "./PixelDigits";
 import { unlockLabel as labelFor } from "./progression";
-import { LUMI } from "./sceneLayers";
 import { SeasonLayer } from "./SeasonLayer";
 import "./pixel-ui.css";
 import "./garden.css";
@@ -121,10 +120,7 @@ export function GardenView({
 
       <SeasonLayer season={season} />
 
-      <div className="garden-lumi">
-        <i className="garden-lumi-shadow" aria-hidden="true" />
-        <Lumi state="idle" season={season} label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
-      </div>
+      <GardenLumi placement={placeGardenLumi(def.parts, stage, shown < current.garden)} />
 
       <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
 

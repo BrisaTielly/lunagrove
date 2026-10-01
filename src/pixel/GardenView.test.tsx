@@ -14,7 +14,7 @@ describe("GardenView", () => {
       />,
     );
 
-    expect(screen.getByRole("img", { name: "Lumi tending the garden" })).toBeVisible();
+    expect(screen.getByRole("img", { name: "Lumi, tending the garden" })).toBeVisible();
     expect(screen.getByRole("img", { name: "Waiting seed bed" })).toBeVisible();
     expect(screen.getByText("Complete a focus to plant the first seed.")).toBeVisible();
     expect(screen.queryAllByTestId("garden-detail")).toHaveLength(0);
