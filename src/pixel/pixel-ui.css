@@ -275,6 +275,7 @@
 .pixel-celebration p { margin: 0; }
 .pixel-celebration-kicker { color: var(--lamp); font-size: 11px; letter-spacing: 1px; }
 .pixel-celebration-name { color: var(--cream); font-size: 24px; letter-spacing: 1px; text-shadow: 3px 3px 0 var(--ink); }
+.pixel-celebration-visitor { color: var(--lilac); font-size: 11px; letter-spacing: 1px; }
 .pixel-celebration-actions { display: flex; gap: 14px; margin-top: 6px; }
 
 .pixel-shell .pixel-celebration button {

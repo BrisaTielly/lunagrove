@@ -11,12 +11,13 @@ function stateWith(totalFocusSessions: number, lastCelebratedStage: number): App
 
 describe("pendingCelebration", () => {
   it("celebrates the newest piece once", () => {
-    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null });
+    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null });
     expect(pendingCelebration(stateWith(3, 3))).toBeNull();
   });
 
-  it("marks the end of a chapter", () => {
-    expect(pendingCelebration(stateWith(10, 9))?.completedChapter).toBe("pond");
+  it("marks the end of a chapter and the visitor who moves in", () => {
+    expect(pendingCelebration(stateWith(10, 9))).toMatchObject({ completedChapter: "pond", visitor: "a frog" });
+    expect(pendingCelebration(stateWith(20, 19))?.visitor).toBe("a moon fox");
   });
 
   it("stays quiet before the first focus and past the twentieth", () => {

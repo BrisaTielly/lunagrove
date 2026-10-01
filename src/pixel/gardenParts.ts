@@ -37,4 +37,16 @@ export const GARDEN_PARTS: GardenPart[] = [
   { unlock: 16, name: "lunar-runes", x: 393, y: 243, width: 93, height: 45, atlasX: 0, atlasY: 392 },
   { unlock: 17, name: "moon-altar", x: 402, y: 258, width: 33, height: 33, atlasX: 95, atlasY: 392 },
   { unlock: 19, name: "lunar-shrine", x: 429, y: 225, width: 51, height: 66, atlasX: 130, atlasY: 392 },
+  { unlock: 4, name: "visitor-bunny", x: 399, y: 489, width: 33, height: 39, atlasX: 183, atlasY: 392 },
+  { unlock: 9, name: "visitor-frog", x: 252, y: 396, width: 30, height: 21, atlasX: 218, atlasY: 392 },
+  { unlock: 14, name: "visitor-owl", x: 96, y: 165, width: 30, height: 39, atlasX: 250, atlasY: 392 },
+  { unlock: 19, name: "visitor-moon-fox", x: 339, y: 255, width: 42, height: 42, atlasX: 282, atlasY: 392 },
 ];
+
+// Who moves in at the end of each chapter (keyed by journey stage).
+export const VISITORS: Record<number, string> = {
+  5: "a bunny",
+  10: "a frog",
+  15: "an owl",
+  20: "a moon fox",
+};

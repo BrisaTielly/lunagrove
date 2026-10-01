@@ -86,6 +86,11 @@
 .garden-part--moon-altar { --idle: garden-warm 3.4s ease-in-out infinite; }
 .garden-part--lunar-shrine { --idle: garden-warm 4.2s ease-in-out infinite; }
 
+.garden-part--visitor-bunny { --idle: garden-hop 4.2s ease-in-out infinite; }
+.garden-part--visitor-frog { --idle: garden-hop-small 5.4s ease-in-out infinite; animation-delay: -2s; }
+.garden-part--visitor-owl { --idle: garden-tilt 4.6s ease-in-out infinite alternate; }
+.garden-part--visitor-moon-fox { --idle: garden-fox 3.4s ease-in-out infinite; }
+
 .garden-part[class*="soft-grass"] { --idle: garden-sway 2.8s ease-in-out infinite alternate; }
 .garden-part--soft-grass-1 { animation-delay: -.8s; }
 .garden-part--soft-grass-2 { animation-delay: -1.5s; }
@@ -249,6 +254,30 @@
 @keyframes garden-warm {
   0%, 100% { filter: drop-shadow(0 0 1px rgba(244, 184, 93, .3)); }
   50% { filter: drop-shadow(0 0 6px rgba(244, 184, 93, .85)); }
+}
+
+@keyframes garden-hop {
+  0%, 82%, 100% { transform: translateY(0); }
+  87% { transform: translateY(-7px); }
+  92% { transform: translateY(0); }
+  95% { transform: translateY(-3px); }
+}
+
+@keyframes garden-hop-small {
+  0%, 86%, 100% { transform: translateY(0) scaleY(1); }
+  84% { transform: translateY(0) scaleY(.85); }
+  91% { transform: translateY(-5px) scaleY(1.05); }
+}
+
+@keyframes garden-tilt {
+  0%, 30% { transform: rotate(0); }
+  50%, 80% { transform: rotate(-8deg); }
+  100% { transform: rotate(0); }
+}
+
+@keyframes garden-fox {
+  0%, 100% { transform: scaleY(1); filter: drop-shadow(0 0 1px rgba(201, 193, 234, .3)); }
+  50% { transform: scaleY(1.04); filter: drop-shadow(0 0 5px rgba(201, 193, 234, .8)); }
 }
 
 @keyframes garden-beam {

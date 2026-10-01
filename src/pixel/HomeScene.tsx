@@ -158,6 +158,7 @@ export function HomeScene({
             {celebration.completedChapter ? `${celebration.completedChapter} chapter complete` : "New in the garden"}
           </p>
           <p className="pixel-celebration-name">{celebration.unlock}</p>
+          {celebration.visitor && <p className="pixel-celebration-visitor">and {celebration.visitor} moved in!</p>}
           <div className="pixel-celebration-actions">
             <button className="pixel-celebration-see" type="button" onClick={onSeeCelebration}>See it</button>
             <button className="pixel-celebration-later" type="button" onClick={onDismissCelebration}>Later</button>
