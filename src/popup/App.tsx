@@ -3,6 +3,7 @@ import { useState } from "react";
 import { downloadBackup, parseBackup } from "../platform/backup";
 import { GardenView } from "../pixel/GardenView";
 import { isLongBreakNext } from "../domain/completion";
+import { activeSeason, localTimeZone } from "../domain/seasons";
 import { pendingCelebration } from "../pixel/celebration";
 import { HomeScene } from "../pixel/HomeScene";
 import { StatsView } from "../pixel/StatsView";
@@ -39,6 +40,7 @@ export function App({ services }: AppProps) {
   const stage = Math.min(20, state.stats.totalFocusSessions);
   const reducedMotion = prefersReducedMotion(state.preferences.reducedMotion);
   const celebration = pendingCelebration(state);
+  const season = activeSeason(state.preferences.seasons, new Date(), localTimeZone());
 
   return (
     <main className="app">
@@ -52,6 +54,7 @@ export function App({ services }: AppProps) {
           error={timer.error}
           celebration={celebration}
           longBreakNext={isLongBreakNext(state)}
+          season={season}
           onSeeCelebration={() => {
             if (celebration) void timer.markCelebrated(celebration.stage);
             setView("garden");
@@ -75,6 +78,7 @@ export function App({ services }: AppProps) {
         <GardenView
           totalFocusSessions={state.stats.totalFocusSessions}
           reducedMotion={reducedMotion}
+          season={season}
           onBack={() => setView("home")}
           onOpenSettings={() => setSettingsOpen(true)}
         />

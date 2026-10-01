@@ -48,9 +48,10 @@ describe("local storage", () => {
     delete old.preferences.longBreakMinutes;
     delete old.preferences.longBreakEvery;
     delete old.preferences.autoStartBreaks;
+    delete old.preferences.seasons;
 
     const result = validateImportedState(old);
 
-    expect(result.ok && result.state.preferences).toMatchObject({ longBreakMinutes: 15, longBreakEvery: 4, autoStartBreaks: false });
+    expect(result.ok && result.state.preferences).toMatchObject({ longBreakMinutes: 15, longBreakEvery: 4, autoStartBreaks: false, seasons: "auto" });
   });
 });

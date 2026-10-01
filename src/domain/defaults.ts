@@ -15,6 +15,7 @@ export const DEFAULT_STATE: AppStateV1 = {
     longBreakMinutes: 15,
     longBreakEvery: 4,
     autoStartBreaks: false,
+    seasons: "auto",
     soundEnabled: false,
     notificationsEnabled: true,
     reducedMotion: "system",

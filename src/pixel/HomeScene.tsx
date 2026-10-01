@@ -1,7 +1,9 @@
 import type { TimerState } from "../domain/types";
 import { PixelDigits } from "./PixelDigits";
 import { FIREFLIES, LANTERN, LUMI, SPARKLES, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
+import type { Season } from "../domain/seasons";
 import type { Celebration } from "./celebration";
+import { SeasonLayer } from "./SeasonLayer";
 import { pixelProgress } from "./progression";
 import "./pixel-ui.css";
 
@@ -14,6 +16,7 @@ interface HomeSceneProps {
   error?: string | null;
   celebration?: Celebration | null;
   longBreakNext?: boolean;
+  season?: Season | null;
   onSeeCelebration?: () => void;
   onDismissCelebration?: () => void;
   onStartFocus: () => void;
@@ -82,6 +85,7 @@ export function HomeScene({
   error,
   celebration = null,
   longBreakNext = false,
+  season = null,
   onSeeCelebration,
   onDismissCelebration,
   onStartFocus,
@@ -148,6 +152,8 @@ export function HomeScene({
           />
         ))}
       </div>
+
+      <SeasonLayer season={season} />
 
       {celebration && (
         <section className="pixel-celebration" role="status" aria-label="New in the garden">

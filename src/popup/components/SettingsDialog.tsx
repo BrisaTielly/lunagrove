@@ -201,6 +201,21 @@ export function SettingsDialog({
               />
             </label>
             <label className="select-row">
+              <span>Seasons</span>
+              <select
+                aria-label="Seasons"
+                value={draft.seasons}
+                onChange={(event) =>
+                  setDraft({ ...draft, seasons: event.target.value as Preferences["seasons"] })
+                }
+              >
+                <option value="auto">Follow my location</option>
+                <option value="north">Northern</option>
+                <option value="south">Southern</option>
+                <option value="off">Off</option>
+              </select>
+            </label>
+            <label className="select-row">
               <span>Motion</span>
               <select
                 aria-label="Motion"

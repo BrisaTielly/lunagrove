@@ -25,6 +25,7 @@ describe("SettingsDialog", () => {
     fireEvent.click(screen.getByLabelText("Start breaks automatically"));
     fireEvent.click(screen.getByLabelText("Play sounds"));
     expect(onPreviewSound).toHaveBeenCalledOnce();
+    fireEvent.change(screen.getByLabelText("Seasons"), { target: { value: "south" } });
     fireEvent.change(screen.getByLabelText("Motion"), { target: { value: "true" } });
     fireEvent.click(screen.getByRole("button", { name: "Save changes" }));
 
@@ -34,6 +35,7 @@ describe("SettingsDialog", () => {
       longBreakMinutes: 20,
       longBreakEvery: 3,
       autoStartBreaks: true,
+      seasons: "south",
       soundEnabled: true,
       notificationsEnabled: true,
       reducedMotion: true,

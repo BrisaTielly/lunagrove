@@ -1,0 +1,90 @@
+/* Prototype-grid coordinates: the scene window of every screen. */
+.season-layer {
+  position: absolute;
+  top: 86px;
+  left: 8px;
+  width: 477px;
+  height: 447px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.season-tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: soft-light;
+}
+
+.season-layer--spring .season-tint { background: rgba(255, 190, 215, .24); }
+.season-layer--summer .season-tint { background: rgba(255, 200, 120, .26); }
+.season-layer--autumn .season-tint { background: rgba(255, 140, 70, .32); }
+.season-layer--winter .season-tint { background: rgba(170, 200, 255, .36); }
+
+.season-particle {
+  position: absolute;
+  top: -12px;
+  left: var(--x);
+  width: 11px;
+  height: 8px;
+  animation: season-fall 9s linear infinite;
+}
+
+.season-particle--1 { width: 9px; height: 7px; }
+.season-particle--2 { width: 7px; height: 5px; }
+
+.season-layer--spring .season-particle { background: #f2a7b8; border-radius: 6px 0; }
+.season-layer--spring .season-particle--1 { background: #fff0d6; }
+
+.season-layer--autumn .season-particle { width: 13px; height: 10px; background: #e07a3f; clip-path: polygon(50% 0, 100% 40%, 70% 100%, 30% 100%, 0 40%); }
+.season-layer--autumn .season-particle--1 { background: #f4b85d; }
+.season-layer--autumn .season-particle--2 { background: #b6503a; }
+
+.season-layer--winter .season-particle { width: 7px; height: 7px; background: #f4f6ff; box-shadow: 0 0 4px rgba(255, 255, 255, .7); animation-name: season-snow; }
+.season-layer--winter .season-particle--2 { width: 5px; height: 5px; }
+
+.season-layer--summer .season-particle {
+  top: auto;
+  bottom: 30px;
+  width: 5px;
+  height: 5px;
+  background: #f7f0a0;
+  box-shadow: 0 0 8px 3px rgba(247, 240, 160, .55);
+  animation-name: season-rise;
+}
+
+@keyframes season-fall {
+  0% { transform: translate(0, 0) rotate(0); opacity: 0; }
+  8% { opacity: 1; }
+  50% { transform: translate(var(--drift), 230px) rotate(200deg); }
+  92% { opacity: 1; }
+  100% { transform: translate(calc(var(--drift) * -.5), 470px) rotate(400deg); opacity: 0; }
+}
+
+@keyframes season-snow {
+  0% { transform: translate(0, 0); opacity: 0; }
+  8% { opacity: 1; }
+  50% { transform: translate(var(--drift), 230px); }
+  100% { transform: translate(0, 470px); opacity: .9; }
+}
+
+@keyframes season-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  20% { opacity: 1; }
+  60% { transform: translate(var(--drift), -160px); opacity: .8; }
+  100% { transform: translate(calc(var(--drift) * -1), -300px); opacity: 0; }
+}
+
+.pixel-shell--still .season-particle,
+.garden-shell--still .season-particle { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .season-particle { display: none; }
+}
+
+/* The home cards are painted into the artwork, so keep weather off them. */
+.pixel-shell .season-layer {
+  mask:
+    linear-gradient(#000 0 0) 0 0 / 100% 100% no-repeat,
+    linear-gradient(#000 0 0) 234px 146px / 238px 200px no-repeat;
+  mask-composite: exclude;
+}

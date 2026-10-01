@@ -101,7 +101,7 @@ export function validateImportedState(value: unknown): ValidationResult {
     return { ok: false, error: "The preferences in this backup are invalid." };
   }
 
-  // Added in 0.3: older saves and backups get the defaults.
+  // Added in 0.2: older saves and backups get the defaults.
   const preferences = { ...DEFAULT_STATE.preferences, ...value.preferences };
   if (
     !isFiniteNumber(preferences.longBreakMinutes) ||
@@ -114,7 +114,8 @@ export function validateImportedState(value: unknown): ValidationResult {
     !Number.isInteger(preferences.longBreakEvery) ||
     preferences.longBreakEvery < 2 ||
     preferences.longBreakEvery > 12 ||
-    typeof preferences.autoStartBreaks !== "boolean"
+    typeof preferences.autoStartBreaks !== "boolean" ||
+    !["auto", "north", "south", "off"].includes(preferences.seasons as string)
   ) {
     return { ok: false, error: "The preferences in this backup are invalid." };
   }

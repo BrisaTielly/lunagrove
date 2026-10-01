@@ -2,12 +2,15 @@ import { GARDEN_PARTS } from "./gardenParts";
 import { PixelDigits } from "./PixelDigits";
 import { pixelProgress, unlockLabel as labelFor } from "./progression";
 import { LANTERN, LUMI, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
+import type { Season } from "../domain/seasons";
+import { SeasonLayer } from "./SeasonLayer";
 import "./pixel-ui.css";
 import "./garden.css";
 
 interface GardenViewProps {
   totalFocusSessions: number;
   reducedMotion: boolean;
+  season?: Season | null;
   onBack: () => void;
   onOpenSettings: () => void;
 }
@@ -37,6 +40,7 @@ function nextLine(stage: number): string {
 export function GardenView({
   totalFocusSessions,
   reducedMotion,
+  season = null,
   onBack,
   onOpenSettings,
 }: GardenViewProps) {
@@ -115,6 +119,8 @@ export function GardenView({
           <i />
         </span>
       </div>
+
+      <SeasonLayer season={season} />
 
       <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
 
