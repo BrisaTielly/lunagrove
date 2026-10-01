@@ -51,6 +51,7 @@ const HOME: HomeCase[] = [
   { label: "Break done: start focus", timer: completed("break"), stage: 9 },
   { label: "Celebration: new piece", timer: completed("focus"), stage: 3, celebration: { stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null } },
   { label: "Celebration: chapter + visitor", timer: completed("focus"), stage: 10, celebration: { stage: 10, unlock: "Moon reflection", completedChapter: "pond", visitor: "a frog" } },
+  { label: "Celebration: a new garden", timer: completed("focus"), stage: 1, celebration: { stage: 21, unlock: "Moss patch", completedChapter: null, visitor: null, newGarden: "Mushroom Hollow" } },
   { label: "Error message", timer: running("focus", 20 * MIN), timeLeftMs: 20 * MIN, stage: 9, error: "That change could not be saved. Try again." },
   { label: "Reduced motion (everything still)", timer: { status: "idle" }, stage: 9, reducedMotion: true },
 ];
@@ -64,6 +65,11 @@ const GARDEN_STAGES = [
   { stage: 10, label: "10: pond chapter + frog" },
   { stage: 15, label: "15: bridge chapter + owl" },
   { stage: 20, label: "20: complete + moon fox" },
+  { stage: 21, label: "21: Mushroom Hollow opens" },
+  { stage: 25, label: "25: + snail" },
+  { stage: 30, label: "30: + hedgehog" },
+  { stage: 35, label: "35: + moth" },
+  { stage: 40, label: "40: complete + spirit deer" },
 ];
 
 const WEEK = {
@@ -145,7 +151,7 @@ function Gallery() {
         ))}
         {SEASONS.map((season) => (
           <Frame label={`Garden in ${season}`} key={`garden-${season}`}>
-            <GardenView totalFocusSessions={14} reducedMotion={false} season={season} onBack={noop} onOpenSettings={noop} />
+            <GardenView totalFocusSessions={season === "spring" || season === "autumn" ? 14 : 34} reducedMotion={false} season={season} onBack={noop} onOpenSettings={noop} />
           </Frame>
         ))}
       </div>

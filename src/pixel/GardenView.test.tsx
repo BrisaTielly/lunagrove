@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-import { GARDEN_PARTS } from "./gardenParts";
+import { GARDENS } from "./gardens";
 import { GardenView } from "./GardenView";
 
 describe("GardenView", () => {
@@ -30,7 +30,7 @@ describe("GardenView", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "Lumi's Garden" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Moon Garden" })).toBeVisible();
     expect(screen.getByText("7 / 20")).toBeVisible();
     expect(screen.getAllByTestId("garden-detail")).toHaveLength(7);
     expect(screen.getByText("Lily pad")).toBeInTheDocument();
@@ -74,13 +74,34 @@ describe("GardenView", () => {
     expect(onOpenSettings).toHaveBeenCalledOnce();
   });
 
-  it("draws every unlock that is not an effect-only detail", () => {
-    const drawn = new Set(GARDEN_PARTS.map((part) => part.unlock));
-    const effects = [8, 18];
+  it.each(GARDENS.map((garden) => [garden.id, garden] as const))(
+    "draws every step of the %s garden that is not an effect-only detail",
+    (_, garden) => {
+      const drawn = new Set(garden.parts.map((part) => part.unlock));
+      const effects = Object.values(garden.effects);
 
-    for (let unlock = 0; unlock < 20; unlock += 1) {
-      expect(drawn.has(unlock) || effects.includes(unlock), `unlock ${unlock}`).toBe(true);
-    }
+      expect(garden.unlocks).toHaveLength(20);
+      for (let unlock = 0; unlock < 20; unlock += 1) {
+        expect(drawn.has(unlock) || effects.includes(unlock), `unlock ${unlock}`).toBe(true);
+      }
+      for (const stage of [5, 10, 15, 20]) {
+        const visitor = garden.parts.find((part) => part.name.startsWith("visitor-") && part.unlock === stage - 1);
+        expect(visitor, `visitor at ${stage}`).toBeDefined();
+      }
+    },
+  );
+
+  it("opens the second garden after twenty focus sessions and keeps the first one to revisit", () => {
+    render(<GardenView totalFocusSessions={23} reducedMotion={false} onBack={vi.fn()} onOpenSettings={vi.fn()} />);
+
+    expect(screen.getByRole("heading", { name: "Mushroom Hollow" })).toBeVisible();
+    expect(screen.getByText("3 / 20")).toBeInTheDocument();
+    expect(screen.getAllByTestId("garden-detail")).toHaveLength(3);
+
+    fireEvent.click(screen.getByRole("button", { name: "Moon Garden" }));
+
+    expect(screen.getByRole("heading", { name: "Moon Garden" })).toBeVisible();
+    expect(screen.getAllByTestId("garden-detail")).toHaveLength(20);
   });
 
   it("animates only the newest unlock in", () => {

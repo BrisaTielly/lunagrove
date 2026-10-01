@@ -181,7 +181,11 @@ export function HomeScene({
           <i className="pixel-celebration-spark pixel-celebration-spark--2" aria-hidden="true" />
           <i className="pixel-celebration-spark pixel-celebration-spark--3" aria-hidden="true" />
           <p className="pixel-celebration-kicker">
-            {celebration.completedChapter ? `${celebration.completedChapter} chapter complete` : "New in the garden"}
+            {celebration.newGarden
+              ? `A new garden: ${celebration.newGarden}`
+              : celebration.completedChapter
+                ? `${celebration.completedChapter} chapter complete`
+                : "New in the garden"}
           </p>
           <p className="pixel-celebration-name">{celebration.unlock}</p>
           {celebration.visitor && <p className="pixel-celebration-visitor">and {celebration.visitor} moved in!</p>}

@@ -11,7 +11,7 @@ function stateWith(totalFocusSessions: number, lastCelebratedStage: number): App
 
 describe("pendingCelebration", () => {
   it("celebrates the newest piece once", () => {
-    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null });
+    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null, newGarden: null });
     expect(pendingCelebration(stateWith(3, 3))).toBeNull();
   });
 
@@ -20,9 +20,14 @@ describe("pendingCelebration", () => {
     expect(pendingCelebration(stateWith(20, 19))?.visitor).toBe("a moon fox");
   });
 
-  it("stays quiet before the first focus and past the twentieth", () => {
+  it("stays quiet before the first focus and once every garden is done", () => {
     expect(pendingCelebration(stateWith(0, 0))).toBeNull();
-    expect(pendingCelebration(stateWith(27, 20))).toBeNull();
+    expect(pendingCelebration(stateWith(52, 40))).toBeNull();
+  });
+
+  it("announces the second garden on the 21st focus", () => {
+    expect(pendingCelebration(stateWith(21, 20))).toMatchObject({ stage: 21, unlock: "Moss patch", newGarden: "Mushroom Hollow" });
+    expect(pendingCelebration(stateWith(30, 29))).toMatchObject({ completedChapter: "pond", visitor: "a hedgehog" });
   });
 
   it("shows only the latest piece after several focus sessions", () => {

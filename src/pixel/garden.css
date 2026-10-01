@@ -1,6 +1,6 @@
 /*
  * Same 493 × 657 prototype grid as the home screen. The landscape is
- * lunagrove-garden.png; each unlock is a piece of lunagrove-garden-parts.png.
+ * set per garden (gardens.ts); each unlock is a piece of that garden's atlas.
  */
 .garden-shell {
   --garden-cream: #fff0d6;
@@ -12,7 +12,7 @@
   overflow: hidden;
   zoom: 0.81136;
   color: var(--garden-cream);
-  background: #221833 url("../assets/pixel/lunagrove-garden.png") 0 0 / 493px 657px no-repeat;
+  background: #221833 0 0 / 493px 657px no-repeat;
   font-family: "Silkscreen", ui-monospace, monospace;
   user-select: none;
 }
@@ -67,8 +67,8 @@
 .garden-part {
   position: absolute;
   display: block;
-  background: url("../assets/pixel/lunagrove-garden-parts.png") no-repeat;
-  background-size: 340px 458px;
+  background: var(--garden-parts) no-repeat;
+  background-size: var(--garden-atlas);
   transform-origin: 50% 100%;
   animation: var(--idle, none);
 }
@@ -91,6 +91,21 @@
 .garden-part--visitor-owl { --idle: garden-tilt 4.6s ease-in-out infinite alternate; }
 .garden-part--visitor-moon-fox { --idle: garden-fox 3.4s ease-in-out infinite; }
 
+.garden-part--visitor-snail { --idle: garden-creep 9s ease-in-out infinite alternate; }
+.garden-part--visitor-hedgehog { --idle: garden-hop-small 6s ease-in-out infinite; }
+.garden-part--visitor-moth { --idle: garden-flutter 2.6s ease-in-out infinite; transform-origin: 50% 50%; }
+.garden-part--visitor-spirit-deer { --idle: garden-fox 4s ease-in-out infinite; }
+.garden-part--elder-mushroom,
+.garden-part--blue-mushrooms,
+.garden-part--crystals,
+.garden-part--moon-pool { --idle: garden-glow 3.6s ease-in-out infinite; }
+.garden-part--glowworms,
+.garden-part--lantern-vines { --idle: garden-sway-soft 4s ease-in-out infinite alternate; transform-origin: 50% 0; }
+.garden-part--fern,
+.garden-part--moss-patch { --idle: garden-sway-soft 3.4s ease-in-out infinite alternate; }
+.garden-part--glowing-runes { --idle: garden-rune 2.8s ease-in-out infinite; }
+.garden-part--spore-beam { --idle: garden-beam 4s ease-in-out infinite; }
+
 .garden-part[class*="soft-grass"] { --idle: garden-sway 2.8s ease-in-out infinite alternate; }
 .garden-part--soft-grass-1 { animation-delay: -.8s; }
 .garden-part--soft-grass-2 { animation-delay: -1.5s; }
@@ -100,8 +115,6 @@
 
 .garden-lamp-glow {
   position: absolute;
-  top: 439px;
-  left: 369px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -112,8 +125,6 @@
 
 .garden-shrine-light {
   position: absolute;
-  top: 96px;
-  left: 436px;
   width: 36px;
   height: 140px;
   background: linear-gradient(to top, rgba(255, 232, 176, .55), rgba(255, 232, 176, .14) 60%, rgba(255, 232, 176, 0));
@@ -280,6 +291,18 @@
   50% { transform: scaleY(1.04); filter: drop-shadow(0 0 5px rgba(201, 193, 234, .8)); }
 }
 
+@keyframes garden-creep {
+  from { transform: translateX(-6px); }
+  to { transform: translateX(6px); }
+}
+
+@keyframes garden-flutter {
+  0%, 100% { transform: translate(0, 0) scaleX(1); }
+  25% { transform: translate(6px, -5px) scaleX(.8); }
+  50% { transform: translate(12px, 0) scaleX(1); }
+  75% { transform: translate(5px, 4px) scaleX(.8); }
+}
+
 @keyframes garden-beam {
   0%, 100% { opacity: .55; }
   50% { opacity: 1; }
@@ -298,3 +321,35 @@
     animation: none !important;
   }
 }
+
+.garden-spore {
+  background: #9ff0e6;
+  box-shadow: 0 0 6px 2px rgba(159, 240, 230, .6);
+}
+
+.garden-switch {
+  position: absolute;
+  top: 96px;
+  left: 20px;
+  display: flex;
+  gap: 6px;
+}
+
+.garden-shell .garden-switch-tab {
+  position: static;
+  height: 24px;
+  padding: 0 10px;
+  color: var(--garden-lilac);
+  background: rgba(33, 23, 50, .82);
+  box-shadow: inset 0 0 0 2px #4b4382;
+  font: 400 9px/24px "Silkscreen", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.garden-shell .garden-switch-tab.is-active {
+  color: #171a2f;
+  background: var(--garden-amber);
+  box-shadow: none;
+}
+
+.garden-title--long { font-size: 12px; }

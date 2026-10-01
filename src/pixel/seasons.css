@@ -91,12 +91,8 @@
   mask-composite: exclude;
 }
 
-/* Each season repaints the scene itself (generated from the base artwork). */
+/* Each season repaints the scene itself (generated from the base artwork); gardens pick theirs in gardens.ts. */
 .pixel-shell.pixel-shell--spring { background-image: url("../assets/pixel/seasons/lunagrove-home-spring.png"); }
 .pixel-shell.pixel-shell--summer { background-image: url("../assets/pixel/seasons/lunagrove-home-summer.png"); }
 .pixel-shell.pixel-shell--autumn { background-image: url("../assets/pixel/seasons/lunagrove-home-autumn.png"); }
 .pixel-shell.pixel-shell--winter { background-image: url("../assets/pixel/seasons/lunagrove-home-winter.png"); }
-.garden-shell.garden-shell--spring { background-image: url("../assets/pixel/seasons/lunagrove-garden-spring.png"); }
-.garden-shell.garden-shell--summer { background-image: url("../assets/pixel/seasons/lunagrove-garden-summer.png"); }
-.garden-shell.garden-shell--autumn { background-image: url("../assets/pixel/seasons/lunagrove-garden-autumn.png"); }
-.garden-shell.garden-shell--winter { background-image: url("../assets/pixel/seasons/lunagrove-garden-winter.png"); }

@@ -5,6 +5,7 @@ import { GardenView } from "../pixel/GardenView";
 import { isLongBreakNext } from "../domain/completion";
 import { activeSeason, localTimeZone } from "../domain/seasons";
 import { pendingCelebration } from "../pixel/celebration";
+import { journey } from "../pixel/gardens";
 import { HomeScene } from "../pixel/HomeScene";
 import { StatsView } from "../pixel/StatsView";
 import { SettingsDialog } from "./components/SettingsDialog";
@@ -37,7 +38,7 @@ export function App({ services }: AppProps) {
   }
 
   const { state } = timer;
-  const stage = Math.min(20, state.stats.totalFocusSessions);
+  const stage = journey(state.stats.totalFocusSessions).stage;
   const reducedMotion = prefersReducedMotion(state.preferences.reducedMotion);
   const celebration = pendingCelebration(state);
   const season = activeSeason(state.preferences.seasons, new Date(), localTimeZone());
