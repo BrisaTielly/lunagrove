@@ -4,7 +4,7 @@ export default defineManifest({
   manifest_version: 3,
   name: "Lunagrove — Pixel Pomodoro",
   short_name: "Lunagrove",
-  version: "0.1.0",
+  version: "0.2.0",
   description:
     "A gentle pixel-art Pomodoro that grows a moonlit garden, one focus at a time.",
   permissions: ["storage", "alarms", "notifications", "offscreen"],
