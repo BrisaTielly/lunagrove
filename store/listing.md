@@ -21,14 +21,18 @@ Lunagrove is a gentle Pomodoro timer wrapped in a tiny pixel-art world.
 Meet Lumi, a little moon spirit who tends a moonlit garden while you focus. Every focus session you complete plants something new: a seed, a moon-flower, a pond with lily pads, a little bridge, a moon gate, and finally a glowing shrine on the hill. Twenty sessions turn an empty meadow into a living garden, and your progress never goes backwards.
 
 FOCUS, GENTLY
-- Classic focus and break sessions with your own durations
+- Classic focus and break sessions with your own durations, plus a long break every few sessions
 - Pause, resume or end a session at any time
 - Keeps time even with the popup closed, and recovers sessions after a browser restart
 - The minutes left show right on the toolbar icon
 - A soft 8-bit chime and an optional notification when a session ends
+- Start or pause from anywhere with Alt+Shift+L, and let breaks start on their own if you like
 
 WATCH IT GROW
 - Twenty garden pieces across four chapters: Sprout, Pond, Bridge and Shrine, each one celebrated by Lumi
+- A new friend moves in at the end of every chapter: a bunny, a frog, an owl and a moon fox
+- Real seasons: spring flowers, summer grass, autumn leaves and winter snow, with an outfit for Lumi in each
+- Lumi has a mood for every moment, and she loves being petted
 - Focus stats: today, this week, all time, the last seven days and your streaks
 - Living pixel scenes: Lumi breathes and blinks, stars twinkle, the lantern sways and fireflies drift
 - Reduced-motion mode that stills every animation

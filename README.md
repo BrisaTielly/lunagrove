@@ -44,16 +44,20 @@ Lunagrove is built around a simple idea: **productivity should feel inviting, no
 
 | Feature | What it does |
 |---|---|
-| Reliable Pomodoro | Start, pause, resume, cancel, and complete focus or break sessions. |
+| Reliable Pomodoro | Start, pause, resume, cancel, and complete focus or break sessions, with a long break every few focus sessions. |
+| Your rhythm | Optional auto-start for breaks and a keyboard shortcut (`Alt+Shift+L`) to start or pause without opening the popup. |
 | Persistent timer | Chrome alarms keep sessions running after the popup closes, and sessions interrupted by a browser restart are recovered. |
 | Toolbar countdown | The minutes left appear on the extension icon, so you never need to open the popup to check. |
 | Growing garden | Every completed focus plants one permanent piece of Lumi's garden, and Lumi celebrates each new piece with you. |
+| Visitors | At the end of every chapter a little friend moves in: a bunny, a frog, an owl, and a moon fox. |
+| Lumi's moods | Lumi waters the garden while you focus, naps on breaks, waits patiently when you pause, cheers when you finish, and loves being petted. |
+| Real seasons | The grove follows the calendar of your hemisphere: spring flowers, summer grass, autumn leaves, winter snow, and an outfit for Lumi in each. |
 | Focus stats | Today, this week, all time, the last seven days, and your current and best streaks. |
 | Gentle alerts | An optional notification and a short 8-bit chime when a session ends. |
 | Local-first data | Preferences, progress, and statistics stay in Chrome storage. |
-| Personal settings | Adjust focus and break durations, sounds, notifications, and motion. |
+| Personal settings | Adjust focus, break, and long-break durations, sounds, notifications, seasons, and motion. |
 | Backup and restore | Export your grove and safely import it again later. |
-| Living pixel scenes | Lumi breathes and blinks, stars twinkle, the lantern sways, and fireflies drift. Reduced motion stills everything. |
+| Living pixel scenes | Stars twinkle, the lantern sways, fireflies drift, and the weather of the season falls over the grove. Reduced motion stills everything. |
 
 ## The twenty-step journey
 
@@ -123,6 +127,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 | `pnpm test:watch` | Run tests in watch mode. |
 | `pnpm run typecheck` | Check TypeScript without creating a build. |
 | `pnpm package` | Build and zip the extension for the Chrome Web Store. |
+| `pnpm gallery` | Open a page with every screen in its key states, animated, for visual checks. |
 
 ## Built with
 
@@ -156,7 +161,10 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 - [x] End-of-session chime
 - [x] Toolbar countdown and new-piece celebrations
 - [x] Extension icons and Chrome Web Store assets
-- [ ] Chrome Web Store release
+- [x] Chrome Web Store release
+- [x] Long breaks, auto-start, and keyboard shortcut
+- [x] Garden visitors, Lumi's moods, and real seasons
+- [ ] New gardens after the first one is complete
 
 ## Contributing
 
