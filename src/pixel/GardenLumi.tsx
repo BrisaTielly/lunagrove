@@ -9,20 +9,21 @@ import "./lumi.css";
 export type GardenPose = "stand" | "sit" | "sniff" | "wave";
 
 // Boxes in lumi-garden.png (drawn by Codex at the gardens' pixel scale).
+// Each pose carries a 1-cell ink outline, like the other garden sprites.
 const POSES: Record<GardenPose, { x: number; y: number; width: number; height: number }> = {
-  stand: { x: 0, y: 0, width: 64, height: 62 },
-  sit: { x: 66, y: 10, width: 64, height: 52 },
-  sniff: { x: 132, y: 0, width: 78, height: 62 },
-  wave: { x: 212, y: 0, width: 72, height: 62 },
+  stand: { x: 0, y: 0, width: 68, height: 66 },
+  sit: { x: 70, y: 10, width: 68, height: 56 },
+  sniff: { x: 140, y: 0, width: 82, height: 66 },
+  wave: { x: 224, y: 0, width: 76, height: 66 },
 };
-const ATLAS = "286px 62px";
+const ATLAS = "302px 66px";
 
 // Where each pose's head is, so the seasonal outfit sits on it.
 const HEADS: Record<GardenPose, { centre: number; top: number }> = {
-  stand: { centre: 32, top: 4 },
-  sit: { centre: 31, top: 4 },
-  sniff: { centre: 45, top: 0 },
-  wave: { centre: 32, top: 3 },
+  stand: { centre: 34, top: 6 },
+  sit: { centre: 33, top: 6 },
+  sniff: { centre: 47, top: 2 },
+  wave: { centre: 34, top: 5 },
 };
 
 // lumi-garden-outfits.png: the home outfits redrawn on the gardens' 2px grid.
