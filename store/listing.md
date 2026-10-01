@@ -24,10 +24,11 @@ FOCUS, GENTLY
 - Classic focus and break sessions with your own durations
 - Pause, resume or end a session at any time
 - Keeps time even with the popup closed, and recovers sessions after a browser restart
+- The minutes left show right on the toolbar icon
 - A soft 8-bit chime and an optional notification when a session ends
 
 WATCH IT GROW
-- Twenty garden pieces across four chapters: Sprout, Pond, Bridge and Shrine
+- Twenty garden pieces across four chapters: Sprout, Pond, Bridge and Shrine, each one celebrated by Lumi
 - Focus stats: today, this week, all time, the last seven days and your streaks
 - Living pixel scenes: Lumi breathes and blinks, stars twinkle, the lantern sways and fireflies drift
 - Reduced-motion mode that stills every animation

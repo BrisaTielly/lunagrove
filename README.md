@@ -46,7 +46,8 @@ Lunagrove is built around a simple idea: **productivity should feel inviting, no
 |---|---|
 | Reliable Pomodoro | Start, pause, resume, cancel, and complete focus or break sessions. |
 | Persistent timer | Chrome alarms keep sessions running after the popup closes, and sessions interrupted by a browser restart are recovered. |
-| Growing garden | Every completed focus plants one permanent piece of Lumi's garden. |
+| Toolbar countdown | The minutes left appear on the extension icon, so you never need to open the popup to check. |
+| Growing garden | Every completed focus plants one permanent piece of Lumi's garden, and Lumi celebrates each new piece with you. |
 | Focus stats | Today, this week, all time, the last seven days, and your current and best streaks. |
 | Gentle alerts | An optional notification and a short 8-bit chime when a session ends. |
 | Local-first data | Preferences, progress, and statistics stay in Chrome storage. |
@@ -153,7 +154,7 @@ Running the unpacked extension is the best way to test alarms, notifications, pe
 - [x] Growing Garden view
 - [x] Focus stats (in place of the planned Journey Map)
 - [x] End-of-session chime
-- [ ] Completion and rest celebrations
+- [x] Toolbar countdown and new-piece celebrations
 - [x] Extension icons and Chrome Web Store assets
 - [ ] Chrome Web Store release
 
