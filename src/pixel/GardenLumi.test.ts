@@ -5,7 +5,7 @@ const moon = GARDENS[0].parts;
 
 describe("placeGardenLumi", () => {
   it("waits by the seed bed before anything grows and sits back in a finished garden", () => {
-    expect(placeGardenLumi(moon, 0, false).pose).toBe("stand");
+    expect(placeGardenLumi(moon, 0, false, GARDENS[0].spots)).toMatchObject({ pose: "sit", shade: true });
     expect(placeGardenLumi(moon, 20, true).pose).toBe("sit");
   });
 
@@ -38,5 +38,18 @@ describe("placeGardenLumi", () => {
 
     expect(route.filter((spot) => spot === main)).toHaveLength(3);
     expect(new Set(route.map((spot) => spot.left)).size).toBeGreaterThan(2);
+  });
+});
+
+describe("Lumi's resting places", () => {
+  it("strolls between the garden's own spots, coming back to the newest piece", () => {
+    const spots = GARDENS[1].spots;
+    const main = placeGardenLumi(GARDENS[1].parts, 3, false, spots);
+    const route = wanderRoute(main, spots);
+
+    expect(route.filter((spot) => spot === main)).toHaveLength(3);
+    for (const stop of route.filter((spot) => spot !== main)) {
+      expect(spots.some((spot) => spot.left === stop.left && spot.bottom === stop.bottom)).toBe(true);
+    }
   });
 });

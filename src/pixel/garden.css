@@ -180,6 +180,22 @@
 .garden-lumi[data-pose="wave"] .garden-lumi-body { animation: garden-lumi-bounce 1.6s ease-in-out infinite; }
 .garden-lumi[data-petting] .garden-lumi-body { animation: lumi-pet .9s ease-out both; }
 
+.garden-lumi[data-shade] .garden-lumi-body,
+.garden-lumi[data-shade] .garden-lumi-outfit { filter: brightness(.86) saturate(.9); }
+
+/* The grass in front of her feet, cut from the same scene so she stands in it. */
+.garden-lumi-front {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 493px 657px;
+  image-rendering: pixelated;
+  transition: background-position 2.4s linear;
+  pointer-events: none;
+}
+
 .garden-lumi-shadow {
   position: absolute;
   bottom: -6px;

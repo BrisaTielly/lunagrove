@@ -130,7 +130,13 @@ export function GardenView({
 
       <SeasonLayer season={season} />
 
-      <GardenLumi placement={placeGardenLumi(def.parts, stage, shown < current.garden)} season={season} still={reducedMotion} />
+      <GardenLumi
+        placement={placeGardenLumi(def.parts, stage, shown < current.garden, def.spots)}
+        spots={def.spots}
+        front={season ? def.seasonFronts[season] : def.front}
+        season={season}
+        still={reducedMotion}
+      />
 
       <button className="pixel-hit garden-home" type="button" aria-label="Back to home" onClick={onBack} />
 
