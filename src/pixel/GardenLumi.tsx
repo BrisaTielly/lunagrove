@@ -8,19 +8,18 @@ export type GardenPose = "stand" | "sit" | "sniff" | "wave";
 
 // Boxes in lumi-garden.png (drawn by Codex at the gardens' pixel scale).
 const POSES: Record<GardenPose, { x: number; y: number; width: number; height: number }> = {
-  stand: { x: 0, y: 0, width: 59, height: 62 },
-  sit: { x: 61, y: 10, width: 62, height: 52 },
-  sniff: { x: 125, y: 0, width: 74, height: 62 },
-  wave: { x: 201, y: 0, width: 67, height: 62 },
+  stand: { x: 0, y: 0, width: 63, height: 62 },
+  sit: { x: 65, y: 10, width: 65, height: 52 },
+  sniff: { x: 132, y: 0, width: 78, height: 62 },
+  wave: { x: 212, y: 0, width: 71, height: 62 },
 };
-const ATLAS = "270px 62px";
+const ATLAS = "285px 62px";
 
 // Scene window of the garden screen (prototype pixels).
 const WINDOW = { left: 16, right: 483, top: 300, bottom: 532 };
 const HOME_SPOT = { left: 90, bottom: 512 };
-// Visitors up in the trees or the air: Lumi waves at them from the meadow below.
-const UP_HIGH = ["visitor-owl", "visitor-moth"];
-const MEADOW_TOP = 400;
+// Visitors live in trees, on lily pads or up the hill: Lumi waves at them from the meadow.
+const MEADOW_TOP = 430;
 
 export interface GardenLumiPlacement {
   pose: GardenPose;
@@ -43,7 +42,7 @@ export function placeGardenLumi(parts: GardenPart[], stage: number, finished: bo
 
   const { width } = POSES[pose];
   const base = anchor.y + anchor.height + 2;
-  const bottom = Math.min(WINDOW.bottom, visitor && UP_HIGH.includes(visitor.name) && base < MEADOW_TOP ? MEADOW_TOP + 30 : Math.max(WINDOW.top, base));
+  const bottom = Math.min(WINDOW.bottom, visitor ? Math.max(MEADOW_TOP, base) : Math.max(WINDOW.top, base));
   const leftOf = anchor.x - width + 6;
   if (leftOf >= WINDOW.left) return { pose, left: leftOf, bottom, facing: "right" };
   return { pose, left: Math.min(WINDOW.right - width, anchor.x + anchor.width - 6), bottom, facing: "left" };

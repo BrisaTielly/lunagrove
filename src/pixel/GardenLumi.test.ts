@@ -9,12 +9,13 @@ describe("placeGardenLumi", () => {
     expect(placeGardenLumi(moon, 20, true).pose).toBe("sit");
   });
 
-  it("waves to the visitor who just moved in, standing next to them", () => {
+  it("waves from the meadow to the visitor who just moved in", () => {
     const frog = moon.find((part) => part.name === "visitor-frog")!;
     const placement = placeGardenLumi(moon, 10, false);
 
     expect(placement.pose).toBe("wave");
-    expect(Math.abs(placement.bottom - (frog.y + frog.height + 2))).toBeLessThanOrEqual(1);
+    expect(placement.bottom).toBeGreaterThanOrEqual(430);
+    expect(placement.left + 40).toBeLessThanOrEqual(frog.x + 6);
   });
 
   it("admires the newest piece and stays inside the scene", () => {
@@ -28,6 +29,6 @@ describe("placeGardenLumi", () => {
   });
 
   it("waves from the meadow to a visitor up in the trees", () => {
-    expect(placeGardenLumi(moon, 15, false).bottom).toBeGreaterThanOrEqual(400);
+    expect(placeGardenLumi(moon, 15, false).bottom).toBeGreaterThanOrEqual(430);
   });
 });
