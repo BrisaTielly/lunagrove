@@ -24,6 +24,12 @@ button.lumi {
 
 .lumi-body[data-state="rest"] .pixel-lumi-eyelid { opacity: 1; animation: none; }
 
+.lumi-accessory {
+  position: absolute;
+  background: url("../assets/pixel/lumi-accessories.png") no-repeat;
+  background-size: 532px 52px;
+}
+
 /* ^ ^ eyes: a skin patch over each eye with a pixel chevron on top. */
 .lumi-eye-happy {
   position: absolute;

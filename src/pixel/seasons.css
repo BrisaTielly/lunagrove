@@ -15,10 +15,10 @@
   mix-blend-mode: soft-light;
 }
 
-.season-layer--spring .season-tint { background: rgba(255, 190, 215, .24); }
-.season-layer--summer .season-tint { background: rgba(255, 200, 120, .26); }
-.season-layer--autumn .season-tint { background: rgba(255, 140, 70, .32); }
-.season-layer--winter .season-tint { background: rgba(170, 200, 255, .36); }
+.season-layer--spring .season-tint { background: rgba(255, 190, 215, .1); }
+.season-layer--summer .season-tint { background: rgba(255, 200, 120, .12); }
+.season-layer--autumn .season-tint { background: rgba(255, 140, 70, .14); }
+.season-layer--winter .season-tint { background: rgba(170, 200, 255, .18); }
 
 .season-particle {
   position: absolute;
@@ -90,3 +90,13 @@
     linear-gradient(#000 0 0) 234px 146px / 238px 200px no-repeat;
   mask-composite: exclude;
 }
+
+/* Each season repaints the scene itself (generated from the base artwork). */
+.pixel-shell.pixel-shell--spring { background-image: url("../assets/pixel/seasons/lunagrove-home-spring.png"); }
+.pixel-shell.pixel-shell--summer { background-image: url("../assets/pixel/seasons/lunagrove-home-summer.png"); }
+.pixel-shell.pixel-shell--autumn { background-image: url("../assets/pixel/seasons/lunagrove-home-autumn.png"); }
+.pixel-shell.pixel-shell--winter { background-image: url("../assets/pixel/seasons/lunagrove-home-winter.png"); }
+.garden-shell.garden-shell--spring { background-image: url("../assets/pixel/seasons/lunagrove-garden-spring.png"); }
+.garden-shell.garden-shell--summer { background-image: url("../assets/pixel/seasons/lunagrove-garden-summer.png"); }
+.garden-shell.garden-shell--autumn { background-image: url("../assets/pixel/seasons/lunagrove-garden-autumn.png"); }
+.garden-shell.garden-shell--winter { background-image: url("../assets/pixel/seasons/lunagrove-garden-winter.png"); }

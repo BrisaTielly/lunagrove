@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from "react";
 
+import type { Season } from "../domain/seasons";
 import { LUMI } from "./sceneLayers";
 import "./lumi.css";
 
@@ -10,12 +11,21 @@ interface LumiProps {
   style?: CSSProperties;
   className?: string;
   label?: string;
+  season?: Season | null;
 }
 
 const PET_MS = 1200;
 
+// Boxes in lumi-accessories.png, positioned in Lumi's own sprite pixels.
+const ACCESSORIES: Record<Season, { x: number; y: number; width: number; height: number; atlasX: number }> = {
+  spring: { x: 30, y: 10, width: 136, height: 24, atlasX: 0 },
+  summer: { x: 32, y: -4, width: 136, height: 40, atlasX: 140 },
+  autumn: { x: 34, y: -6, width: 116, height: 40, atlasX: 280 },
+  winter: { x: 36, y: -12, width: 128, height: 52, atlasX: 400 },
+};
+
 // Lumi as a living sprite: a mood per timer state, plus a reaction when petted.
-export function Lumi({ state, style, className = "", label }: LumiProps) {
+export function Lumi({ state, style, className = "", label, season = null }: LumiProps) {
   const [petting, setPetting] = useState(0);
 
   useEffect(() => {
@@ -53,6 +63,20 @@ export function Lumi({ state, style, className = "", label }: LumiProps) {
             <i className="pixel-lumi-eyelid pixel-lumi-eyelid--left" />
             <i className="pixel-lumi-eyelid pixel-lumi-eyelid--right" />
           </>
+        )}
+
+        {season && (
+          <i
+            className="lumi-accessory"
+            data-accessory={season}
+            style={{
+              left: ACCESSORIES[season].x,
+              top: ACCESSORIES[season].y,
+              width: ACCESSORIES[season].width,
+              height: ACCESSORIES[season].height,
+              backgroundPosition: `${-ACCESSORIES[season].atlasX}px 0`,
+            }}
+          />
         )}
 
         {state === "rest" && !happy && (

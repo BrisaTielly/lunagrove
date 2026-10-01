@@ -28,4 +28,12 @@ describe("Lumi", () => {
     act(() => vi.advanceTimersByTime(1300));
     expect(container.querySelector(".lumi-heart")).toBeNull();
   });
+
+  it("dresses for the season", () => {
+    const { container, rerender } = render(<Lumi state="idle" season="winter" />);
+    expect(container.querySelector("[data-accessory='winter']")).not.toBeNull();
+
+    rerender(<Lumi state="idle" season={null} />);
+    expect(container.querySelector(".lumi-accessory")).toBeNull();
+  });
 });

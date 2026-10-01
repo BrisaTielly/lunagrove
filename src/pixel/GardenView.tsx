@@ -49,7 +49,7 @@ export function GardenView({
 
   return (
     <section
-      className={`garden-shell${reducedMotion ? " garden-shell--still" : ""}`}
+      className={`garden-shell${season ? ` garden-shell--${season}` : ""}${reducedMotion ? " garden-shell--still" : ""}`}
       aria-label="Lumi's garden"
     >
       <span className="garden-brand">LUNAGROVE</span>
@@ -107,7 +107,7 @@ export function GardenView({
       <SeasonLayer season={season} />
 
       <div className="garden-lumi">
-        <Lumi state="water" label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
+        <Lumi state="water" season={season} label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
         <span className="pixel-water garden-water" aria-hidden="true">
           <i />
           <i />

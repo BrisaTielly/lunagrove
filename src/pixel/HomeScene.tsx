@@ -103,7 +103,7 @@ export function HomeScene({
 
   return (
     <section
-      className={`pixel-shell pixel-shell--${progress.chapter}${reducedMotion ? " pixel-shell--still" : ""}`}
+      className={`pixel-shell pixel-shell--${progress.chapter}${season ? ` pixel-shell--${season}` : ""}${reducedMotion ? " pixel-shell--still" : ""}`}
       aria-label="Lunagrove home"
     >
       <span className="pixel-brand">LUNAGROVE</span>
@@ -152,7 +152,7 @@ export function HomeScene({
       {/* Weather tints the painted cards and their live digits alike; Lumi stays in her own colours. */}
       <SeasonLayer season={season} />
 
-      <Lumi state={lumiState} style={{ left: LUMI.x, top: LUMI.y, width: LUMI.width, height: LUMI.height }} />
+      <Lumi state={lumiState} season={season} style={{ left: LUMI.x, top: LUMI.y, width: LUMI.width, height: LUMI.height }} />
 
       <div className="pixel-ambient" aria-hidden="true">
         {lumiState === "water" && (
