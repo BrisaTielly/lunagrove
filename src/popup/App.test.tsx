@@ -132,4 +132,36 @@ describe("App", () => {
 
     await waitFor(() => expect(context.chime).toHaveBeenCalledWith("break"));
   });
+
+  describe("celebrating a new garden piece", () => {
+    function grown(): AppStateV1 {
+      const state = structuredClone(DEFAULT_STATE);
+      state.stats = { totalFocusSessions: 3, totalFocusMinutes: 75, byDay: { "2026-09-30": { sessions: 3, minutes: 75 } } };
+      state.ui.lastCelebratedStage = 2;
+      return state;
+    }
+
+    it("shows the new piece and takes Lumi to the garden", async () => {
+      const context = createServices(grown());
+      render(<App services={context.services} />);
+
+      expect(await screen.findByRole("status", { name: "New in the garden" })).toHaveTextContent("Moon flower");
+      expect(screen.getByRole("img", { name: /Lumi/ })).toHaveAttribute("data-state", "celebrate");
+
+      fireEvent.click(screen.getByRole("button", { name: "See it" }));
+
+      expect(screen.getByRole("region", { name: "Lumi's garden" })).toBeVisible();
+      await waitFor(() => expect(context.getState().ui.lastCelebratedStage).toBe(3));
+    });
+
+    it("can be put off without showing it again", async () => {
+      const context = createServices(grown());
+      render(<App services={context.services} />);
+
+      fireEvent.click(await screen.findByRole("button", { name: "Later" }));
+
+      await waitFor(() => expect(screen.queryByRole("status", { name: "New in the garden" })).not.toBeInTheDocument());
+      expect(context.getState().ui.lastCelebratedStage).toBe(3);
+    });
+  });
 });

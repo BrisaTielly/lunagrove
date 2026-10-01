@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { downloadBackup, parseBackup } from "../platform/backup";
 import { GardenView } from "../pixel/GardenView";
+import { pendingCelebration } from "../pixel/celebration";
 import { HomeScene } from "../pixel/HomeScene";
 import { StatsView } from "../pixel/StatsView";
 import { SettingsDialog } from "./components/SettingsDialog";
@@ -36,6 +37,7 @@ export function App({ services }: AppProps) {
   const { state } = timer;
   const stage = Math.min(20, state.stats.totalFocusSessions);
   const reducedMotion = prefersReducedMotion(state.preferences.reducedMotion);
+  const celebration = pendingCelebration(state);
 
   return (
     <main className="app">
@@ -47,12 +49,23 @@ export function App({ services }: AppProps) {
           stage={stage}
           reducedMotion={reducedMotion}
           error={timer.error}
+          celebration={celebration}
+          onSeeCelebration={() => {
+            if (celebration) void timer.markCelebrated(celebration.stage);
+            setView("garden");
+          }}
+          onDismissCelebration={() => {
+            if (celebration) void timer.markCelebrated(celebration.stage);
+          }}
           onStartFocus={() => void timer.start("focus")}
           onStartBreak={() => void timer.start("break")}
           onPause={() => void timer.pause()}
           onResume={() => void timer.resume()}
           onCancel={() => void timer.cancel()}
-          onOpenGarden={() => setView("garden")}
+          onOpenGarden={() => {
+            if (celebration) void timer.markCelebrated(celebration.stage);
+            setView("garden");
+          }}
           onOpenStats={() => setView("stats")}
           onOpenSettings={() => setSettingsOpen(true)}
         />

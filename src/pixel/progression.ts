@@ -52,3 +52,8 @@ export function pixelProgress(totalFocusSessions: number): PixelProgress {
     unlocks: JOURNEY_UNLOCKS.slice(0, stage),
   };
 }
+
+export function unlockLabel(unlock: string): string {
+  const words = unlock.split("-").join(" ");
+  return words[0].toUpperCase() + words.slice(1);
+}

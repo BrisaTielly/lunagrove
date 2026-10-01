@@ -1,6 +1,6 @@
 import { GARDEN_PARTS } from "./gardenParts";
 import { PixelDigits } from "./PixelDigits";
-import { pixelProgress } from "./progression";
+import { pixelProgress, unlockLabel as labelFor } from "./progression";
 import { LANTERN, LUMI, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
 import "./pixel-ui.css";
 import "./garden.css";
@@ -23,11 +23,6 @@ const POND_FIREFLIES = [
   { x: 230, y: 455, path: "b", delay: 3.4, duration: 9 },
   { x: 350, y: 470, path: "a", delay: 5, duration: 11 },
 ];
-
-function labelFor(unlock: string): string {
-  const words = unlock.split("-").join(" ");
-  return words[0].toUpperCase() + words.slice(1);
-}
 
 function twinkleStyle(sprite: TwinkleSprite) {
   return { ...spriteStyle(sprite), animationDelay: `${-sprite.delay}s`, animationDuration: `${sprite.duration}s` };

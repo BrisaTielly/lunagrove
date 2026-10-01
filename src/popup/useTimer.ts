@@ -79,6 +79,7 @@ export interface UseTimerResult {
   updatePreferences: (preferences: AppStateV1["preferences"]) => Promise<void>;
   replaceState: (state: AppStateV1) => Promise<void>;
   previewChime: () => void;
+  markCelebrated: (stage: number) => Promise<void>;
 }
 
 export function useTimer(services: TimerServices = defaultServices): UseTimerResult {
@@ -193,6 +194,14 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     [persist, services, state],
   );
 
+  const markCelebrated = useCallback(
+    async (stage: number) => {
+      if (!state || state.ui.lastCelebratedStage >= stage) return;
+      await persist({ ...state, ui: { ...state.ui, lastCelebratedStage: stage } });
+    },
+    [persist, state],
+  );
+
   const previewChime = useCallback(() => {
     void services.chime("focus").catch(() => undefined);
   }, [services]);
@@ -213,5 +222,6 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     updatePreferences,
     replaceState,
     previewChime,
+    markCelebrated,
   };
 }

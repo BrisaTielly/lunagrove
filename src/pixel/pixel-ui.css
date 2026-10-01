@@ -250,6 +250,69 @@
   }
 }
 
+.pixel-celebration {
+  position: absolute;
+  top: 96px;
+  left: 30px;
+  display: grid;
+  width: 433px;
+  height: 128px;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  background: #211732;
+  box-shadow: inset 0 0 0 4px #4b4382, inset 0 0 0 7px #171a2f;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px),
+    0 8px, 4px 8px, 4px 4px, 8px 4px);
+  font-family: "Silkscreen", ui-monospace, monospace;
+  text-align: center;
+  text-transform: uppercase;
+  animation: pixel-pop .55s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+
+.pixel-celebration p { margin: 0; }
+.pixel-celebration-kicker { color: var(--lamp); font-size: 11px; letter-spacing: 1px; }
+.pixel-celebration-name { color: var(--cream); font-size: 24px; letter-spacing: 1px; text-shadow: 3px 3px 0 var(--ink); }
+.pixel-celebration-actions { display: flex; gap: 14px; margin-top: 6px; }
+
+.pixel-shell .pixel-celebration button {
+  position: static;
+  height: 30px;
+  padding: 0 16px;
+  font: 400 12px "Silkscreen", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.pixel-shell .pixel-celebration-see {
+  color: var(--ink);
+  background: var(--coral);
+  box-shadow: inset 0 -4px 0 #c7605a;
+}
+
+.pixel-shell .pixel-celebration-later { color: var(--lilac); }
+.pixel-celebration button:hover { filter: brightness(1.15); }
+
+.pixel-celebration-spark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--lamp);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: pixel-sparkle 1.6s ease-in-out infinite;
+}
+
+.pixel-celebration-spark--1 { top: 18px; left: 34px; }
+.pixel-celebration-spark--2 { top: 70px; right: 40px; width: 18px; height: 18px; animation-delay: -.6s; }
+.pixel-celebration-spark--3 { bottom: 20px; left: 70px; width: 10px; height: 10px; animation-delay: -1.1s; }
+
+@keyframes pixel-pop {
+  0% { opacity: 0; transform: scale(.6); }
+  70% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 .pixel-timer-card {
   position: absolute;
   top: 247px;

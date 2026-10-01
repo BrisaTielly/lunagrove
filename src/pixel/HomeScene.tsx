@@ -1,6 +1,7 @@
 import type { TimerState } from "../domain/types";
 import { PixelDigits } from "./PixelDigits";
 import { FIREFLIES, LANTERN, LUMI, SPARKLES, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
+import type { Celebration } from "./celebration";
 import { pixelProgress } from "./progression";
 import "./pixel-ui.css";
 
@@ -11,6 +12,9 @@ interface HomeSceneProps {
   stage: number;
   reducedMotion: boolean;
   error?: string | null;
+  celebration?: Celebration | null;
+  onSeeCelebration?: () => void;
+  onDismissCelebration?: () => void;
   onStartFocus: () => void;
   onStartBreak: () => void;
   onPause: () => void;
@@ -75,6 +79,9 @@ export function HomeScene({
   stage,
   reducedMotion,
   error,
+  celebration = null,
+  onSeeCelebration,
+  onDismissCelebration,
   onStartFocus,
   onStartBreak,
   onPause,
@@ -87,7 +94,7 @@ export function HomeScene({
   const progress = pixelProgress(stage);
   const presentation = timerPresentation(timer, timeLeftMs, focusMinutes);
   const active = timer.status === "running" || timer.status === "paused";
-  const lumiState = lumiStateFor(timer);
+  const lumiState = celebration ? "celebrate" : lumiStateFor(timer);
 
   return (
     <section
@@ -139,6 +146,22 @@ export function HomeScene({
           />
         ))}
       </div>
+
+      {celebration && (
+        <section className="pixel-celebration" role="status" aria-label="New in the garden">
+          <i className="pixel-celebration-spark pixel-celebration-spark--1" aria-hidden="true" />
+          <i className="pixel-celebration-spark pixel-celebration-spark--2" aria-hidden="true" />
+          <i className="pixel-celebration-spark pixel-celebration-spark--3" aria-hidden="true" />
+          <p className="pixel-celebration-kicker">
+            {celebration.completedChapter ? `${celebration.completedChapter} chapter complete` : "New in the garden"}
+          </p>
+          <p className="pixel-celebration-name">{celebration.unlock}</p>
+          <div className="pixel-celebration-actions">
+            <button className="pixel-celebration-see" type="button" onClick={onSeeCelebration}>See it</button>
+            <button className="pixel-celebration-later" type="button" onClick={onDismissCelebration}>Later</button>
+          </div>
+        </section>
+      )}
 
       <section className="pixel-timer-card" aria-label="Pomodoro timer">
         <span className="pixel-mode">{presentation.label}</span>
