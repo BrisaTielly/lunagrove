@@ -156,7 +156,15 @@
   filter: brightness(.94) saturate(.95);
 }
 
+.garden-shell .garden-lumi { transition: left 2.4s linear, top 2.4s linear; }
 .garden-lumi .garden-lumi-body { animation: garden-lumi-breathe 3.8s ease-in-out infinite; }
+.garden-lumi[data-walking] .garden-lumi-body { animation: garden-lumi-walk .4s ease-in-out infinite; }
+
+.garden-lumi-outfit {
+  position: absolute;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
 .garden-lumi[data-pose="wave"] .garden-lumi-body { animation: garden-lumi-bounce 1.6s ease-in-out infinite; }
 .garden-lumi[data-petting] .garden-lumi-body { animation: lumi-pet .9s ease-out both; }
 
@@ -175,6 +183,11 @@
 @keyframes garden-lumi-breathe {
   0%, 100% { scale: 1 1; }
   50% { scale: 1.02 1.04; }
+}
+
+@keyframes garden-lumi-walk {
+  0%, 100% { translate: 0 0; rotate: -3deg; }
+  50% { translate: 0 -4px; rotate: 3deg; }
 }
 
 @keyframes garden-lumi-bounce {

@@ -114,3 +114,33 @@ describe("GardenView", () => {
     expect(details[0]).not.toHaveClass("garden-detail--new");
   });
 });
+
+describe("Lumi in the garden", () => {
+  afterEach(() => vi.useRealTimers());
+
+  it("wears the season's outfit and goes for a stroll", async () => {
+    vi.useFakeTimers();
+    const { act } = await import("@testing-library/react");
+    const { container } = render(
+      <GardenView totalFocusSessions={3} reducedMotion={false} season="winter" onBack={vi.fn()} onOpenSettings={vi.fn()} />,
+    );
+    const lumi = container.querySelector(".garden-lumi") as HTMLElement;
+    const start = lumi.style.left;
+
+    expect(container.querySelector("[data-outfit='winter']")).not.toBeNull();
+    act(() => vi.advanceTimersByTime(6100));
+    expect(lumi.style.left).not.toBe(start);
+    expect(lumi).toHaveAttribute("data-walking", "true");
+  });
+
+  it("stays put with reduced motion", () => {
+    vi.useFakeTimers();
+    const { container } = render(
+      <GardenView totalFocusSessions={3} reducedMotion season={null} onBack={vi.fn()} onOpenSettings={vi.fn()} />,
+    );
+    const lumi = container.querySelector(".garden-lumi") as HTMLElement;
+    const start = lumi.style.left;
+    vi.advanceTimersByTime(20000);
+    expect(lumi.style.left).toBe(start);
+  });
+});

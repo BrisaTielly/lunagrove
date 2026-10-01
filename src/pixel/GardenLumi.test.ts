@@ -1,5 +1,5 @@
 import { GARDENS } from "./gardens";
-import { placeGardenLumi } from "./GardenLumi";
+import { placeGardenLumi, wanderRoute } from "./GardenLumi";
 
 const moon = GARDENS[0].parts;
 
@@ -30,5 +30,13 @@ describe("placeGardenLumi", () => {
 
   it("waves from the meadow to a visitor up in the trees", () => {
     expect(placeGardenLumi(moon, 15, false).bottom).toBeGreaterThanOrEqual(430);
+  });
+
+  it("strolls the meadow and keeps coming back to the newest piece", () => {
+    const main = placeGardenLumi(moon, 3, false);
+    const route = wanderRoute(main);
+
+    expect(route.filter((spot) => spot === main)).toHaveLength(3);
+    expect(new Set(route.map((spot) => spot.left)).size).toBeGreaterThan(2);
   });
 });
