@@ -1,0 +1,14 @@
+html, body, #root { width: auto; min-width: 0; height: auto; min-height: 100%; overflow: auto; }
+body { margin: 0; padding: 28px 32px 60px; color: #fff0d6; background: #120e22; font-family: "Silkscreen", monospace; }
+.gallery h1 { margin: 0 0 6px; font-size: 22px; font-weight: 400; }
+.gallery > p { margin: 0 0 26px; color: #aaa0d2; font-size: 11px; }
+.gallery h2 { margin: 34px 0 14px; color: #f4b85d; font-size: 14px; font-weight: 400; letter-spacing: 1px; }
+.gallery-row { display: flex; flex-wrap: wrap; gap: 22px; }
+.gallery-item { display: grid; gap: 8px; }
+.gallery-item figcaption { max-width: 400px; color: #aaa0d2; font-size: 10px; line-height: 1.5; text-transform: uppercase; }
+.gallery-frame { position: relative; width: 400px; height: 533px; overflow: hidden; background: #221833; box-shadow: 6px 6px 0 #07050f; }
+.gallery-badges { display: flex; gap: 26px; padding: 18px 22px; background: #2b2b33; }
+.gallery-badge { position: relative; width: 32px; height: 32px; }
+.gallery-badge img { width: 32px; height: 32px; }
+.gallery-badge b { position: absolute; right: -10px; bottom: -6px; min-width: 18px; padding: 1px 4px; border-radius: 4px; color: #171a2f; font: 700 10px/14px system-ui, sans-serif; text-align: center; }
+.gallery-badge span { position: absolute; top: 40px; left: -8px; width: 60px; color: #aaa0d2; font-size: 8px; }

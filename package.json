@@ -9,7 +9,8 @@
     "test": "vitest",
     "test:watch": "vitest",
     "typecheck": "tsc -b --pretty false",
-    "package": "tsc -b && vite build && rm -f lunagrove-$npm_package_version.zip && cd dist && zip -qr ../lunagrove-$npm_package_version.zip ."
+    "package": "tsc -b && vite build && rm -f lunagrove-$npm_package_version.zip && cd dist && zip -qr ../lunagrove-$npm_package_version.zip .",
+    "gallery": "vite --open /src/dev/gallery.html"
   },
   "dependencies": {
     "@crxjs/vite-plugin": "^3.0.0",
