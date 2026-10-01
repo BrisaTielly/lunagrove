@@ -98,6 +98,14 @@ export function GardenView({
             data-testid="garden-detail"
             key={unlock}
           >
+            {def.parts.filter((part) => part.unlock === index && part.shadow).map((part) => (
+              <i
+                className="garden-part-shadow"
+                style={{ left: part.x + part.width * 0.1, top: part.y + part.height - 4, width: part.width * 0.8 }}
+                aria-hidden="true"
+                key={`${part.name}-shadow`}
+              />
+            ))}
             {def.parts.filter((part) => part.unlock === index).map((part) => (
               <i
                 className={`garden-part garden-part--${part.name}`}

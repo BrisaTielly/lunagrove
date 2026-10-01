@@ -73,6 +73,19 @@
   animation: var(--idle, none);
 }
 
+.garden-part-shadow {
+  position: absolute;
+  display: block;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(8, 10, 28, .5), rgba(8, 10, 28, 0));
+}
+
+.garden-shell,
+.garden-part,
+.garden-lumi-body,
+.garden-lumi-outfit { image-rendering: pixelated; }
+
 .garden-detail--new .garden-part {
   animation: garden-pop .9s cubic-bezier(.3, 1.6, .5, 1) both, var(--idle, garden-none 1s);
 }

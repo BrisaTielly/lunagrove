@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import accessories from "../assets/pixel/lumi-accessories.png";
+import outfits from "../assets/pixel/lumi-garden-outfits.png";
 import lumiGarden from "../assets/pixel/lumi-garden.png";
 import type { Season } from "../domain/seasons";
 import type { GardenPart } from "./gardenParts";
@@ -10,12 +10,12 @@ export type GardenPose = "stand" | "sit" | "sniff" | "wave";
 
 // Boxes in lumi-garden.png (drawn by Codex at the gardens' pixel scale).
 const POSES: Record<GardenPose, { x: number; y: number; width: number; height: number }> = {
-  stand: { x: 0, y: 0, width: 63, height: 62 },
-  sit: { x: 65, y: 10, width: 65, height: 52 },
+  stand: { x: 0, y: 0, width: 64, height: 62 },
+  sit: { x: 66, y: 10, width: 64, height: 52 },
   sniff: { x: 132, y: 0, width: 78, height: 62 },
-  wave: { x: 212, y: 0, width: 71, height: 62 },
+  wave: { x: 212, y: 0, width: 72, height: 62 },
 };
-const ATLAS = "285px 62px";
+const ATLAS = "286px 62px";
 
 // Where each pose's head is, so the seasonal outfit sits on it.
 const HEADS: Record<GardenPose, { centre: number; top: number }> = {
@@ -25,14 +25,14 @@ const HEADS: Record<GardenPose, { centre: number; top: number }> = {
   wave: { centre: 32, top: 3 },
 };
 
-// The home outfits (lumi-accessories.png), drawn for a head 17px below their bottom edge.
-const OUTFITS: Record<Season, { width: number; height: number; atlasX: number; bottom: number }> = {
-  spring: { width: 136, height: 24, atlasX: 0, bottom: 34 },
-  summer: { width: 136, height: 40, atlasX: 140, bottom: 36 },
-  autumn: { width: 116, height: 40, atlasX: 280, bottom: 34 },
-  winter: { width: 128, height: 52, atlasX: 400, bottom: 40 },
+// lumi-garden-outfits.png: the home outfits redrawn on the gardens' 2px grid.
+// `sink` is how far each one sits down over the top of the head.
+const OUTFITS: Record<Season, { width: number; height: number; atlasX: number; sink: number }> = {
+  spring: { width: 46, height: 8, atlasX: 0, sink: 6 },
+  summer: { width: 46, height: 14, atlasX: 48, sink: 6 },
+  autumn: { width: 40, height: 14, atlasX: 96, sink: 6 },
+  winter: { width: 44, height: 18, atlasX: 138, sink: 8 },
 };
-const OUTFIT_SCALE = 0.34;
 const WANDER_MS = 6000;
 const WALK_MS = 2400;
 
@@ -147,13 +147,12 @@ export function GardenLumi({ placement, season = null, still = false }: GardenLu
             className="garden-lumi-outfit"
             data-outfit={season}
             style={{
-              left: head.centre - (outfit.width * OUTFIT_SCALE) / 2,
-              top: head.top + ((outfit.bottom - 17) - outfit.height) * OUTFIT_SCALE,
-              width: outfit.width * OUTFIT_SCALE,
-              height: outfit.height * OUTFIT_SCALE,
-              backgroundImage: `url(${accessories})`,
-              backgroundSize: `${532 * OUTFIT_SCALE}px ${52 * OUTFIT_SCALE}px`,
-              backgroundPosition: `${-outfit.atlasX * OUTFIT_SCALE}px 0`,
+              left: Math.round(head.centre - outfit.width / 2),
+              top: head.top + outfit.sink - outfit.height,
+              width: outfit.width,
+              height: outfit.height,
+              backgroundImage: `url(${outfits})`,
+              backgroundPosition: `${-outfit.atlasX}px 0`,
             }}
           />
         )}

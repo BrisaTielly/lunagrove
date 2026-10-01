@@ -1,7 +1,6 @@
 import type { AppStateV1 } from "../domain/types";
 import { summarizeFocus, type FocusTotals } from "../domain/stats";
 import { PixelDigits } from "./PixelDigits";
-import { LANTERN, STARS, spriteStyle } from "./sceneLayers";
 import "./pixel-ui.css";
 import "./stats.css";
 
@@ -49,20 +48,6 @@ export function StatsView({ stats, now, reducedMotion, onBack, onOpenSettings }:
       <span className="stats-brand">LUNAGROVE</span>
       <button className="pixel-hit stats-settings" type="button" aria-label="Settings" onClick={onOpenSettings} />
       <button className="pixel-hit stats-close" type="button" aria-label="Close Lunagrove" onClick={() => window.close()} />
-
-      <div className="pixel-ambient" aria-hidden="true">
-        <i className="pixel-moon-glow" />
-        {STARS.filter((star) => star.y + star.height < 230).map((star) => (
-          <i
-            className="pixel-sprite pixel-star"
-            style={{ ...spriteStyle(star), animationDelay: `${-star.delay}s`, animationDuration: `${star.duration}s` }}
-            key={`${star.x}-${star.y}`}
-          />
-        ))}
-        <i className="pixel-sprite pixel-lantern" style={spriteStyle(LANTERN)}>
-          <i className="pixel-lantern-glow" />
-        </i>
-      </div>
 
       <dl className="stats-tiles">
         <Tile label="Today" totals={summary.today} x={30} />
