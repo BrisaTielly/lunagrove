@@ -13,6 +13,7 @@ interface HomeSceneProps {
   reducedMotion: boolean;
   error?: string | null;
   celebration?: Celebration | null;
+  longBreakNext?: boolean;
   onSeeCelebration?: () => void;
   onDismissCelebration?: () => void;
   onStartFocus: () => void;
@@ -80,6 +81,7 @@ export function HomeScene({
   reducedMotion,
   error,
   celebration = null,
+  longBreakNext = false,
   onSeeCelebration,
   onDismissCelebration,
   onStartFocus,
@@ -201,7 +203,7 @@ export function HomeScene({
       )}
       {timer.status === "running" && <MainButton icon="Ⅱ" label="Pause" onClick={onPause} />}
       {timer.status === "paused" && <MainButton icon="▶" label="Resume" onClick={onResume} />}
-      {timer.status === "completed" && timer.kind === "focus" && <MainButton icon="☾" label="Begin break" onClick={onStartBreak} />}
+      {timer.status === "completed" && timer.kind === "focus" && <MainButton icon="☾" label={longBreakNext ? "Long break" : "Begin break"} onClick={onStartBreak} />}
       {timer.status === "completed" && timer.kind === "break" && <MainButton icon="✦" label="Start focus" onClick={onStartFocus} />}
       {active && <button className="pixel-end-button" onClick={onCancel}>End session</button>}
       {error && <p className="pixel-error" role="alert">{error}</p>}

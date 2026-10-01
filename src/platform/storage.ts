@@ -101,6 +101,24 @@ export function validateImportedState(value: unknown): ValidationResult {
     return { ok: false, error: "The preferences in this backup are invalid." };
   }
 
+  // Added in 0.3: older saves and backups get the defaults.
+  const preferences = { ...DEFAULT_STATE.preferences, ...value.preferences };
+  if (
+    !isFiniteNumber(preferences.longBreakMinutes) ||
+    preferences.longBreakMinutes < 1 ||
+    preferences.longBreakMinutes > 180
+  ) {
+    return { ok: false, error: "Long break duration must be between 1 and 180 minutes." };
+  }
+  if (
+    !Number.isInteger(preferences.longBreakEvery) ||
+    preferences.longBreakEvery < 2 ||
+    preferences.longBreakEvery > 12 ||
+    typeof preferences.autoStartBreaks !== "boolean"
+  ) {
+    return { ok: false, error: "The preferences in this backup are invalid." };
+  }
+
   if (!isRecord(value.stats)) {
     return { ok: false, error: "The statistics in this backup are invalid." };
   }
@@ -133,7 +151,7 @@ export function validateImportedState(value: unknown): ValidationResult {
     return { ok: false, error: "The progress in this backup is invalid." };
   }
 
-  return { ok: true, state: value as unknown as AppStateV1 };
+  return { ok: true, state: { ...value, preferences } as unknown as AppStateV1 };
 }
 
 export async function loadState(area: StorageAreaLike = defaultStorage()): Promise<AppStateV1> {

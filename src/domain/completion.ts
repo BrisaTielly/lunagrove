@@ -1,4 +1,4 @@
-import { completeSession } from "./timer";
+import { completeSession, startSession } from "./timer";
 import type { AppStateV1 } from "./types";
 
 export function localDateKey(timestamp: number): string {
@@ -39,4 +39,21 @@ export function finishDueSession(state: AppStateV1, now: number): AppStateV1 | n
     completedSessionIds: result.completedSessionIds,
     stats,
   };
+}
+
+// Every `longBreakEvery`-th focus earns the long break.
+export function isLongBreakNext(state: AppStateV1): boolean {
+  const { totalFocusSessions } = state.stats;
+  return totalFocusSessions > 0 && totalFocusSessions % state.preferences.longBreakEvery === 0;
+}
+
+export function nextBreakMinutes(state: AppStateV1): number {
+  return isLongBreakNext(state) ? state.preferences.longBreakMinutes : state.preferences.breakMinutes;
+}
+
+// With auto-start on, a finished focus rolls straight into its break.
+export function startBreakIfAutomatic(state: AppStateV1, now: number, sessionId: string): AppStateV1 {
+  if (!state.preferences.autoStartBreaks) return state;
+  if (state.timer.status !== "completed" || state.timer.kind !== "focus") return state;
+  return { ...state, timer: startSession("break", nextBreakMinutes(state), now, sessionId) };
 }

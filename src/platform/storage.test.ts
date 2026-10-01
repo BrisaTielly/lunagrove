@@ -42,4 +42,15 @@ describe("local storage", () => {
       error: "Focus duration must be between 1 and 180 minutes.",
     });
   });
+
+  it("upgrades saves from before long breaks existed", () => {
+    const old = structuredClone(DEFAULT_STATE) as unknown as { preferences: Record<string, unknown> };
+    delete old.preferences.longBreakMinutes;
+    delete old.preferences.longBreakEvery;
+    delete old.preferences.autoStartBreaks;
+
+    const result = validateImportedState(old);
+
+    expect(result.ok && result.state.preferences).toMatchObject({ longBreakMinutes: 15, longBreakEvery: 4, autoStartBreaks: false });
+  });
 });

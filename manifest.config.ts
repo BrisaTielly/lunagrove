@@ -23,6 +23,12 @@ export default defineManifest({
       48: "icons/icon-48.png",
     },
   },
+  commands: {
+    "toggle-timer": {
+      suggested_key: { default: "Alt+Shift+L" },
+      description: "Start, pause or resume the timer",
+    },
+  },
   background: {
     service_worker: "src/background.ts",
     type: "module",

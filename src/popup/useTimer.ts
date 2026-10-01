@@ -8,7 +8,7 @@ import {
   startSession,
 } from "../domain/timer";
 import { playChime } from "../audio/chime";
-import { finishDueSession } from "../domain/completion";
+import { finishDueSession, nextBreakMinutes, startBreakIfAutomatic } from "../domain/completion";
 import { DEFAULT_STATE } from "../domain/defaults";
 import type { AppStateV1, SessionKind } from "../domain/types";
 import { clearTimerAlarm, scheduleTimerAlarm } from "../platform/alarms";
@@ -129,11 +129,16 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
   // session ended without its alarm (e.g. dropped on a browser restart).
   useEffect(() => {
     if (!state || state.timer.status !== "running" || clock < state.timer.endsAt) return;
-    const next = finishDueSession(state, clock);
-    if (!next || next.timer.status !== "completed") return;
+    const finished = finishDueSession(state, clock);
+    if (!finished || finished.timer.status !== "completed") return;
     const { sessionId } = state.timer;
-    const { kind } = next.timer;
-    void persist(next).then(() => services.clear(sessionId));
+    const { kind } = finished.timer;
+    const next = startBreakIfAutomatic(finished, clock, services.createSessionId());
+    void persist(next)
+      .then(() => services.clear(sessionId))
+      .then(() => {
+        if (next.timer.status === "running") return services.schedule(next.timer.sessionId, next.timer.endsAt);
+      });
     if (next.preferences.soundEnabled) void services.chime(kind).catch(() => undefined);
   }, [clock, persist, services, state]);
 
@@ -141,8 +146,7 @@ export function useTimer(services: TimerServices = defaultServices): UseTimerRes
     async (kind: SessionKind) => {
       if (!state) return;
       const now = services.now();
-      const minutes =
-        kind === "focus" ? state.preferences.focusMinutes : state.preferences.breakMinutes;
+      const minutes = kind === "focus" ? state.preferences.focusMinutes : nextBreakMinutes(state);
       const timer = startSession(kind, minutes, now, services.createSessionId());
       const next = { ...state, timer };
       await persist(next);

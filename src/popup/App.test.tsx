@@ -164,4 +164,17 @@ describe("App", () => {
       expect(context.getState().ui.lastCelebratedStage).toBe(3);
     });
   });
+
+  it("offers the long break after the fourth focus", async () => {
+    const state = structuredClone(DEFAULT_STATE);
+    state.stats = { totalFocusSessions: 4, totalFocusMinutes: 100, byDay: {} };
+    state.ui.lastCelebratedStage = 4;
+    state.timer = { status: "completed", sessionId: "f4", kind: "focus", completedAt: Date.UTC(2026, 8, 30, 12), durationMs: 25 * 60_000 };
+    const context = createServices(state);
+    render(<App services={context.services} />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Long break" }));
+
+    await waitFor(() => expect(context.getState().timer).toMatchObject({ status: "running", kind: "break", durationMs: 15 * 60_000 }));
+  });
 });

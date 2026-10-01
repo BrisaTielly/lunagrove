@@ -43,6 +43,9 @@ export interface AppStateV1 {
   preferences: {
     focusMinutes: number;
     breakMinutes: number;
+    longBreakMinutes: number;
+    longBreakEvery: number;
+    autoStartBreaks: boolean;
     soundEnabled: boolean;
     notificationsEnabled: boolean;
     reducedMotion: "system" | boolean;

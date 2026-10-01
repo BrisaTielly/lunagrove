@@ -12,6 +12,9 @@ export const DEFAULT_STATE: AppStateV1 = {
   preferences: {
     focusMinutes: 25,
     breakMinutes: 5,
+    longBreakMinutes: 15,
+    longBreakEvery: 4,
+    autoStartBreaks: false,
     soundEnabled: false,
     notificationsEnabled: true,
     reducedMotion: "system",

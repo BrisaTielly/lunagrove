@@ -1,7 +1,7 @@
 import { DEFAULT_STATE } from "./domain/defaults";
 import { startSession } from "./domain/timer";
 import type { AppStateV1 } from "./domain/types";
-import { handleTimerAlarm, reconcileTimer } from "./platform/background-controller";
+import { handleTimerAlarm, reconcileTimer, toggleTimer } from "./platform/background-controller";
 
 describe("background timer completion", () => {
   const startedAt = Date.UTC(2026, 8, 30, 12);
@@ -22,6 +22,8 @@ describe("background timer completion", () => {
     const chime = vi.fn(async () => {
       if (notificationFails) throw new Error("Audio blocked");
     });
+    const schedule = vi.fn(async () => undefined);
+    const clear = vi.fn(async () => undefined);
 
     return {
       getState: () => state,
@@ -30,11 +32,19 @@ describe("background timer completion", () => {
         save,
         notify,
         chime,
+        schedule,
+        clear,
+        createSessionId: () => "next-session",
         now: () => endsAt,
       },
       save,
       notify,
       chime,
+      schedule,
+      clear,
+      setState: (next: AppStateV1) => {
+        state = next;
+      },
     };
   }
 
@@ -90,8 +100,7 @@ describe("background timer completion", () => {
   describe("after a browser restart", () => {
     function restartHarness(now: number) {
       const context = harness();
-      const schedule = vi.fn(async () => undefined);
-      return { ...context, schedule, dependencies: { ...context.dependencies, now: () => now, schedule } };
+      return { ...context, dependencies: { ...context.dependencies, now: () => now } };
     }
 
     it("completes a focus whose alarm was lost while Chrome was closed", async () => {
@@ -121,6 +130,44 @@ describe("background timer completion", () => {
       await handleTimerAlarm("timer:session-1", context.dependencies);
 
       expect(context.getState().stats.totalFocusSessions).toBe(1);
+    });
+  });
+
+  it("rolls a finished focus straight into its break when auto-start is on", async () => {
+    const context = harness();
+    context.getState().preferences.autoStartBreaks = true;
+
+    await handleTimerAlarm("timer:session-1", context.dependencies);
+
+    expect(context.getState().timer).toMatchObject({ status: "running", kind: "break", sessionId: "next-session" });
+    expect(context.getState().stats.totalFocusSessions).toBe(1);
+    expect(context.schedule).toHaveBeenCalledWith("next-session", endsAt + 5 * 60_000);
+    expect(context.notify).toHaveBeenCalledWith("focus");
+  });
+
+  describe("keyboard shortcut", () => {
+    it("pauses a running focus and resumes it", async () => {
+      const context = harness();
+
+      await expect(toggleTimer(context.dependencies)).resolves.toBe("paused");
+      expect(context.clear).toHaveBeenCalledWith("session-1");
+      await expect(toggleTimer(context.dependencies)).resolves.toBe("running");
+      expect(context.getState().timer.status).toBe("running");
+    });
+
+    it("starts the right session from idle and after a focus", async () => {
+      const context = harness();
+      context.setState({ ...context.getState(), timer: { status: "idle" } });
+      await toggleTimer(context.dependencies);
+      expect(context.getState().timer).toMatchObject({ status: "running", kind: "focus" });
+
+      context.setState({
+        ...context.getState(),
+        stats: { ...context.getState().stats, totalFocusSessions: 4 },
+        timer: { status: "completed", sessionId: "f", kind: "focus", completedAt: endsAt, durationMs: 1 },
+      });
+      await toggleTimer(context.dependencies);
+      expect(context.getState().timer).toMatchObject({ status: "running", kind: "break", durationMs: 15 * 60_000 });
     });
   });
 });

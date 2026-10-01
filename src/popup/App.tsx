@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { downloadBackup, parseBackup } from "../platform/backup";
 import { GardenView } from "../pixel/GardenView";
+import { isLongBreakNext } from "../domain/completion";
 import { pendingCelebration } from "../pixel/celebration";
 import { HomeScene } from "../pixel/HomeScene";
 import { StatsView } from "../pixel/StatsView";
@@ -50,6 +51,7 @@ export function App({ services }: AppProps) {
           reducedMotion={reducedMotion}
           error={timer.error}
           celebration={celebration}
+          longBreakNext={isLongBreakNext(state)}
           onSeeCelebration={() => {
             if (celebration) void timer.markCelebrated(celebration.stage);
             setView("garden");

@@ -1,4 +1,4 @@
-import { finishDueSession, localDateKey } from "./completion";
+import { finishDueSession, isLongBreakNext, localDateKey, nextBreakMinutes, startBreakIfAutomatic } from "./completion";
 import { DEFAULT_STATE } from "./defaults";
 import { startSession } from "./timer";
 
@@ -31,5 +31,32 @@ describe("finishDueSession", () => {
 
     expect(next?.timer).toMatchObject({ status: "completed", kind: "break" });
     expect(next?.stats.totalFocusSessions).toBe(0);
+  });
+});
+
+describe("breaks", () => {
+  const now = Date.UTC(2026, 9, 1, 12);
+
+  function afterFocus(totalFocusSessions: number, autoStartBreaks = false) {
+    const state = structuredClone(DEFAULT_STATE);
+    state.stats.totalFocusSessions = totalFocusSessions;
+    state.preferences.autoStartBreaks = autoStartBreaks;
+    state.timer = { status: "completed", sessionId: "f", kind: "focus", completedAt: now, durationMs: 25 * 60_000 };
+    return state;
+  }
+
+  it("gives the long break after every fourth focus", () => {
+    expect(nextBreakMinutes(afterFocus(3))).toBe(5);
+    expect(nextBreakMinutes(afterFocus(4))).toBe(15);
+    expect(isLongBreakNext(afterFocus(8))).toBe(true);
+  });
+
+  it("starts the break on its own only when asked to", () => {
+    expect(startBreakIfAutomatic(afterFocus(4), now, "b").timer.status).toBe("completed");
+    expect(startBreakIfAutomatic(afterFocus(4, true), now, "b").timer).toMatchObject({
+      status: "running",
+      kind: "break",
+      durationMs: 15 * 60_000,
+    });
   });
 });

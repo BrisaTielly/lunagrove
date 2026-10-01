@@ -37,9 +37,15 @@ export function SettingsDialog({
       draft.focusMinutes < 1 ||
       draft.focusMinutes > 180 ||
       draft.breakMinutes < 1 ||
-      draft.breakMinutes > 180
+      draft.breakMinutes > 180 ||
+      draft.longBreakMinutes < 1 ||
+      draft.longBreakMinutes > 180
     ) {
       setMessage({ kind: "error", text: "Durations must be between 1 and 180 minutes." });
+      return;
+    }
+    if (!Number.isInteger(draft.longBreakEvery) || draft.longBreakEvery < 2 || draft.longBreakEvery > 12) {
+      setMessage({ kind: "error", text: "The long break comes every 2 to 12 focus sessions." });
       return;
     }
 
@@ -112,7 +118,55 @@ export function SettingsDialog({
                   <small>min</small>
                 </span>
               </label>
+              <label>
+                <span>Long break</span>
+                <span className="number-field">
+                  <input
+                    aria-label="Long break duration"
+                    type="number"
+                    min="1"
+                    max="180"
+                    value={draft.longBreakMinutes}
+                    onChange={(event) =>
+                      setDraft({ ...draft, longBreakMinutes: Number(event.target.value) })
+                    }
+                  />
+                  <small>min</small>
+                </span>
+              </label>
+              <label>
+                <span>Long break every</span>
+                <span className="number-field">
+                  <input
+                    aria-label="Long break every"
+                    type="number"
+                    min="2"
+                    max="12"
+                    value={draft.longBreakEvery}
+                    onChange={(event) =>
+                      setDraft({ ...draft, longBreakEvery: Number(event.target.value) })
+                    }
+                  />
+                  <small>focus</small>
+                </span>
+              </label>
             </div>
+            <label className="switch-row">
+              <span>
+                <strong>Start breaks automatically</strong>
+                <small>Roll straight into the break when a focus ends</small>
+              </span>
+              <input
+                aria-label="Start breaks automatically"
+                type="checkbox"
+                checked={draft.autoStartBreaks}
+                onChange={(event) => setDraft({ ...draft, autoStartBreaks: event.target.checked })}
+              />
+            </label>
+            <p className="settings__note">
+              Shortcut: Alt+Shift+L starts or pauses without opening Lunagrove. Change it at
+              chrome://extensions/shortcuts.
+            </p>
           </fieldset>
 
           <fieldset>

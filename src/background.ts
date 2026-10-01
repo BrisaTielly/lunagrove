@@ -1,6 +1,6 @@
 import { DEFAULT_STATE } from "./domain/defaults";
-import { handleTimerAlarm, reconcileTimer } from "./platform/background-controller";
-import { scheduleTimerAlarm } from "./platform/alarms";
+import { handleTimerAlarm, reconcileTimer, toggleTimer } from "./platform/background-controller";
+import { clearTimerAlarm, scheduleTimerAlarm } from "./platform/alarms";
 import { BADGE_ALARM, refreshBadge } from "./platform/badge";
 import { notifyCompletion } from "./platform/notifications";
 import { RING_MESSAGE, isChimeMessage, ringChime } from "./platform/sound";
@@ -13,7 +13,11 @@ const dependencies = {
   chime: ringChime,
   now: Date.now,
   schedule: scheduleTimerAlarm,
+  clear: clearTimerAlarm,
+  createSessionId: () => crypto.randomUUID(),
 };
+
+const TOGGLE_COMMAND = "toggle-timer";
 
 const paintBadge = () => loadState().then((state) => refreshBadge(state, Date.now()));
 
@@ -44,4 +48,8 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 chrome.runtime.onMessage.addListener((message: unknown) => {
   if (isChimeMessage(message, RING_MESSAGE)) void ringChime(message.kind).catch(() => undefined);
+});
+
+chrome.commands.onCommand.addListener((command) => {
+  if (command === TOGGLE_COMMAND) void toggleTimer(dependencies);
 });
