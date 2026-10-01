@@ -18,7 +18,8 @@ const ATLAS = "270px 62px";
 // Scene window of the garden screen (prototype pixels).
 const WINDOW = { left: 16, right: 483, top: 300, bottom: 532 };
 const HOME_SPOT = { left: 90, bottom: 512 };
-// Above this line pieces sit in trees or on the far hills; Lumi stays on the meadow below.
+// Visitors up in the trees or the air: Lumi waves at them from the meadow below.
+const UP_HIGH = ["visitor-owl", "visitor-moth"];
 const MEADOW_TOP = 400;
 
 export interface GardenLumiPlacement {
@@ -42,7 +43,7 @@ export function placeGardenLumi(parts: GardenPart[], stage: number, finished: bo
 
   const { width } = POSES[pose];
   const base = anchor.y + anchor.height + 2;
-  const bottom = Math.min(WINDOW.bottom, base < MEADOW_TOP && visitor ? MEADOW_TOP + 30 : Math.max(WINDOW.top, base));
+  const bottom = Math.min(WINDOW.bottom, visitor && UP_HIGH.includes(visitor.name) && base < MEADOW_TOP ? MEADOW_TOP + 30 : Math.max(WINDOW.top, base));
   const leftOf = anchor.x - width + 6;
   if (leftOf >= WINDOW.left) return { pose, left: leftOf, bottom, facing: "right" };
   return { pose, left: Math.min(WINDOW.right - width, anchor.x + anchor.width - 6), bottom, facing: "left" };
