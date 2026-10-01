@@ -18,7 +18,7 @@ A gentle pixel-art Pomodoro that grows a moonlit garden, one focus at a time.
 ```
 Lunagrove is a gentle Pomodoro timer wrapped in a tiny pixel-art world.
 
-Meet Lumi, a little moon spirit who tends a moonlit garden while you focus. Every focus session you complete plants something new: a seed, a moon-flower, a pond with lily pads, a little bridge, a moon gate, and finally a glowing shrine on the hill. Twenty sessions turn an empty meadow into a living garden, and your progress never goes backwards.
+Meet Lumi, a little moon spirit who tends a moonlit garden while you focus. Every focus session you complete plants something new: a seed, a moon-flower, a pond with lily pads, a little bridge, a moon gate, and finally a glowing shrine on the hill. Twenty sessions turn an empty meadow into a living garden. Then a second garden opens: Mushroom Hollow, a glowing forest clearing with its own twenty pieces. Your progress never goes backwards.
 
 FOCUS, GENTLY
 - Classic focus and break sessions with your own durations, plus a long break every few sessions
@@ -30,7 +30,8 @@ FOCUS, GENTLY
 
 WATCH IT GROW
 - Twenty garden pieces across four chapters: Sprout, Pond, Bridge and Shrine, each one celebrated by Lumi
-- A new friend moves in at the end of every chapter: a bunny, a frog, an owl and a moon fox
+- A new friend moves in at the end of every chapter: a bunny, a frog, an owl and a moon fox, then a snail, a hedgehog, a moth and a spirit deer
+- Two gardens to grow, and you can revisit the first one any time
 - Real seasons: spring flowers, summer grass, autumn leaves and winter snow, with an outfit for Lumi in each
 - Lumi has a mood for every moment, and she loves being petted
 - Focus stats: today, this week, all time, the last seven days and your streaks
