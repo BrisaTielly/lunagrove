@@ -32,7 +32,7 @@ WATCH IT GROW
 - Twenty garden pieces across four chapters: Sprout, Pond, Bridge and Shrine, each one celebrated by Lumi
 - A new friend moves in at the end of every chapter: a bunny, a frog, an owl and a moon fox, then a snail, a hedgehog, a moth and a spirit deer
 - Two gardens to grow, and you can revisit the first one any time
-- Real seasons: spring flowers, summer grass, autumn leaves and winter snow, with an outfit for Lumi in each
+- Seasons that turn with your garden: spring flowers, summer grass, autumn leaves and winter snow, with an outfit for Lumi in each (or follow the real calendar)
 - Lumi has a mood for every moment, and she loves being petted
 - Focus stats: today, this week, all time, the last seven days and your streaks
 - Living pixel scenes: Lumi breathes and blinks, stars twinkle, the lantern sways and fireflies drift
