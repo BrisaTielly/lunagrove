@@ -1,4 +1,4 @@
-import { activeSeason, hemisphereFor, seasonFor } from "./seasons";
+import { activeSeason, hemisphereFor, seasonFor, seasonForStage } from "./seasons";
 
 describe("seasons", () => {
   it("knows which side of the equator a time zone is on", () => {
@@ -22,5 +22,18 @@ describe("seasons", () => {
     expect(activeSeason("auto", october, "America/Sao_Paulo")).toBe("spring");
     expect(activeSeason("north", october, "America/Sao_Paulo")).toBe("autumn");
     expect(activeSeason("off", october, "America/Sao_Paulo")).toBeNull();
+  });
+});
+
+describe("seasons that grow with the garden", () => {
+  it("turns one season per chapter", () => {
+    expect([0, 1, 5].map(seasonForStage)).toEqual(["spring", "spring", "spring"]);
+    expect([6, 10].map(seasonForStage)).toEqual(["summer", "summer"]);
+    expect([11, 15].map(seasonForStage)).toEqual(["autumn", "autumn"]);
+    expect([16, 20].map(seasonForStage)).toEqual(["winter", "winter"]);
+  });
+
+  it("ignores the calendar in journey mode", () => {
+    expect(activeSeason("journey", new Date(2026, 0, 1), "Europe/Lisbon", 12)).toBe("autumn");
   });
 });

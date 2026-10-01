@@ -209,9 +209,10 @@ export function SettingsDialog({
                   setDraft({ ...draft, seasons: event.target.value as Preferences["seasons"] })
                 }
               >
-                <option value="auto">Follow my location</option>
-                <option value="north">Northern</option>
-                <option value="south">Southern</option>
+                <option value="journey">Grow with the garden</option>
+                <option value="auto">Real calendar (my location)</option>
+                <option value="north">Real calendar (north)</option>
+                <option value="south">Real calendar (south)</option>
                 <option value="off">Off</option>
               </select>
             </label>

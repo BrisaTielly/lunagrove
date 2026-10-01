@@ -52,6 +52,6 @@ describe("local storage", () => {
 
     const result = validateImportedState(old);
 
-    expect(result.ok && result.state.preferences).toMatchObject({ longBreakMinutes: 15, longBreakEvery: 4, autoStartBreaks: false, seasons: "auto" });
+    expect(result.ok && result.state.preferences).toMatchObject({ longBreakMinutes: 15, longBreakEvery: 4, autoStartBreaks: false, seasons: "journey" });
   });
 });

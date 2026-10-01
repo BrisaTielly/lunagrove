@@ -46,7 +46,7 @@ export interface AppStateV1 {
     longBreakMinutes: number;
     longBreakEvery: number;
     autoStartBreaks: boolean;
-    seasons: "auto" | "north" | "south" | "off";
+    seasons: "journey" | "auto" | "north" | "south" | "off";
     soundEnabled: boolean;
     notificationsEnabled: boolean;
     reducedMotion: "system" | boolean;

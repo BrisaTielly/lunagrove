@@ -185,7 +185,9 @@ export function HomeScene({
               ? `A new garden: ${celebration.newGarden}`
               : celebration.completedChapter
                 ? `${celebration.completedChapter} chapter complete`
-                : "New in the garden"}
+                : celebration.newSeason
+                  ? `${celebration.newSeason} has arrived`
+                  : "New in the garden"}
           </p>
           <p className="pixel-celebration-name">{celebration.unlock}</p>
           {celebration.visitor && <p className="pixel-celebration-visitor">and {celebration.visitor} moved in!</p>}

@@ -115,7 +115,7 @@ export function validateImportedState(value: unknown): ValidationResult {
     preferences.longBreakEvery < 2 ||
     preferences.longBreakEvery > 12 ||
     typeof preferences.autoStartBreaks !== "boolean" ||
-    !["auto", "north", "south", "off"].includes(preferences.seasons as string)
+    !["journey", "auto", "north", "south", "off"].includes(preferences.seasons as string)
   ) {
     return { ok: false, error: "The preferences in this backup are invalid." };
   }

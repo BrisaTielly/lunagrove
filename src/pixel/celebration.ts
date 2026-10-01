@@ -1,3 +1,4 @@
+import { seasonForStage, type Season } from "../domain/seasons";
 import type { AppStateV1 } from "../domain/types";
 import { GARDENS, journey } from "./gardens";
 import { pixelProgress, unlockLabel, type PixelChapter } from "./progression";
@@ -10,6 +11,8 @@ export interface Celebration {
   visitor: string | null;
   // Set when this focus opened a new garden.
   newGarden?: string | null;
+  // Set when this focus turned the garden's season (seasons follow the journey).
+  newSeason?: Season | null;
 }
 
 // The newest garden piece the user has not been shown yet, if any.
@@ -24,5 +27,9 @@ export function pendingCelebration(state: AppStateV1): Celebration | null {
     completedChapter: current.stage % 5 === 0 ? pixelProgress(current.stage).chapter : null,
     visitor: garden.visitors[current.stage] ?? null,
     newGarden: current.stage === 1 && current.garden > 0 ? garden.title : null,
+    newSeason:
+      state.preferences.seasons === "journey" && current.stage > 1 && current.stage % 5 === 1
+        ? seasonForStage(current.stage)
+        : null,
   };
 }

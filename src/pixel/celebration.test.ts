@@ -11,7 +11,7 @@ function stateWith(totalFocusSessions: number, lastCelebratedStage: number): App
 
 describe("pendingCelebration", () => {
   it("celebrates the newest piece once", () => {
-    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null, newGarden: null });
+    expect(pendingCelebration(stateWith(3, 2))).toEqual({ stage: 3, unlock: "Moon flower", completedChapter: null, visitor: null, newGarden: null, newSeason: null });
     expect(pendingCelebration(stateWith(3, 3))).toBeNull();
   });
 
@@ -32,5 +32,15 @@ describe("pendingCelebration", () => {
 
   it("shows only the latest piece after several focus sessions", () => {
     expect(pendingCelebration(stateWith(7, 4))?.unlock).toBe("Lily pad");
+  });
+
+  it("announces the new season when the garden turns one", () => {
+    expect(pendingCelebration(stateWith(6, 5))?.newSeason).toBe("summer");
+    expect(pendingCelebration(stateWith(16, 15))?.newSeason).toBe("winter");
+    expect(pendingCelebration(stateWith(7, 6))?.newSeason).toBeNull();
+
+    const calendar = stateWith(6, 5);
+    calendar.preferences.seasons = "auto";
+    expect(pendingCelebration(calendar)?.newSeason).toBeNull();
   });
 });

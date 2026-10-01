@@ -41,7 +41,7 @@ export function App({ services }: AppProps) {
   const stage = journey(state.stats.totalFocusSessions).stage;
   const reducedMotion = prefersReducedMotion(state.preferences.reducedMotion);
   const celebration = pendingCelebration(state);
-  const season = activeSeason(state.preferences.seasons, new Date(), localTimeZone());
+  const season = activeSeason(state.preferences.seasons, new Date(), localTimeZone(), journey(state.stats.totalFocusSessions).stage);
 
   return (
     <main className="app">
