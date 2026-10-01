@@ -1,4 +1,5 @@
 import { GARDEN_PARTS } from "./gardenParts";
+import { Lumi } from "./Lumi";
 import { PixelDigits } from "./PixelDigits";
 import { pixelProgress, unlockLabel as labelFor } from "./progression";
 import { LANTERN, LUMI, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
@@ -105,15 +106,8 @@ export function GardenView({
 
       <SeasonLayer season={season} />
 
-      <div className="garden-lumi" role="img" aria-label="Lumi tending the garden">
-        <div
-          className="pixel-sprite pixel-lumi"
-          data-state="water"
-          style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height, backgroundPosition: `${-LUMI.x}px ${-LUMI.y}px` }}
-        >
-          <i className="pixel-lumi-eyelid pixel-lumi-eyelid--left" aria-hidden="true" />
-          <i className="pixel-lumi-eyelid pixel-lumi-eyelid--right" aria-hidden="true" />
-        </div>
+      <div className="garden-lumi">
+        <Lumi state="water" label="Lumi tending the garden" style={{ left: 0, top: 0, width: LUMI.width, height: LUMI.height }} />
         <span className="pixel-water garden-water" aria-hidden="true">
           <i />
           <i />

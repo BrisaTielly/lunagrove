@@ -1,4 +1,5 @@
 import type { TimerState } from "../domain/types";
+import { Lumi, type LumiState } from "./Lumi";
 import { PixelDigits } from "./PixelDigits";
 import { FIREFLIES, LANTERN, LUMI, SPARKLES, STARS, spriteStyle, type TwinkleSprite } from "./sceneLayers";
 import type { Season } from "../domain/seasons";
@@ -36,13 +37,11 @@ function formatTime(timeMs: number, fallbackMinutes: number): string {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-type LumiState = "idle" | "water" | "celebrate" | "rest";
-
 function lumiStateFor(timer: TimerState): LumiState {
-  if (timer.status === "completed") return timer.kind === "focus" ? "celebrate" : "rest";
+  if (timer.status === "completed") return timer.kind === "focus" ? "celebrate" : "idle";
   if (timer.status === "running") return timer.kind === "break" ? "rest" : "water";
-  if (timer.status === "paused") return timer.kind === "break" ? "rest" : "idle";
-  return "water";
+  if (timer.status === "paused") return "paused";
+  return "idle";
 }
 
 function timerPresentation(timer: TimerState, timeLeftMs: number, focusMinutes: number) {
@@ -153,16 +152,7 @@ export function HomeScene({
       {/* Weather tints the painted cards and their live digits alike; Lumi stays in her own colours. */}
       <SeasonLayer season={season} />
 
-      <div
-        className="pixel-sprite pixel-lumi"
-        style={spriteStyle(LUMI)}
-        data-state={lumiState}
-        role="img"
-        aria-label={`Lumi, the moon gardener, ${lumiState}`}
-      >
-        <i className="pixel-lumi-eyelid pixel-lumi-eyelid--left" aria-hidden="true" />
-        <i className="pixel-lumi-eyelid pixel-lumi-eyelid--right" aria-hidden="true" />
-      </div>
+      <Lumi state={lumiState} style={{ left: LUMI.x, top: LUMI.y, width: LUMI.width, height: LUMI.height }} />
 
       <div className="pixel-ambient" aria-hidden="true">
         {lumiState === "water" && (

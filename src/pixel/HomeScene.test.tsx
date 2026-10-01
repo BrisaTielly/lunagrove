@@ -43,7 +43,7 @@ describe("HomeScene", () => {
   });
 
   it.each([
-    [{ status: "idle" }, "water", "Start focus"],
+    [{ status: "idle" }, "idle", "Start focus"],
     [
       {
         status: "running",
@@ -65,7 +65,7 @@ describe("HomeScene", () => {
         remainingMs: 1,
         durationMs: 1,
       },
-      "idle",
+      "paused",
       "Resume",
     ],
     [
@@ -102,7 +102,7 @@ describe("HomeScene", () => {
   });
 
   it("waters the flower only while Lumi is watering", () => {
-    const { unmount } = renderScene({ status: "idle" });
+    const { unmount } = renderScene({ status: "running", sessionId: "focus", kind: "focus", startedAt: 0, endsAt: 1, durationMs: 1 });
     expect(screen.getByTestId("watering")).toBeInTheDocument();
     unmount();
 
