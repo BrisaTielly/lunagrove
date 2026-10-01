@@ -115,6 +115,16 @@ describe("GardenView", () => {
   });
 });
 
+describe("growing into the next garden", () => {
+  it("switches to the new garden when it opens while the garden is on screen", () => {
+    const { rerender } = render(<GardenView totalFocusSessions={20} reducedMotion={false} onBack={vi.fn()} onOpenSettings={vi.fn()} />);
+    expect(screen.getByRole("heading", { name: "Moon Garden" })).toBeVisible();
+
+    rerender(<GardenView totalFocusSessions={21} reducedMotion={false} onBack={vi.fn()} onOpenSettings={vi.fn()} />);
+    expect(screen.getByRole("heading", { name: "Mushroom Hollow" })).toBeVisible();
+  });
+});
+
 describe("Lumi in the garden", () => {
   afterEach(() => vi.useRealTimers());
 

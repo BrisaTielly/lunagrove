@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
 import type { Season } from "../domain/seasons";
 import { GARDENS, STEPS_PER_GARDEN, journey, type GardenDef } from "./gardens";
@@ -72,6 +72,8 @@ export function GardenView({
 }: GardenViewProps) {
   const current = journey(totalFocusSessions);
   const [viewing, setViewing] = useState(current.garden);
+  // A newly opened garden takes over the screen.
+  useEffect(() => setViewing(current.garden), [current.garden]);
   const shown = Math.min(viewing, current.garden);
   const def = GARDENS[shown];
   const stage = shown < current.garden ? STEPS_PER_GARDEN : current.stage;
